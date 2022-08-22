@@ -1,5 +1,5 @@
 ---
-title: "Create Time in EXT4 Filesystem of Linux"
+title: "Post: Create Time in EXT4 Filesystem of Linux"
 author: Francesco
 
 layout: single
@@ -10,7 +10,10 @@ author_profile: true
 tags:
   - Linux
   - Forensics
+  - EXT4
 ---
+
+# Creation Time in EXT4
 
 Linux 운영체제에서는 파일 및 디렉터리에 대한 시간 정보를 갖고 있으며, 그 시간 정보는 Modified Time, Access Time, 그리고 Changed Time 정보이다. 일반적으로 축약해서 이야기하는 MAC이다. 하지만,  대부분의 Linux 파일시스템, EXT2/EXT3/XFS, 등의 파일 시스템에서는 파일 생성 시간(Creation Time ) 정보를 확인할 수 방법을 제공하지 않습니다. 다만, EXT4 파일 시스템 경우에는 EXT4를 확인할 수 있는 방법이 있다.
 

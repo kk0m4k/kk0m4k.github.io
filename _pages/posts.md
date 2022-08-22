@@ -2,8 +2,12 @@
 title: "Posts ..."
 permalink: /posts/
 layout: posts
-author_profile: true
 classes: wide
+author_profile: true
+sidebar:
+    nav: "docs"
+
 header:
   image: /assets/images/background.jpg
+author_profile: true
 ---

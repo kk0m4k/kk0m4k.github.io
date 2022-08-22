@@ -6,3 +6,26 @@ main:
      url: /categories/
    - title: "Tags"
      url: /tags/
+
+docs:
+  - title: Spark
+    children:
+      - title: "> pyspark"
+        url: categories/#pyspark
+        category: "pyspark"
+  - title: Dajngo
+    children:
+      - title: "> RestFramework"
+        url: categories/#django-restframework
+        category: "django"
+      - title: "> ORM"
+        url: categories/#django-orm
+        category: "django"
+  - title: CyberSecurity
+    children:
+      - title: "> Digital Forensics"
+        url: categories/#digital-forensics
+        category: "digital-forensics"
+      - title: "> Malware analysis"
+        url: categories/#malware-analysis
+        category: "malware-analysis"

@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-08-22T10:06:01+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">KK0M4K BLog</title><subtitle>An amazing website.</subtitle><author><name>KK0M4k</name></author><entry><title type="html">Post: Create Time in EXT4 Filesystem of Linux</title><link href="http://localhost:4000/linux/create_time_in_Linux/" rel="alternate" type="text/html" title="Post: Create Time in EXT4 Filesystem of Linux" /><published>2020-07-09T00:00:00+09:00</published><updated>2020-07-09T00:00:00+09:00</updated><id>http://localhost:4000/linux/create_time_in_Linux</id><content type="html" xml:base="http://localhost:4000/linux/create_time_in_Linux/"><![CDATA[<h1 id="creation-time-in-ext4">Creation Time in EXT4</h1>
-
-<p>Linux 운영체제에서는 파일 및 디렉터리에 대한 시간 정보를 갖고 있으며, 그 시간 정보는 Modified Time, Access Time, 그리고 Changed Time 정보이다. 일반적으로 축약해서 이야기하는 MAC이다. 하지만,  대부분의 Linux 파일시스템, EXT2/EXT3/XFS, 등의 파일 시스템에서는 파일 생성 시간(Creation Time ) 정보를 확인할 수 방법을 제공하지 않습니다. 다만, EXT4 파일 시스템 경우에는 EXT4를 확인할 수 있는 방법이 있다.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-08-22T21:09:03+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">KK0M4K BLog</title><subtitle>An amazing website.</subtitle><author><name>KK0M4k</name></author><entry><title type="html">Create Time in EXT4 Filesystem of Linux</title><link href="http://localhost:4000/digital-forensics/create_time_in_Linux/" rel="alternate" type="text/html" title="Create Time in EXT4 Filesystem of Linux" /><published>2020-07-09T00:00:00+09:00</published><updated>2020-07-09T00:00:00+09:00</updated><id>http://localhost:4000/digital-forensics/create_time_in_Linux</id><content type="html" xml:base="http://localhost:4000/digital-forensics/create_time_in_Linux/"><![CDATA[<p>Linux 운영체제에서는 파일 및 디렉터리에 대한 시간 정보를 갖고 있으며, 그 시간 정보는 Modified Time, Access Time, 그리고 Changed Time 정보이다. 일반적으로 축약해서 이야기하는 MAC이다. 하지만,  대부분의 Linux 파일시스템, EXT2/EXT3/XFS, 등의 파일 시스템에서는 파일 생성 시간(Creation Time ) 정보를 확인할 수 방법을 제공하지 않습니다. 다만, EXT4 파일 시스템 경우에는 EXT4를 확인할 수 있는 방법이 있다.</p>
 
 <ul>
   <li>Modified Time: 파일 컨텐츠가 수정되었을 때 업데이트 되는 시간을 의미 함.</li>
@@ -91,4 +89,118 @@ ctime: 0x5f072774:3e57edf8 <span class="nt">--</span> Thu Jul 9 23:19:32 2020
 atime: 0x5f072774:00000000 <span class="nt">--</span> Thu Jul 9 23:19:32 2020
 mtime: 0x5ef2fd11:00000000 <span class="nt">--</span> Wed Jun 24 16:13:21 2020
 crtime: 0x5f072773:d22ba90c <span class="nt">--</span> Thu Jul 9 23:19:31 2020
-</code></pre></div></div>]]></content><author><name>Francesco</name></author><category term="Linux" /><category term="Linux" /><category term="Forensics" /><category term="EXT4" /><summary type="html"><![CDATA[Creation Time in EXT4]]></summary></entry></feed>
+</code></pre></div></div>]]></content><author><name>Francesco</name></author><category term="digital-forensics" /><category term="Linux" /><category term="Forensics" /><summary type="html"><![CDATA[Linux 운영체제에서는 파일 및 디렉터리에 대한 시간 정보를 갖고 있으며, 그 시간 정보는 Modified Time, Access Time, 그리고 Changed Time 정보이다. 일반적으로 축약해서 이야기하는 MAC이다. 하지만, 대부분의 Linux 파일시스템, EXT2/EXT3/XFS, 등의 파일 시스템에서는 파일 생성 시간(Creation Time ) 정보를 확인할 수 방법을 제공하지 않습니다. 다만, EXT4 파일 시스템 경우에는 EXT4를 확인할 수 있는 방법이 있다.]]></summary></entry><entry><title type="html">splunk를 활용하여 $MFT 파일의 STD과 Fn속성에 있는 타임스탬프 비교</title><link href="http://localhost:4000/digital-forensics/MFT_STD_FN/" rel="alternate" type="text/html" title="splunk를 활용하여 $MFT 파일의 STD과 Fn속성에 있는 타임스탬프 비교" /><published>2017-11-30T00:00:00+09:00</published><updated>2017-11-30T00:00:00+09:00</updated><id>http://localhost:4000/digital-forensics/MFT_STD_FN</id><content type="html" xml:base="http://localhost:4000/digital-forensics/MFT_STD_FN/"><![CDATA[<p>analyzeMFT.py로 파싱된 $MFT 파일의 output를 splunk에 인덱싱하여, STD과 FN 속성에 있는 시간 값을 비교하는 Splunk Query ….</p>
+
+<blockquote>
+  <p>1.analyzeMFT.py를 사용하여 $MFT파일 파싱</p>
+  <ul>
+    <li>/usr/bin/python analyzeMFT.py -f /MFTdump -o mft_output  –bodyfull -a -l</li>
+    <li>Splunk Query:
+      <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">sourcetype</span><span class="o">=</span><span class="s2">"mft-csv"</span> | rename <span class="s2">"FN Info Modification date"</span> AS fn_mtime_datetime, <span class="s2">"Std Info Modification date"</span> AS std_mtime_datetime | <span class="nb">eval </span>fn_mtime <span class="o">=</span> strptime<span class="o">(</span>fn_mtime_datetime, <span class="s2">"%Y-%m-%d %H:%M:%S.%6N"</span><span class="o">)</span> | <span class="nb">eval </span>std_mtime <span class="o">=</span> strptime<span class="o">(</span>std_mtime_datetime, <span class="s2">"%Y-%m-%d %H:%M:%S.%6N"</span><span class="o">)</span> | where std_mtime <span class="o">=</span> fn_mtime | table std_mtime, std_mtime_datetime, fn_mtime, fn_mtime_datetime,
+</code></pre></div>      </div>
+      <p><img src="/images/parsedmfsusingsplunk.png" alt="parse" /></p>
+    </li>
+  </ul>
+</blockquote>]]></content><author><name>Francesco</name></author><category term="digital-forensics" /><category term="Forensics" /><summary type="html"><![CDATA[analyzeMFT.py로 파싱된 $MFT 파일의 output를 splunk에 인덱싱하여, STD과 FN 속성에 있는 시간 값을 비교하는 Splunk Query ….]]></summary></entry><entry><title type="html">AWS EC2 디스크 이미징 및 분석 관련..</title><link href="http://localhost:4000/digital-forensics/AWS_EC2_dump_analysis/" rel="alternate" type="text/html" title="AWS EC2 디스크 이미징 및 분석 관련.." /><published>2017-09-13T00:00:00+09:00</published><updated>2017-09-13T00:00:00+09:00</updated><id>http://localhost:4000/digital-forensics/AWS_EC2_dump_analysis</id><content type="html" xml:base="http://localhost:4000/digital-forensics/AWS_EC2_dump_analysis/"><![CDATA[<p>클라우드기반 아마존 AWS EC2 서버에 대한 디스크 포렌직을 위한 이미징을 위한 방법은 생각보다 간단하며, 이미징한 파일을 다운로드 받은 후, 분석 시스템에서 포렌직 툴(예, Autopsy)로 불러오면 분석이 가능하다. 또한, 이미지를  VMDX 로 변환하여 vmware에서 라이브분석이 가능하다.</p>
+
+<blockquote>
+  <ul>
+    <li>1.분석대상(이미징 대상) EC2 volume를 선택한 후 snapshot를 생성</li>
+    <li>2.위 1번 단계에서 생성한 snapshot를 가지고 volume 생성</li>
+    <li>3.2 번 단계에서 생성한 volume를 dd 포맷의 이미지를 생성할 수 있는 EC2 서버에 연결(attach)</li>
+    <li>4.3번 단계에서 attach한 volume를 대상으로 dd 명령어를 사용하여 dd 포맷으로 이미징 수행. 이미징된 파일을 로컬 분석 시스템으로 다운로드 받은데 있어서, 아웃바운드 트래픽 비용을 줄이고자, 이미지 파일을 gzip으로 압축 저장 함.
+ <img src="/images/aws_ec2_1.png" alt="parse" />
+ <img src="/images/aws_ec2_2.png" alt="parse" /></li>
+    <li>5.다운로드 받은 이미지에 대해서 압축해제한 후, Autopsy 등의 툴을 사용하여 분석</li>
+    <li>6.dd 포맷 이미지를 vmdk로 변환하여, Vmware에서 라이브 분석.</li>
+  </ul>
+</blockquote>
+
+<blockquote>
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@kali:~/Desktop# qemu-img convert <span class="nt">-pO</span> vmdk ./TargetAMILinux_20170913.img /TargetAMILinux_20170913.vmdk
+</code></pre></div>  </div>
+</blockquote>
+
+<p>아래 이미지는 위 5번 단계까지 진행하여, autospy로 확인한 내용 임.</p>
+<blockquote>
+  <p><img src="/images/aws_ec2_3.png" alt="parse" />
+ <img src="/images/aws_ec2_4.png" alt="parse" /></p>
+</blockquote>
+
+<p>vmdx로 변환된 AWS EC2 이미지 파일을 vmware에 설치하여 라이브 분석 수행 가능.</p>
+
+<blockquote>
+  <p><img src="/images/aws_ec2_5.png" alt="parse" /></p>
+</blockquote>]]></content><author><name>Francesco</name></author><category term="digital-forensics" /><category term="Forensics" /><summary type="html"><![CDATA[클라우드기반 아마존 AWS EC2 서버에 대한 디스크 포렌직을 위한 이미징을 위한 방법은 생각보다 간단하며, 이미징한 파일을 다운로드 받은 후, 분석 시스템에서 포렌직 툴(예, Autopsy)로 불러오면 분석이 가능하다. 또한, 이미지를  VMDX 로 변환하여 vmware에서 라이브분석이 가능하다.]]></summary></entry><entry><title type="html">사고분석 관점에서 $MFT,$USNJRNL,$LOGFILE 활용</title><link href="http://localhost:4000/digital-forensics/MFT_USNJRNL_LOG/" rel="alternate" type="text/html" title="사고분석 관점에서 $MFT,$USNJRNL,$LOGFILE 활용" /><published>2017-06-20T00:00:00+09:00</published><updated>2017-06-20T00:00:00+09:00</updated><id>http://localhost:4000/digital-forensics/MFT_USNJRNL_LOG</id><content type="html" xml:base="http://localhost:4000/digital-forensics/MFT_USNJRNL_LOG/"><![CDATA[<p>NTFS 파일 시스템 기반의 윈도우 시스템 사고분석 과정에서 NTFS파일 시스템과 관련된 메타데이터를 수집하여 분석하는 경우가 일반적이다.</p>
+
+<p>대표적인 파일로 MFT, USNJRNL, Logfile이 이에 해당된다. 막상 메타데이터를 확보 하더라도 어떤 관점에서 바라봐야 하는지 막연할 때가 있고, 자칫 중요한 아티팩트를 확보하는데 놓치는 경우가 있다.</p>
+
+<p>사고분석 관점에서 의미 있는 아티팩트 항목을 정리하고자 틈틈히 내용을 정리하고 있다</p>
+
+<ul>
+  <li>파일 시간 조작 확인</li>
+  <li>특정 시간에 생성 및 삭제된 파일 정보</li>
+  <li>파일 이름 및 사이즈 정보</li>
+  <li>$DATA영역에 존재하는 데이터</li>
+</ul>
+
+<blockquote>
+  <embed src="/files/mft_urnjrnl_logfile_20170720_keynote.pdf" type="application/pdf" />
+
+</blockquote>]]></content><author><name>Francesco</name></author><category term="digital-forensics" /><category term="Forensics" /><summary type="html"><![CDATA[NTFS 파일 시스템 기반의 윈도우 시스템 사고분석 과정에서 NTFS파일 시스템과 관련된 메타데이터를 수집하여 분석하는 경우가 일반적이다.]]></summary></entry><entry><title type="html">Linux 악성코드: 디도스 및 백도어 기능</title><link href="http://localhost:4000/malware-analysis/Linux_malware_backdoor/" rel="alternate" type="text/html" title="Linux 악성코드: 디도스 및 백도어 기능" /><published>2017-02-26T00:00:00+09:00</published><updated>2017-02-26T00:00:00+09:00</updated><id>http://localhost:4000/malware-analysis/Linux_malware_backdoor</id><content type="html" xml:base="http://localhost:4000/malware-analysis/Linux_malware_backdoor/"><![CDATA[<p>디도스 및 백도어 기능이 있다고 알려진 리눅스 악성코드(Sha256: CBCCEEB358D712CDF6FA013778474876F816CCA33656BE78E5B5EB3DF24B5735). 악성코드는 Gnu C++로 작성되었으며, virustoal에 최초 등록된 시점은 2015년 12월로 확인되었음. 현재까지 virustoal에 등록된 백신제품중 33개 제품이 악성코드로 탐지된 것으로 확인 됨.
+악성행위는 크게 디도스 공격 용도와 백도어 용도로 알려졌으며, 악성코드가 자동 시작되도록 init.d디렉터리에 생성 및 원본 악성코드를 ‘.sshd, find, lsof, netstat, ps’ 등등 다른 파일로 복사하는 행위가 확인 됨. 코드 분석을 위하여, IDA와  EBD를 사용하여 확인. EDB를 사용하여 진행할 때 악성코드를 데몬(daemon)프로세스로 만드는 코드가 있기 때문에, daemon함수에 대해서는 호출되지 않도록 NOP처리 하여 분석 진행.</p>
+
+<blockquote>
+  <ul>
+    <li>1.악성코드 HASH정보: 다양한 변종이 있어서 해쉬 값이 다소 다를 수 있지만, 주요 핵심 코드는 유사함.
+<img src="/images/linux_malware_1.png" alt="parse" /></li>
+  </ul>
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>2.주요 함수: main function에서 악성코드 주요 기능을 처리 하는 MainBeikong, MainBackdoor, Mainsystool, MainMonitor 함수. 특히, MainBeikong함수는 악성코드를 데몬 프로세스로 생성, 복제, 그리고 자동시작 등록 등의 기능을 담당하는 코드로 구성되어 있음.
+<img src="/images/linux_malware_2.png" alt="parse" /></li>
+  </ul>
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>08062400번지에서 daemon함수를 호출하는데, daemon 프로세스는 자식 프로세스를 생성하면서, 현재 (부모)프로세스는 종료를 하기 때문에, 현재 프로세스를 대상으로 더 이상 분석 진행을 할 수 없게 됨. 코드 분석을 위하여, daemon 함수를 호출하는 영역을 NOP처리하여, 해당 함수가 호출되지 않도록 처리 함.
+<img src="/images/linux_malware_3.png" alt="parse" /></li>
+  </ul>
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>자동시작 관련하여, DbSecurityspt라는 파일을 /etc/init.d/ 디렉터리에 생성 함.
+<img src="/images/linux_malware_4.png" alt="parse" /></li>
+  </ul>
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>MainProcess: C2 서버와 통신하여, 디도스 공격과 백도어 용도의 시스템 명령 수행하는 함수. 함수 인입 지점 xpacket.ko 커널 모듈을 insmod로딩하는 코드가 있으나, xpacket.ko 파일이 존재하지 않아서 로딩 실패 함.
+<img src="/images/linux_malware_5.png" alt="parse" /></li>
+  </ul>
+</blockquote>]]></content><author><name>Francesco</name></author><category term="malware-analysis" /><category term="Malware" /><summary type="html"><![CDATA[디도스 및 백도어 기능이 있다고 알려진 리눅스 악성코드(Sha256: CBCCEEB358D712CDF6FA013778474876F816CCA33656BE78E5B5EB3DF24B5735). 악성코드는 Gnu C++로 작성되었으며, virustoal에 최초 등록된 시점은 2015년 12월로 확인되었음. 현재까지 virustoal에 등록된 백신제품중 33개 제품이 악성코드로 탐지된 것으로 확인 됨. 악성행위는 크게 디도스 공격 용도와 백도어 용도로 알려졌으며, 악성코드가 자동 시작되도록 init.d디렉터리에 생성 및 원본 악성코드를 ‘.sshd, find, lsof, netstat, ps’ 등등 다른 파일로 복사하는 행위가 확인 됨. 코드 분석을 위하여, IDA와  EBD를 사용하여 확인. EDB를 사용하여 진행할 때 악성코드를 데몬(daemon)프로세스로 만드는 코드가 있기 때문에, daemon함수에 대해서는 호출되지 않도록 NOP처리 하여 분석 진행.]]></summary></entry><entry><title type="html">악성코드내 명시된 구글DNS 이용하여 IP Lookup 코드</title><link href="http://localhost:4000/malware-analysis/Malware_using_google_DNS/" rel="alternate" type="text/html" title="악성코드내 명시된 구글DNS 이용하여 IP Lookup 코드" /><published>2013-11-17T00:00:00+09:00</published><updated>2013-11-17T00:00:00+09:00</updated><id>http://localhost:4000/malware-analysis/Malware_using_google_DNS</id><content type="html" xml:base="http://localhost:4000/malware-analysis/Malware_using_google_DNS/"><![CDATA[<p>악성코드를 분석하다 보면, PC에 셋팅된 DNS 서버를 사용하지 않고 악성코드 내 명시된 DNs를 사용하는 경우가 있습니다. 아마도, DNS 싱크홀처리/블랙홀처리를 우회하기 위한 목적일 것으로 보입니다.</p>
+<blockquote>
+  <p>-rtlipv4stringtoaddress API를 사용하여 구글 DNS 8.8.8.8에 대한 IP 주소를 구함.</p>
+</blockquote>
+
+<blockquote>
+  <p><img src="/images/google_dns_malware.png" alt="parse" /></p>
+</blockquote>]]></content><author><name>Francesco</name></author><category term="malware-analysis" /><category term="Malware" /><summary type="html"><![CDATA[악성코드를 분석하다 보면, PC에 셋팅된 DNS 서버를 사용하지 않고 악성코드 내 명시된 DNs를 사용하는 경우가 있습니다. 아마도, DNS 싱크홀처리/블랙홀처리를 우회하기 위한 목적일 것으로 보입니다. -rtlipv4stringtoaddress API를 사용하여 구글 DNS 8.8.8.8에 대한 IP 주소를 구함.]]></summary></entry><entry><title type="html">디도스 악성코드의 C&amp;amp;C 문자열 생성 로직</title><link href="http://localhost:4000/malware-analysis/DDoS_dynamic_c2_generation/" rel="alternate" type="text/html" title="디도스 악성코드의 C&amp;amp;C 문자열 생성 로직" /><published>2012-05-10T00:00:00+09:00</published><updated>2012-05-10T00:00:00+09:00</updated><id>http://localhost:4000/malware-analysis/DDoS_dynamic_c2_generation</id><content type="html" xml:base="http://localhost:4000/malware-analysis/DDoS_dynamic_c2_generation/"><![CDATA[<p>‘12.05.05 그리고 ‘12.0.510 이렇게 두 차례 디도스 공격을 유발시킨 악성코드가 있었습니다. 5.10일 악성코드는 5.5일 악성코드로 변종입니다.  5.10일 디도스 악성코드의 다양한 변종이 현재까지 출몰하고 있습니다. 이전 포스팅했던 다 수의 악성코드가 5.10일 변종으로 보입니다.
+5.10일 악성코드 숙주서버(C&amp;C) 호스트 문자열 생성 로직에 대해서 분석한 자료의 이미지를 포스팅했습니다.</p>
+
+<blockquote>
+  <p><img src="/images/ddos_c2_generation_1.png" alt="parse" /></p>
+</blockquote>
+
+<blockquote>
+  <p>Game2Flood 디도스 공격 패턴.</p>
+</blockquote>
+
+<blockquote>
+  <p><img src="/images/ddos_c2_generation_2.png" alt="parse" /></p>
+</blockquote>]]></content><author><name>Francesco</name></author><category term="malware-analysis" /><category term="Malware" /><summary type="html"><![CDATA[‘12.05.05 그리고 ‘12.0.510 이렇게 두 차례 디도스 공격을 유발시킨 악성코드가 있었습니다. 5.10일 악성코드는 5.5일 악성코드로 변종입니다. 5.10일 디도스 악성코드의 다양한 변종이 현재까지 출몰하고 있습니다. 이전 포스팅했던 다 수의 악성코드가 5.10일 변종으로 보입니다. 5.10일 악성코드 숙주서버(C&amp;C) 호스트 문자열 생성 로직에 대해서 분석한 자료의 이미지를 포스팅했습니다.]]></summary></entry></feed>

@@ -1,0 +1,34 @@
+---
+title: "AWS EC2 디스크 이미징 및 분석 관련.."
+author: Francesco
+
+layout: single
+categories:
+  - digital-forensics
+
+author_profile: true
+tags:
+  - Forensics
+---
+클라우드기반 아마존 AWS EC2 서버에 대한 디스크 포렌직을 위한 이미징을 위한 방법은 생각보다 간단하며, 이미징한 파일을 다운로드 받은 후, 분석 시스템에서 포렌직 툴(예, Autopsy)로 불러오면 분석이 가능하다. 또한, 이미지를  VMDX 로 변환하여 vmware에서 라이브분석이 가능하다.
+
+> - 1.분석대상(이미징 대상) EC2 volume를 선택한 후 snapshot를 생성
+> - 2.위 1번 단계에서 생성한 snapshot를 가지고 volume 생성
+> - 3.2 번 단계에서 생성한 volume를 dd 포맷의 이미지를 생성할 수 있는 EC2 서버에 연결(attach)
+> - 4.3번 단계에서 attach한 volume를 대상으로 dd 명령어를 사용하여 dd 포맷으로 이미징 수행. 이미징된 파일을 로컬 분석 시스템으로 다운로드 받은데 있어서, 아웃바운드 트래픽 비용을 줄이고자, 이미지 파일을 gzip으로 압축 저장 함.
+>  ![parse](/images/aws_ec2_1.png)
+>  ![parse](/images/aws_ec2_2.png)
+> - 5.다운로드 받은 이미지에 대해서 압축해제한 후, Autopsy 등의 툴을 사용하여 분석
+> - 6.dd 포맷 이미지를 vmdk로 변환하여, Vmware에서 라이브 분석.
+
+>```bash
+root@kali:~/Desktop# qemu-img convert -pO vmdk ./TargetAMILinux_20170913.img /TargetAMILinux_20170913.vmdk
+```
+
+아래 이미지는 위 5번 단계까지 진행하여, autospy로 확인한 내용 임.
+>  ![parse](/images/aws_ec2_3.png)
+>  ![parse](/images/aws_ec2_4.png)
+
+vmdx로 변환된 AWS EC2 이미지 파일을 vmware에 설치하여 라이브 분석 수행 가능.
+
+>  ![parse](/images/aws_ec2_5.png)
