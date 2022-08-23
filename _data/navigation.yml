@@ -8,18 +8,24 @@ main:
      url: /tags/
 
 docs:
-  - title: Spark
+  - title: Data Engineering
     children:
       - title: "> pyspark"
         url: categories/#pyspark
         category: "pyspark"
+      - title: "> splunk"
+        url: categories/#splunk
+        category: "splunk"
+      - title: "> Elasticsearch"
+        url: categories/#elasticsearch
+        category: "elasticsearch"
+      - title: "> ML/DeepLearning"
+        url: categories/#ml_dl
+        category: "ml_dl_"
   - title: Dajngo
     children:
       - title: "> RestFramework"
         url: categories/#django-restframework
-        category: "django"
-      - title: "> ORM"
-        url: categories/#django-orm
         category: "django"
   - title: CyberSecurity
     children:
@@ -29,3 +35,6 @@ docs:
       - title: "> Malware analysis"
         url: categories/#malware-analysis
         category: "malware-analysis"
+      - title: "> Vulnerability"
+        url: categories/#vuln
+        category: "vulnerability"

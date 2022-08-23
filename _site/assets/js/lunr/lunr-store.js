@@ -5,6 +5,24 @@ var store = [{
         "url": "/malware-analysis/DDoS_dynamic_c2_generation/",
         "teaser": null
       },{
+        "title": "Vmware 가상머신 우회 악성코드",
+        "excerpt":"‘12년 5월, DDoS 공격을 유발한 좀비PC에서 수집한 악성코드(32EBE2CEF738DA27B03A36E9BCB29196)는 vmware 가상머신 환경이면 실행을 종료하는 코드가 내장되어 있습니다.  알려진 vmware 가상머신 탐지 기법은 많이 있지만, 이번 악성코드는  VMwareHostOpen.exe 레지스트리 키 값을 체크하는 방식입니다.      Applications\\VMwareHostOpen.exe     Applications\\VMwareHostOpen.exe는 base64로 인코딩되어 있으며, 인코딩된 문자열은QXBwbGljYXRpb25zXFxWTXdhcmVIb3N0T3Blbi5 임.         VMwarehostopen.exe 레지스트리 체크하는 Function를 호출한 후, 그 결과 값(Vmware 환경 유무)에 대해서 바로 체크하지 않고 다른 기능을 수행한 후에 vmware 환경이면 악성코드가 종료되는 구조 임.         ","categories": ["malware-analysis"],
+        "tags": ["Malware"],
+        "url": "/malware-analysis/Vmware_bypass/",
+        "teaser": null
+      },{
+        "title": "블로그 게시물을 통한 숙주서버 IP수신... ",
+        "excerpt":"대부분의 숙주서버(C&amp;C) 호스트 또는 IP 정보는 악성코드 내에 하드코딩되어 있거나, 내부 연산을 통해 동적으로 생성되는 경우가 일반적입니다.  최근에 접한 악성코드 9902.exe(52F6218A2AA9DE9096727D365D53297A)는 특정 블로그 게시물 내용에 숙주서버 IP 를 전달받아서 접속하는 방식을 사용하고 있습니다. 악성코드는 ASPROTECT 2.x 버전으로 패킹되어 있었음..           blog.sina.???.cn/s/blog_a37c841a01012teh.html 게시물에 숙주서버 IP 정보가 명시되어 있음…  요렇게… Conten-Loioncat:1[199.114.243.69:9902]       숙주서버에 접속하면, 좀비PC 의 시스템정보(OS,CPU,메모리 등등) 함…    ","categories": ["malware-analysis"],
+        "tags": ["Malware"],
+        "url": "/malware-analysis/Populate_C2_IP_via_blog/",
+        "teaser": null
+      },{
+        "title": "8888.exe(048FFA99E842A101651A9E4691783EED) 디도스 악성코드",
+        "excerpt":"8888.exe(048FFA99E842A101651A9E4691783EED)는 8888b.pinoera.com 호스트를 숙주서버(C&amp;C)로 사용하는 디도스 악성코드입니다. Asprotect 2.x로 실행압축(패킹)되어 있으며,  악성코드는 윈도우 서비스(bbb88ijk)로 등록하여 자동 재시작하도록 되어 있습니다.  악성코드 공격 유형 및 코드를 보면, 이 전에 미리 여러차례 확인되었던 코드라서 특이 점이 없어 보입니다.       ASPROTECT 2.x 버전으로 패킹되어 있는 것을 언패킹하여 OEP를 찾은 화면   언패킹 후, IDA로 스트링 확인  숙주서버(C&amp;C) 연결 후, 공격 타겟으로 ICMP 플러딩 유발   ","categories": ["malware-analysis"],
+        "tags": ["Malware"],
+        "url": "/malware-analysis/malware-8888/",
+        "teaser": null
+      },{
         "title": "악성코드내 명시된 구글DNS 이용하여 IP Lookup 코드",
         "excerpt":"악성코드를 분석하다 보면, PC에 셋팅된 DNS 서버를 사용하지 않고 악성코드 내 명시된 DNs를 사용하는 경우가 있습니다. 아마도, DNS 싱크홀처리/블랙홀처리를 우회하기 위한 목적일 것으로 보입니다.     -rtlipv4stringtoaddress API를 사용하여 구글 DNS 8.8.8.8에 대한 IP 주소를 구함.           ","categories": ["malware-analysis"],
         "tags": ["Malware"],
@@ -15,6 +33,24 @@ var store = [{
         "excerpt":"디도스 및 백도어 기능이 있다고 알려진 리눅스 악성코드(Sha256: CBCCEEB358D712CDF6FA013778474876F816CCA33656BE78E5B5EB3DF24B5735). 악성코드는 Gnu C++로 작성되었으며, virustoal에 최초 등록된 시점은 2015년 12월로 확인되었음. 현재까지 virustoal에 등록된 백신제품중 33개 제품이 악성코드로 탐지된 것으로 확인 됨. 악성행위는 크게 디도스 공격 용도와 백도어 용도로 알려졌으며, 악성코드가 자동 시작되도록 init.d디렉터리에 생성 및 원본 악성코드를 ‘.sshd, find, lsof, netstat, ps’ 등등 다른 파일로 복사하는 행위가 확인 됨. 코드 분석을 위하여, IDA와  EBD를 사용하여 확인. EDB를 사용하여 진행할 때 악성코드를 데몬(daemon)프로세스로 만드는 코드가 있기 때문에, daemon함수에 대해서는 호출되지 않도록 NOP처리 하여 분석 진행.           1.악성코드 HASH정보: 다양한 변종이 있어서 해쉬 값이 다소 다를 수 있지만, 주요 핵심 코드는 유사함.               2.주요 함수: main function에서 악성코드 주요 기능을 처리 하는 MainBeikong, MainBackdoor, Mainsystool, MainMonitor 함수. 특히, MainBeikong함수는 악성코드를 데몬 프로세스로 생성, 복제, 그리고 자동시작 등록 등의 기능을 담당하는 코드로 구성되어 있음.               08062400번지에서 daemon함수를 호출하는데, daemon 프로세스는 자식 프로세스를 생성하면서, 현재 (부모)프로세스는 종료를 하기 때문에, 현재 프로세스를 대상으로 더 이상 분석 진행을 할 수 없게 됨. 코드 분석을 위하여, daemon 함수를 호출하는 영역을 NOP처리하여, 해당 함수가 호출되지 않도록 처리 함.               자동시작 관련하여, DbSecurityspt라는 파일을 /etc/init.d/ 디렉터리에 생성 함.               MainProcess: C2 서버와 통신하여, 디도스 공격과 백도어 용도의 시스템 명령 수행하는 함수. 함수 인입 지점 xpacket.ko 커널 모듈을 insmod로딩하는 코드가 있으나, xpacket.ko 파일이 존재하지 않아서 로딩 실패 함.       ","categories": ["malware-analysis"],
         "tags": ["Malware"],
         "url": "/malware-analysis/Linux_malware_backdoor/",
+        "teaser": null
+      },{
+        "title": "SWIFT Issue...",
+        "excerpt":"은행 근무 시절에 가장 핫 했던 SWIFT 이슈 관련하여, 국내 OO 기관에서 SWIFT 위협과 보안 방안에 대해서 발표 요청이 있었고, 그 당시 발표했던 자료 컨텐츠 중에 방글라데시 중앙은행 사고 관련된 장표 일부를 첨부하였습니다. 방글라데시를 포함하여, 해외 주요 은행의 SWIFT 이슈가 발생하면서, SWIFT 시스템 및 외환거래 프로세스 전반적으로 보안 점검을 수행하면서, 시스템 및 업무에 대한 이해를 할 수 있었으나, 지금은 기억 속에서 지워져 버렸음…          ","categories": ["vulnerability"],
+        "tags": ["vulnerability"],
+        "url": "/vulnerability/Switch_issue/",
+        "teaser": null
+      },{
+        "title": "Live OS로 부팅 후, 파일 수정 시의 타임스탬프",
+        "excerpt":"Live OS를 이용하여, 윈도우 10이 설치되어 있는 데스크탑을 부팅한 후, Live OS에서 윈도우 10이 설치되어 있는 파일시스템의 특정 파일의 컨텐츠를 변경(수정) 하였을 경우, 변경된 파일의 스탬프 값을 확인하는 테스트를 수행 하였음.   - Live OS: Kali (Linux) - 저장매체: USB - 대상시스템: 윈도우 10 (NTFS 파일 시스템)      테스트 방식       기본OS(윈도우 10)로 부팅한 후, $MFT파일의 test_c.txt파일의 MACE 값을 확인($STDINFO/$FILENAME) Live OS로 부팅하고, 앞 단계에서 생성한 test_c.txt 파일의 내용을 수정 기본OS(윈도우 10)으로 부팅한 후, $MFT파일의 test_c.txt파일의 MACE 값을 확인       결과      위 1번 단계에서 test_c.txt파일의 최초 파일 생성  후, $STDINFO와 $FINENAME의 MACE값은 동일 2번 단계에서 test_c.txt를 Live OS에서 수정하였을 때, $FILENAME의 값은 1번단계에서 확인한 값과 동일(변경이 없었음)하지만, $STDINFO의 경우, Modified, Access, Entry 값은 수정한 당시 시간 값으로 업데이트가 됨. 단, $STDINFO의 Create는 변경되지 않음.    [그림] 1번 단계에서 확인한 값    [그림] 3번 단계에서 확인한 값       3번 단계 이후, 해당 파일을 Live OS가 아닌 윈도우 10으로 부팅 한 후에 test_c.txt 파일을 메모장에서 수정을 하면, $FILENAME 값에는 변경이 없으며, $STDINFO의 경우에는 modified와 Entry는 수정한 시간으로 셋팅이 되지만, creation는 최초 생성한 시간을 유지하며, access 시간은 3번단계에서 업데이트 시간이 유지되는 것으로 확인 됨. 이번 테스트와 별개로, 윈도우 10에서 DOC/PPT/EXCEL 타입의 신규 파일을 생성 후, 수정하면, $FILENAME과 $STDINFO의 값은 동일한 값으로 맞추어 짐.       [참고] Live OS로 Kali linux를 사용하여 윈도우 10의 NTFS 파일 시스템을 마운트하는 과정에서 에러가 발생하였으며, 이는 아래와 같이 ntfsfix 명령어를 사용하여 파일시스템 체크한 후, 마운트하면 정상적으로 마운트가 됨.    root@kali:/# fdisk -l Disk /dev/sda: 223.6 GiB, 240057409536 bytes, 468862128 sectors Units: sectors of 1 * 512 = 512 bytes Sector size (logical/physical): 512 bytes / 512 bytes I/O size (minimum/optimal): 512 bytes / 512 bytes Disklabel type: dos Disk identifier: 0x7cf70168  Device     Boot     Start       End   Sectors   Size Id Type  /dev/sda1            2048 467937279 467935232 223.1G  7 HPFS/NTFS/exFAT /dev/sda2       467937280 468858879    921600   450M 27 Hidden NTFS WinR    Disk /dev/sdc: 1.9 GiB, 2004877312 bytes, 3915776 sectors Units: sectors of 1 * 512 = 512 bytes Sector size (logical/physical): 512 bytes / 512 bytes I/O size (minimum/optimal): 512 bytes / 512 bytes Disklabel type: dos Disk identifier: 0x7faa79a8  Device     Boot   Start     End Sectors  Size Id Type /dev/sdc1  *         64 2011135 2011072  982M 17 Hidden HPFS/NTFS  /dev/sdc2       2011136 2220095  208960  102M  1 FAT12 root@kali:/# mount -t ntfs-3g /dev/sda1 /mnt/C The disk contains an unclean file system (0, 0). Metadata kept in Windows cache, refused to mount. Falling back to read-only mount because the NTFS partition is in an unsafe state. Please resume and shutdown Windows fully (no hibernation or fast restarting.)   root@kali:/# ntfsfix /dev/sda1 Mounting volume... The disk contains an unclean file system (0, 0). Metadata kept in Windows cache, refused to mount. FAILED Attempting to correct errors... Processing $MFT and $MFTMirr... Reading $MFT... OK Reading $MFTMirr... OK Comparing $MFTMirr to $MFT... OK Processing of $MFT and $MFTMirr completed successfully. Setting required flags on partition... OK Going to empty the journal ($LogFile)... OK Checking the alternate boot sector... OK NTFS volume version is 3.1. NTFS partition /dev/sda1 was processed successfully.   root@kali:/# mount -t ntfs-3g /dev/sda1 /mnt/C  ","categories": ["digital-forensics"],
+        "tags": ["Forensics"],
+        "url": "/digital-forensics/Windows_file_timestamp/",
+        "teaser": null
+      },{
+        "title": "ATM Malware 분석",
+        "excerpt":"최근에 이슈가 된 ATM 악성코드(인터넷 샌드박스 사이트에서 다운로드 가능)가 white-listing security solution를 우회할 수 있는 기능이 있는 궁금하여 분석을 수행하고 있으며, 샘플로 받은 파일과 이 파일에서 드랍되는 3개 파일에 대해서 분석을 하고 있음.   분석한 악성코드 4개를 보면,      1.java.exe는 C2통신용도(443번 포트를 사용하지만, SSL 암호화는 하지 않음.)                     C2 IP와 통신용 포트로 443를 사용하지만, SSL로 암호화하지 않음.왠지 443포트가 외부에 허용되어 있는 정책 등을 고려하여 만든 것이 아닐까 싶음.         CMD 명령어를 사용하여 특정 프로그램을 실행하는 기능를 보유하고 있음.                  2.sample_atm.exe, javaupdate.exe, 그리고 sample_atm.exe(원래파일과 이름이 같음)는 정상적인 ATM 바이너리를 포함하고 있음.                     메시지 후킹을 담당하는 sample_atm.exe(javaupdate.exe가 드랍한 파일,MD5: 492AE026C41D516F107055E0487BE328)는 자기 자신의 다이얼로그, 메시지박스 등에서 발생한 입력값을 후킹 함. ATM기기에 맞게 후킹메시지를 처리 함.         특히, 일반적으로 setwindowshook API는 메시지 후킹을 처리하는 프로시저를 갖고 있는 별도의 DLL파일을 지정하거나, 다른 쓰레드 및 프로세스를 지정하지만, 여기서는 후킹처리 프로시저가 악성코드내에 내장되어 있으며, 후킹 처리 대상 또한 자기 자신 임. 즉, sample_atm.exe는 정상적인 atm 프로그램의 기능을 갖고 있는 것으로 추정되며, 이 악성코드의 PE헤더의 생성 날짜를 보면 2017.02월에 컴파일 된 것으로 추정 됨. 이 부부도 시사한 점이 있지만, 추정이라서 노코멘트..                      + sample_atm.exe(MD5): 4C9A343510E9B1F78E98DDC455E9AB11 + java.exe(MD5): 5C3F89ABFA560DECECF1B46994290D3F + javaupdate.exe(MD5): 34FD02BE8006614F7B1BAE4D453E19F4 + sample_atm.exe(MD5): 492AE026C41D516F107055E0487BE328             아래 이미지는 4C9A343510E9B1F78E98DDC455E9AB11와492AE026C41D516F107055E0487BE328 파일에 대해서 바이너리 비교를 한 것이며, 두 개의 파일을 보면 상단과 하단에서만 차이가 있고, 중간은 같은 코드인 것을 알 수 있고, 중간에 위치한 코드가 ATM관리 코드로 추정된다.          ","categories": ["malware-analysis"],
+        "tags": ["Malware"],
+        "url": "/malware-analysis/ATM_malware/",
         "teaser": null
       },{
         "title": "사고분석 관점에서 $MFT,$USNJRNL,$LOGFILE 활용",
@@ -33,6 +69,18 @@ var store = [{
         "excerpt":"analyzeMFT.py로 파싱된 $MFT 파일의 output를 splunk에 인덱싱하여, STD과 FN 속성에 있는 시간 값을 비교하는 Splunk Query ….      1.analyzeMFT.py를 사용하여 $MFT파일 파싱         /usr/bin/python analyzeMFT.py -f /MFTdump -o mft_output  –bodyfull -a -l     Splunk Query:       sourcetype=\"mft-csv\" | rename \"FN Info Modification date\" AS fn_mtime_datetime, \"Std Info Modification date\" AS std_mtime_datetime | eval fn_mtime = strptime(fn_mtime_datetime, \"%Y-%m-%d %H:%M:%S.%6N\") | eval std_mtime = strptime(std_mtime_datetime, \"%Y-%m-%d %H:%M:%S.%6N\") | where std_mtime = fn_mtime | table std_mtime, std_mtime_datetime, fn_mtime, fn_mtime_datetime,                         ","categories": ["digital-forensics"],
         "tags": ["Forensics"],
         "url": "/digital-forensics/MFT_STD_FN/",
+        "teaser": null
+      },{
+        "title": "Docker Storage Driver에서 Whiteout 검색",
+        "excerpt":"Docker는 Union filesystem 구조를 지원하는 Storage Driver를 사용하며, 파일 및 디렉터리가 삭제되었을 경우, whiteout 처리를 한다. Whiteout처리 방식은 Storage Driver에 따라 다르다. 대표적인 Storage Driver인 AUFS와 Overlay2 드라이버에서 whiteout 처리된 파일 및 디렉터리를 검색하는 소스를 코딩하여, 개인 github 사이트에 공개하였습니다. 이 소스코드는 삭제된 파일/디렉터리 중에서 whiteout처리된 파일/디렉터리만 검색이 가능합니다.   Docker-Forensic - github  ","categories": ["digital-forensics"],
+        "tags": ["Forensics"],
+        "url": "/digital-forensics/Whiteount-docker-container/",
+        "teaser": null
+      },{
+        "title": "Mysql 로그 유형 정리",
+        "excerpt":"MYSQL DBMS를 대상으로 사고조사 시에 검토해야 하는 로그 유형 정리…     MYSQL DBMS 로그인 이력   MYSQL DDL 사용이력   MYSQL DML 사용 이력         ","categories": ["digital-forensics"],
+        "tags": ["Forensics"],
+        "url": "/digital-forensics/Mysql_Log_artifact/",
         "teaser": null
       },{
         "title": "Create Time in EXT4 Filesystem of Linux",
@@ -70,6 +118,9 @@ var store = [{
   },{
     "title": null,
     "excerpt":"","url": "http://localhost:4000/tags/"
+  },{
+    "title": null,
+    "excerpt":"{% include feature_row %} ","url": "http://localhost:4000/"
   },{
     "title": null,
     "excerpt":"{% include feature_row %} ","url": "http://localhost:4000/"
