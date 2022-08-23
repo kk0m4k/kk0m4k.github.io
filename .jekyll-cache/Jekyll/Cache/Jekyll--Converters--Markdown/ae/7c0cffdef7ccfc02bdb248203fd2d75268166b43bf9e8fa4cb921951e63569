@@ -1,0 +1,2 @@
+I"�<p>analyzeMFT.py로 파싱된 $MFT 파일의 output를 splunk에 인덱싱하여, STD과 FN 속성에 있는 시간 값을 비교하는 Splunk Query ….</p>
+:ET

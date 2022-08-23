@@ -1,0 +1,16 @@
+I"<p>‘12.05.05 그리고 ‘12.0.510 이렇게 두 차례 디도스 공격을 유발시킨 악성코드가 있었습니다. 5.10일 악성코드는 5.5일 악성코드로 변종입니다.  5.10일 디도스 악성코드의 다양한 변종이 현재까지 출몰하고 있습니다. 이전 포스팅했던 다 수의 악성코드가 5.10일 변종으로 보입니다.
+5.10일 악성코드 숙주서버(C&amp;C) 호스트 문자열 생성 로직에 대해서 분석한 자료의 이미지를 포스팅했습니다.</p>
+
+<blockquote>
+  <p><img src="/images/ddos_c2_generation_1.png" alt="parse" /></p>
+</blockquote>
+
+<blockquote>
+  <p>Game2Flood 디도스 공격 패턴.</p>
+</blockquote>
+
+<blockquote>
+  <p><img src="/images/ddos_c2_generation_2.png" alt="parse" /></p>
+</blockquote>
+
+:ET

@@ -1,0 +1,7 @@
+I"�<p>MYSQL DBMS를 대상으로 사고조사 시에 검토해야 하는 로그 유형 정리…</p>
+<ul>
+  <li>MYSQL DBMS 로그인 이력</li>
+  <li>MYSQL DDL 사용이력</li>
+  <li>MYSQL DML 사용 이력</li>
+</ul>
+:ET

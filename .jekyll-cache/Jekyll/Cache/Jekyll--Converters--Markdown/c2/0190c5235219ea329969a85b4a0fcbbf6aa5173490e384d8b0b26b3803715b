@@ -1,0 +1,14 @@
+I"8<p>analyzeMFT.py로 파싱된 $MFT 파일의 output를 splunk에 인덱싱하여, STD과 FN 속성에 있는 시간 값을 비교하는 Splunk Query ….</p>
+
+<blockquote>
+  <p>1.analyzeMFT.py를 사용하여 $MFT파일 파싱</p>
+  <ul>
+    <li>/usr/bin/python analyzeMFT.py -f /MFTdump -o mft_output  –bodyfull -a -l</li>
+    <li>Splunk Query:
+      <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">sourcetype</span><span class="o">=</span><span class="s2">"mft-csv"</span> | rename <span class="s2">"FN Info Modification date"</span> AS fn_mtime_datetime, <span class="s2">"Std Info Modification date"</span> AS std_mtime_datetime | <span class="nb">eval </span>fn_mtime <span class="o">=</span> strptime<span class="o">(</span>fn_mtime_datetime, <span class="s2">"%Y-%m-%d %H:%M:%S.%6N"</span><span class="o">)</span> | <span class="nb">eval </span>std_mtime <span class="o">=</span> strptime<span class="o">(</span>std_mtime_datetime, <span class="s2">"%Y-%m-%d %H:%M:%S.%6N"</span><span class="o">)</span> | where std_mtime <span class="o">=</span> fn_mtime | table std_mtime, std_mtime_datetime, fn_mtime, fn_mtime_datetime,
+</code></pre></div>      </div>
+      <p><img src="/images/parsedmfsusingsplunk.png" alt="parse" /></p>
+    </li>
+  </ul>
+</blockquote>
+:ET
