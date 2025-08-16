@@ -573,23 +573,15 @@
 }
 
 /*
-   Navigation expandable items
+   Navigation tree structure
    ========================================================================== */
 
-.nav-expandable {
-  cursor: pointer;
-  position: relative;
-  
-  &:hover {
-    background-color: mix(#fff, $primary-color, 95%);
-  }
-}
-
-.nav-expand-icon {
+.nav-tree-icon,
+.nav-subtree-icon {
   display: inline-block;
   margin-right: 0.5em;
-  font-size: 0.8em;
-  transition: transform 0.2s ease;
+  color: $muted-text-color;
+  font-family: monospace;
 }
 
 .nav-sub-items {
@@ -602,7 +594,7 @@
     a {
       font-size: 0.9em;
       padding: 0.25em 0.5em;
-      display: block;
+      display: inline-block;
       
       &:hover {
         background-color: mix(#fff, $primary-color, 90%);
@@ -613,5 +605,11 @@
         color: $primary-color;
       }
     }
+  }
+}
+
+.nav-expandable {
+  &:hover {
+    color: $primary-color;
   }
 }
