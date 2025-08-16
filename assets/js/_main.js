@@ -135,7 +135,7 @@ $(function() {
   });
 
   // Tree navigation toggle functionality
-  $('.toggle-icon').on('click', function(e) {
+  $(document).on('click', '.toggle-icon', function(e) {
     e.preventDefault();
     e.stopPropagation();
     
@@ -153,9 +153,11 @@ $(function() {
   });
   
   // Prevent link navigation when clicking on toggle icon
-  $('.toggle-icon').parent().on('click', function(e) {
+  $(document).on('click', '.tree-icon', function(e) {
     if ($(e.target).hasClass('toggle-icon')) {
       e.preventDefault();
+      e.stopPropagation();
+      return false;
     }
   });
 });
