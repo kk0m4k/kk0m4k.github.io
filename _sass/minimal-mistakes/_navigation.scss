@@ -642,9 +642,22 @@
   display: inline-block;
   width: 1em;
   text-align: center;
+  font-weight: bold;
   color: $muted-text-color;
+  background: mix(#fff, $muted-text-color, 90%);
+  border: 1px solid mix(#fff, $muted-text-color, 70%);
+  border-radius: 2px;
   margin-right: 0.5em;
   font-size: 0.8em;
+  line-height: 1;
+  padding: 0.1em;
+}
+
+.subtree-icon {
+  display: inline-block;
+  color: $muted-text-color;
+  font-family: monospace;
+  margin-right: 0.5em;
 }
 
 .nav-subtree {
@@ -657,6 +670,8 @@
 .nav-subtree-item {
   margin: 0;
   padding: 0.2em 0;
+  display: flex;
+  align-items: center;
   
   a {
     padding: 0.2em 0.5em;

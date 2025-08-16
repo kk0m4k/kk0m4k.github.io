@@ -31,6 +31,7 @@
                 <ul class="nav-subtree" id="nav-{{ nav.title | slugify }}-{{ child_index }}" style="display: none;">
                   {% for subchild in child.children %}
                     <li class="nav-subtree-item">
+                      <span class="subtree-icon">└</span>
                       <a href="{{ subchild.url | relative_url }}"{% if subchild.url == page.url %} class="active"{% endif %}>{{ subchild.title }}</a>
                     </li>
                   {% endfor %}
