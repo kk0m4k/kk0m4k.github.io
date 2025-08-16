@@ -108,7 +108,7 @@ author:
   avatar           : "/assets/images/photo.jpg"
   bio              : "Security Engineer & Analyst"
   location         : "Seoul"
-  github           : https://github.com/kk0m4k
+  github           : kk0m4k
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
