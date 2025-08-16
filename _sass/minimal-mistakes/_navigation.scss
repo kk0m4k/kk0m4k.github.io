@@ -611,6 +611,12 @@
   margin-right: 0.2em;
 }
 
+.nav-item-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5em;
+}
+
 .toggle-icon {
   display: inline-block;
   width: 1em;
@@ -622,6 +628,7 @@
   border: 1px solid mix(#fff, $primary-color, 70%);
   border-radius: 2px;
   margin-left: 0.2em;
+  margin-right: 0.5em;
   font-size: 0.8em;
   line-height: 1;
   padding: 0.1em;
@@ -629,6 +636,10 @@
   &:hover {
     background: mix(#fff, $primary-color, 80%);
     border-color: $primary-color;
+  }
+  
+  &.main-toggle {
+    margin-left: 0;
   }
 }
 
