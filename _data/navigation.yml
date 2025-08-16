@@ -18,7 +18,7 @@ docs:
         category: "splunk"
         children:
           - title: "> CSC"
-            url: categories/#splunk
+            url: categories/#splunk-csc
       - title: "> Elasticsearch"
         url: categories/#elasticsearch
         category: "elasticsearch"

@@ -16,7 +16,20 @@
         {% if nav.children != null %}
         <ul>
           {% for child in nav.children %}
-            <li><a href="{{ child.url | relative_url }}"{% if child.url == page.url %} class="active"{% endif %}>{{ child.title }}</a></li>
+            <li>
+              {% if child.children != null %}
+                <a href="{{ child.url | relative_url }}" class="nav-expandable{% if child.url == page.url %} active{% endif %}">
+                  <span class="nav-expand-icon">▶</span> {{ child.title }}
+                </a>
+                <ul class="nav-sub-items" style="display: none;">
+                  {% for subchild in child.children %}
+                    <li><a href="{{ subchild.url | relative_url }}"{% if subchild.url == page.url %} class="active"{% endif %}>{{ subchild.title }}</a></li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <a href="{{ child.url | relative_url }}"{% if child.url == page.url %} class="active"{% endif %}>{{ child.title }}</a>
+              {% endif %}
+            </li>
           {% endfor %}
         </ul>
         {% endif %}

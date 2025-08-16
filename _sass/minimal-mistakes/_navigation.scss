@@ -571,3 +571,47 @@
     padding-left: 3.25rem
   }
 }
+
+/*
+   Navigation expandable items
+   ========================================================================== */
+
+.nav-expandable {
+  cursor: pointer;
+  position: relative;
+  
+  &:hover {
+    background-color: mix(#fff, $primary-color, 95%);
+  }
+}
+
+.nav-expand-icon {
+  display: inline-block;
+  margin-right: 0.5em;
+  font-size: 0.8em;
+  transition: transform 0.2s ease;
+}
+
+.nav-sub-items {
+  margin-left: 1.5em;
+  margin-top: 0.25em;
+  
+  li {
+    margin-bottom: 0.25em;
+    
+    a {
+      font-size: 0.9em;
+      padding: 0.25em 0.5em;
+      display: block;
+      
+      &:hover {
+        background-color: mix(#fff, $primary-color, 90%);
+      }
+      
+      &.active {
+        font-weight: bold;
+        color: $primary-color;
+      }
+    }
+  }
+}

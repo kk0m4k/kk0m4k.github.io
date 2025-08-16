@@ -133,4 +133,32 @@ $(function() {
       $(this).append(anchor);
     }
   });
+
+  // Navigation expandable items toggle
+  $('.nav-expandable').on('click', function(e) {
+    e.preventDefault();
+    var $this = $(this);
+    var $subItems = $this.next('.nav-sub-items');
+    var $icon = $this.find('.nav-expand-icon');
+    
+    // Toggle sub-items visibility
+    $subItems.slideToggle(200);
+    
+    // Rotate icon
+    if ($icon.text() === '▶') {
+      $icon.text('▼');
+    } else {
+      $icon.text('▶');
+    }
+    
+    // Still navigate to the URL if needed
+    if ($this.attr('href') && !$this.hasClass('no-navigate')) {
+      window.location.href = $this.attr('href');
+    }
+  });
+  
+  // Prevent navigation on expandable items that only serve as toggles
+  $('.nav-expandable.no-navigate').on('click', function(e) {
+    e.preventDefault();
+  });
 });
