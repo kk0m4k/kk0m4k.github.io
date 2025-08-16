@@ -16,6 +16,8 @@ docs:
       - title: "> splunk"
         url: categories/#splunk
         category: "splunk"
+        children:
+          - title: "> CustomCommand"
       - title: "> Elasticsearch"
         url: categories/#elasticsearch
         category: "elasticsearch"
