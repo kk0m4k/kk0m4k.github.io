@@ -28,7 +28,7 @@ docs:
       - title: "AWS"
         children:
           - title: "Cross Account Access"
-            url: categories/#aws_crossaccount_access_s3
+            url: categories/#aws
             category: "aws"
   - title: CyberSecurity
     children:
@@ -39,5 +39,5 @@ docs:
         url: categories/#malware-analysis
         category: "malware-analysis"
       - title: "Vulnerability"
-        url: categories/#vuln
+        url: categories/#vulnerability
         category: "vulnerability"

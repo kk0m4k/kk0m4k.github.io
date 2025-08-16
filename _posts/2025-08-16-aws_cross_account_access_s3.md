@@ -4,7 +4,7 @@ author: Francesco
 
 layout: single
 categories:
-  - AWS
+  - aws
 
 author_profile: true
 tags:
