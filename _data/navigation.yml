@@ -30,6 +30,9 @@ docs:
           - title: "Cross Account Access"
             url: categories/#aws
             category: "aws"
+          - title: "API Call rate limit(throttling)"
+            url: categories/#aws
+            category: "aws"
   - title: CyberSecurity
     children:
       - title: "Digital Forensics"
