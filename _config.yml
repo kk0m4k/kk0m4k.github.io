@@ -104,11 +104,11 @@ analytics:
 
 # Site Author
 author:
-  name             : "KK0M4k"
+  name             : "KK0M4k - Francesco"
   avatar           : "/assets/images/photo.jpg"
   bio              : "Security Engineer & Analyst"
   location         : "Seoul"
-  email            :
+  github           : https://github.com/kk0m4k
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
