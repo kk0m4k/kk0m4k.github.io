@@ -14,8 +14,6 @@ docs:
         url: categories/#pyspark
         category: "pyspark"
       - title: "splunk"
-        url: categories/#splunk
-        category: "splunk"
         children:
           - title: "CSC"
             url: categories/#splunk-csc
@@ -25,11 +23,13 @@ docs:
       - title: "ML/DeepLearning"
         url: categories/#ml_dl
         category: "ml_dl_"
-  - title: Django
+  - title: Public Cloud
     children:
-      - title: "RestFramework"
-        url: categories/#django-restframework
-        category: "django"
+      - title: "AWS"
+        children:
+          - title: "Cross Account Access"
+            url: categories/#aws_crossaccount_access_s3
+            category: "aws"
   - title: CyberSecurity
     children:
       - title: "Digital Forensics"
