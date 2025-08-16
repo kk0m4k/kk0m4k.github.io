@@ -15,7 +15,7 @@ docs:
         category: "pyspark"
       - title: "splunk"
         children:
-          - title: "CSC"
+          - title: "ㄴ CSC"
             url: categories/#splunk-csc
       - title: "Elasticsearch"
         url: categories/#elasticsearch
@@ -27,10 +27,10 @@ docs:
     children:
       - title: "AWS"
         children:
-          - title: "Cross Account Access"
+          - title: "ㄴ Cross Account Access"
             url: categories/#aws
             category: "aws"
-          - title: "API Call rate limit(throttling)"
+          - title: "ㄴ API Call rate limit(throttling)"
             url: categories/#aws
             category: "aws"
   - title: CyberSecurity

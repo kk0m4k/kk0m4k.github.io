@@ -45,6 +45,12 @@ $h-size-4: 1.0625em !default;
 $h-size-5: 1.03125em !default;
 $h-size-6: 1em !default;
 
+/* Width adjustments - 20% increase for navigation, 10% increase for main content */
+$right-sidebar-width-narrow: 240px; // was 200px (20% increase)
+$right-sidebar-width: 360px;        // was 300px (20% increase)
+$right-sidebar-width-wide: 480px;   // was 400px (20% increase)
+$max-width: 1408px;                 // was 1280px (10% increase)
+
 @import "minimal-mistakes";
 
 html {
