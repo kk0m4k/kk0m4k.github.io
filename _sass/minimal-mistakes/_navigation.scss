@@ -47,8 +47,8 @@
 }
 
 /*
-     Post pagination navigation links
-     ========================================================================== */
+   Post pagination navigation links
+   ========================================================================== */
 
 .pagination {
   @include clearfix();
@@ -165,8 +165,8 @@
 }
 
 /*
-     Priority plus navigation
-     ========================================================================== */
+   Priority plus navigation
+   ========================================================================== */
 
 .greedy-nav {
   position: relative;
@@ -200,8 +200,8 @@
       margin-left: 0;
     }
   }
-
-  img {
+  
+  img{
     -webkit-transition: none;
     transition: none;
   }
@@ -335,8 +335,8 @@
 }
 
 /*
-     Navigation list
-     ========================================================================== */
+   Navigation list
+   ========================================================================== */
 
 .nav__list {
   margin-bottom: 1.5em;
@@ -500,8 +500,8 @@
 }
 
 /*
-     Table of contents navigation
-     ========================================================================== */
+   Table of contents navigation
+   ========================================================================== */
 
 .toc {
   font-family: $sans-serif-narrow;
@@ -576,40 +576,86 @@
    Navigation tree structure
    ========================================================================== */
 
-.nav-tree-icon,
-.nav-subtree-icon {
-  display: inline-block;
-  margin-right: 0.5em;
-  color: $muted-text-color;
-  font-family: monospace;
+.nav-tree {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: $type-size-6;
 }
 
-.nav-sub-items {
-  margin-left: 1.5em;
-  margin-top: 0.25em;
+.nav-tree-item {
+  margin: 0;
+  padding: 0.2em 0;
+  position: relative;
   
-  li {
-    margin-bottom: 0.25em;
+  a {
+    padding: 0.2em 0.5em;
+    display: inline-block;
     
-    a {
-      font-size: 0.9em;
-      padding: 0.25em 0.5em;
-      display: inline-block;
-      
-      &:hover {
-        background-color: mix(#fff, $primary-color, 90%);
-      }
-      
-      &.active {
-        font-weight: bold;
-        color: $primary-color;
-      }
+    &:hover {
+      color: $primary-color;
+      text-decoration: none;
+    }
+    
+    &.active {
+      font-weight: bold;
+      color: $primary-color;
     }
   }
 }
 
-.nav-expandable {
+.tree-icon {
+  display: inline-block;
+  color: $muted-text-color;
+  font-family: monospace;
+  margin-right: 0.2em;
+}
+
+.toggle-icon {
+  display: inline-block;
+  width: 1em;
+  text-align: center;
+  cursor: pointer;
+  font-weight: bold;
+  color: $primary-color;
+  background: mix(#fff, $primary-color, 90%);
+  border: 1px solid mix(#fff, $primary-color, 70%);
+  border-radius: 2px;
+  margin-left: 0.2em;
+  font-size: 0.8em;
+  line-height: 1;
+  padding: 0.1em;
+  
   &:hover {
-    color: $primary-color;
+    background: mix(#fff, $primary-color, 80%);
+    border-color: $primary-color;
+  }
+}
+
+.nav-subtree {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  margin-left: 1em;
+}
+
+.nav-subtree-item {
+  margin: 0;
+  padding: 0.2em 0;
+  
+  a {
+    padding: 0.2em 0.5em;
+    display: inline-block;
+    font-size: 0.9em;
+    
+    &:hover {
+      color: $primary-color;
+      text-decoration: none;
+    }
+    
+    &.active {
+      font-weight: bold;
+      color: $primary-color;
+    }
   }
 }

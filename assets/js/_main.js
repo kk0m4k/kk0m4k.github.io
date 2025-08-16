@@ -134,5 +134,28 @@ $(function() {
     }
   });
 
-  // Remove the toggle functionality since we're showing all items expanded
+  // Tree navigation toggle functionality
+  $('.toggle-icon').on('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    var $this = $(this);
+    var targetId = $this.data('toggle');
+    var $target = $('#' + targetId);
+    
+    if ($target.is(':visible')) {
+      $target.slideUp(200);
+      $this.text('+');
+    } else {
+      $target.slideDown(200);
+      $this.text('−');
+    }
+  });
+  
+  // Prevent link navigation when clicking on toggle icon
+  $('.toggle-icon').parent().on('click', function(e) {
+    if ($(e.target).hasClass('toggle-icon')) {
+      e.preventDefault();
+    }
+  });
 });

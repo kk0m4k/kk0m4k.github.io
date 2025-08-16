@@ -14,21 +14,33 @@
         {% endif %}
 
         {% if nav.children != null %}
-        <ul>
+        <ul class="nav-tree">
           {% for child in nav.children %}
-            <li>
+            {% assign child_index = forloop.index %}
+            {% assign is_last = forloop.last %}
+            <li class="nav-tree-item">
+              <span class="tree-icon">
+                {% if is_last %}└{% else %}├{% endif %}─
+                {% if child.children %}
+                  <span class="toggle-icon" data-toggle="nav-{{ nav.title | slugify }}-{{ child_index }}">+</span>
+                {% endif %}
+              </span>
+              <a href="{{ child.url | relative_url }}"{% if child.url == page.url %} class="active"{% endif %}>{{ child.title }}</a>
+              
               {% if child.children != null %}
-                <span class="nav-tree-icon">└─</span>
-                <a href="{{ child.url | relative_url }}" class="nav-expandable{% if child.url == page.url %} active{% endif %}">
-                  {{ child.title }}
-                </a>
-                <ul class="nav-sub-items" style="display: block;">
+                <ul class="nav-subtree" id="nav-{{ nav.title | slugify }}-{{ child_index }}" style="display: none;">
                   {% for subchild in child.children %}
-                    <li><span class="nav-subtree-icon">└─</span><a href="{{ subchild.url | relative_url }}"{% if subchild.url == page.url %} class="active"{% endif %}>{{ subchild.title }}</a></li>
+                    {% assign subchild_index = forloop.index %}
+                    {% assign is_sublast = forloop.last %}
+                    <li class="nav-subtree-item">
+                      <span class="tree-icon">
+                        {% if is_last %}&nbsp;&nbsp;&nbsp;&nbsp;{% else %}│&nbsp;&nbsp;&nbsp;{% endif %}
+                        {% if is_sublast %}└{% else %}├{% endif %}─
+                      </span>
+                      <a href="{{ subchild.url | relative_url }}"{% if subchild.url == page.url %} class="active"{% endif %}>{{ subchild.title }}</a>
+                    </li>
                   {% endfor %}
                 </ul>
-              {% else %}
-                <a href="{{ child.url | relative_url }}"{% if child.url == page.url %} class="active"{% endif %}>{{ child.title }}</a>
               {% endif %}
             </li>
           {% endfor %}

@@ -10,34 +10,34 @@ main:
 docs:
   - title: Data Engineering
     children:
-      - title: "> pyspark"
+      - title: "pyspark"
         url: categories/#pyspark
         category: "pyspark"
-      - title: "> splunk"
+      - title: "splunk"
         url: categories/#splunk
         category: "splunk"
         children:
-          - title: "> CSC"
+          - title: "CSC"
             url: categories/#splunk-csc
-      - title: "> Elasticsearch"
+      - title: "Elasticsearch"
         url: categories/#elasticsearch
         category: "elasticsearch"
-      - title: "> ML/DeepLearning"
+      - title: "ML/DeepLearning"
         url: categories/#ml_dl
         category: "ml_dl_"
-  - title: Dajngo
+  - title: Django
     children:
-      - title: "> RestFramework"
+      - title: "RestFramework"
         url: categories/#django-restframework
         category: "django"
   - title: CyberSecurity
     children:
-      - title: "> Digital Forensics"
+      - title: "Digital Forensics"
         url: categories/#digital-forensics
         category: "digital-forensics"
-      - title: "> Malware analysis"
+      - title: "Malware analysis"
         url: categories/#malware-analysis
         category: "malware-analysis"
-      - title: "> Vulnerability"
+      - title: "Vulnerability"
         url: categories/#vuln
         category: "vulnerability"
