@@ -26,6 +26,8 @@ docs:
   - title: Public Cloud
     children:
       - title: "AWS"
+        url: categories/#aws
+        category: "aws"
         children:
           - title: "Cross Account Access"
             url: categories/#aws
@@ -34,6 +36,9 @@ docs:
             url: categories/#aws
             category: "aws"
           - title: "S3 - VPC endpoint"
+            url: categories/#aws
+            category: "aws"
+          - title: "Using AssumeRole in an AWS Multi-Account Environment"
             url: categories/#aws
             category: "aws"
   - title: CyberSecurity
