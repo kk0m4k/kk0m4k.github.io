@@ -29,9 +29,6 @@ docs:
         url: categories/#aws
         category: "aws"
         children:
-          - title: "Cross Account Access"
-            url: categories/#aws
-            category: "aws"
           - title: "API Call rate limit(throttling)"
             url: categories/#aws
             category: "aws"
