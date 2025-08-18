@@ -30,20 +30,23 @@ sequenceDiagram
     participant GA as GitHub Actions Workflow
     participant GHOIDC as GitHub OIDC Provider
     participant AWS_STS as AWS STS
-    participant AWS_IAM as AWS IAM Role & Trust Policy
-    participant AWS_SVC as AWS Services (ECR, EKS)
+    participant IAM_Role as "IAM Role"
+    participant AWS_SVC as "AWS Services (ECR, EKS)"
 
     GA->>GHOIDC: 1. Request JWT (ID Token)
     GHOIDC-->>GA: 2. Return signed JWT
 
     GA->>AWS_STS: 3. AssumeRoleWithWebIdentity(JWT)
 
-    AWS_STS->>AWS_IAM: 4. Validate JWT claims & signature
-    AWS_IAM-->>AWS_STS: Validation Success
+    AWS_STS->>IAM_Role: 4. Validate caller against **Trust Policy**
+    note right of IAM_Role: Checks if GitHub Actions<br>(repo, branch) is a trusted entity.
+    IAM_Role-->>AWS_STS: Validation Success
 
     AWS_STS-->>GA: 5. Return Temporary Credentials
+    note left of GA: Credentials inherit permissions<br>from the role's **Permissions Policy**.
 
-    GA->>AWS_SVC: 6. Access services with temp credentials (ECR push, EKS deploy)
+    GA->>AWS_SVC: 6. Access services with temp credentials
+    note right of AWS_SVC: AWS validates if the action<br>is allowed by the **Permissions Policy**.
 ```
 
 ## 구현 단계별 가이드
