@@ -1,7 +1,7 @@
 ---
 title: "AWS 다중 계정 환경에서 AssumeRole을 사용하여 안전하게 S3에 접근하기"
 date: 2025-08-17 10:00:00 +0900
-categories: [aws, security]
+categories: aws
 tags: [aws, iam, sts, assumerole]
 ---
 

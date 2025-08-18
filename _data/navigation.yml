@@ -30,22 +30,70 @@ docs:
         category: "aws"
         children:
           - title: "API Call rate limit(throttling)"
-            url: categories/#aws
+            url: /aws/aws_api_rate_limit/
             category: "aws"
           - title: "S3 - VPC endpoint"
-            url: categories/#aws
+            url: /aws/aws-s3-vpc-endpoint-comparison/
             category: "aws"
           - title: "Using AssumeRole in an AWS Multi-Account Environment"
-            url: categories/#aws
+            url: /aws/aws-cross-account-s3-access-with-assumerole/
             category: "aws"
   - title: CyberSecurity
     children:
       - title: "Digital Forensics"
         url: categories/#digital-forensics
         category: "digital-forensics"
+        children:
+          - title: "Live OS로 부팅 후, 파일 수정 시의 타임스탬프"
+            url: /digital-forensics/Windows_file_timestamp/
+            category: "digital-forensics"
+          - title: "사고분석 관점에서 $MFT,$USNJRNL,$LOGFILE 활용"
+            url: /digital-forensics/MFT_USNJRNL_LOG/
+            category: "digital-forensics"
+          - title: "Create Time in EXT4 Filesystem of Linux"
+            url: /digital-forensics/create_time_in_Linux/
+            category: "digital-forensics"
+          - title: "Docker Storage Driver에서 Whiteout 검색"
+            url: /digital-forensics/Whiteout-docker-container/
+            category: "digital-forensics"
+          - title: "splunk를 활용하여 $MFT 파일의 STD과 Fn속성에 있는 타임스탬프 비교"
+            url: /digital-forensics/MFT_STD_FN/
+            category: "digital-forensics"
+          - title: "AWS EC2 디스크 이미징 및 분석 관련.."
+            url: /digital-forensics/AWS_EC2_dump_analysis/
+            category: "digital-forensics"
+          - title: "Mysql 로그 유형 정리"
+            url: /digital-forensics/Mysql_Log_artifact/
+            category: "digital-forensics"
       - title: "Malware analysis"
         url: categories/#malware-analysis
         category: "malware-analysis"
+        children:
+          - title: "디도스 악성코드의 C&C 문자열 생성 로직"
+            url: /malware-analysis/DDoS_dynamic_c2_generation/
+            category: "malware-analysis"
+          - title: "Linux 악성코드: 디도스 및 백도어 기능"
+            url: /malware-analysis/Linux_malware_backdoor/
+            category: "malware-analysis"
+          - title: "ATM Malware 분석"
+            url: /malware-analysis/ATM_malware/
+            category: "malware-analysis"
+          - title: "블로그 게시물을 통한 숙주서버 IP수신..."
+            url: /malware-analysis/Populate_C2_IP_via_blog/
+            category: "malware-analysis"
+          - title: "8888.exe(048FFA99E842A101651A9E4691783EED) 디도스 악성코드"
+            url: /malware-analysis/malware-8888/
+            category: "malware-analysis"
+          - title: "악성코드내 명시된 구글DNS 이용하여 IP Lookup 코드"
+            url: /malware-analysis/Malware_using_google_DNS/
+            category: "malware-analysis"
+          - title: "Vmware 가상머신 우회 악성코드"
+            url: /malware-analysis/Vmware_bypass/
+            category: "malware-analysis"
       - title: "Vulnerability"
         url: categories/#vulnerability
         category: "vulnerability"
+        children:
+          - title: "SWIFT Issue..."
+            url: /vulnerability/Switch_issue/
+            category: "vulnerability"
