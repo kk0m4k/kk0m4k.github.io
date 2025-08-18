@@ -99,36 +99,26 @@ IAM 설정이 완료되면, 실제 작업은 다음과 같은 흐름으로 진�
 
 ## 3. 전체 흐름 다이어그램
 
-```text
-+-------------------------------------------+         +------------------------------------------+
-|         kkom4k-mgmt (Management)          |         |         kkom4k-prod (Production)         |
-|-------------------------------------------|         |------------------------------------------|
-|                                           |         |                                          |
-|  [IAM User/Role]                          |         |  [IAM Role: ProdS3AccessRole]            |
-|  - sts:AssumeRole policy                  |         |  - s3:ListBucket policy                  |
-|                                           |         |  - Trusts kkom4k-mgmt                    |
-|      │                                    |         |      ▲                                   |
-|      │ 1. AssumeRole(ProdS3AccessRole)    |         |      │ 2. Validate Trust Policy          |
-|      │                                    |         |      │                                   |
-|      ▼                                    |         |      │                                   |
-|  +------------------+                     |         |  +------------------+                    |
-|  |      AWS STS     | ◀-------------------(Request)---+      AWS STS     |                    |
-|  +------------------+                     |         |  +------------------+                    |
-|      │                                    |         |                                          |
-|      │ 3. Return Temporary Credentials    |         |                                          |
-|      │    (AccessKey, SecretKey, Token)   |         |                                          |
-|      ▼                                    |         |                                          |
-|  [Boto3 App]                              |         |                                          |
-|  - Creates S3 client with temp creds      |         |                                          |
-|      │                                    |         |                                          |
-|      │ 5. ListObjectsV2(centralized-log)  |         |                                          |
-|      │    (using temp credentials)         |         |      ▲ 6. Validate Permissions         |
-|      └-------------------------------------(API Call)--> [S3: centralized-log]                 |
-|                                           |         |      │                                   |
-|                                           |         |      │ 7. Return Object List             |
-|      ◀-------------------------------------(Response)----┘                                   |
-|                                           |         |                                          |
-+-------------------------------------------+         +------------------------------------------+
+```mermaid
+graph TD
+    subgraph "kkom4k-mgmt (Management)"
+        UserRole["[IAM User/Role]<br>- sts:AssumeRole policy"]
+        Boto3App["[Boto3 App]<br>- Creates S3 client with temp creds"]
+    end
+
+    subgraph "kkom4k-prod (Production)"
+        ProdRole["[IAM Role: ProdS3AccessRole]<br>- s3:ListBucket policy<br>- Trusts kkom4k-mgmt"]
+        S3["[S3: centralized-log]"]
+    end
+
+    STS["AWS STS"]
+
+    UserRole -- "1. AssumeRole(ProdS3AccessRole)" --> STS
+    STS -- "2. Validate Trust Policy" --> ProdRole
+    STS -- "3. Return Temporary Credentials" --> Boto3App
+    Boto3App -- "5. ListObjectsV2(centralized-log)" --> S3
+    S3 -- "6. Validate Permissions" --> S3
+    S3 -- "7. Return Object List" --> Boto3App
 ```
 
 ## 4. Boto3 파이썬 코드 예제

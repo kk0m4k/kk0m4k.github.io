@@ -33,28 +33,19 @@ Gateway 엔드포인트는 VPC 외부에 있는 별개의 리소스가 아니라
 
 #### **흐름 다이어그램**
 
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│ AWS Cloud / VPC                                                         │
-│                                                                         │
-│   ┌─────────────────┐     ┌─────────────────────────┐                   │
-│   │  EC2 Instance   │───> │      Route Table        │                   │
-│   │ (in Subnet A)   │     │ Dst: s3-prefix-list     │                   │
-│   └─────────────────┘     │ Target: vpce-xxxxxxxxxx │                   │
-│                           └─────────────┬───────────┘                   │
-│                                         │                               │
-└─────────────────────────────────────────┼───────────────────────────────┘
-                                          │ (AWS Private Network)
-                                          ▼
-                                ┌──────────────────┐
-                                │  VPC Gateway     │
-                                │    Endpoint      │
-                                └────────┬─────────┘
-                                         │
-                                         ▼
-                                ┌──────────────────┐
-                                │      AWS S3      │
-                                └──────────────────┘
+```mermaid
+graph TD
+    subgraph "AWS Cloud / VPC"
+        EC2["EC2 Instance<br>(in Subnet A)"]
+        RT["Route Table<br>Dst: s3-prefix-list<br>Target: vpce-xxxxxxxxxx"]
+        EC2 --> RT
+    end
+
+    VPCGW["VPC Gateway<br>Endpoint"]
+    S3["AWS S3"]
+
+    RT -- "(AWS Private Network)" --> VPCGW
+    VPCGW --> S3
 ```
 
 ### 2. Interface 엔드포인트 (Interface Endpoint)
@@ -69,32 +60,23 @@ Interface 엔드포인트는 AWS PrivateLink 기술을 기반으로 하며, VPC 
 
 #### **흐름 다이어그램**
 
-```
-                                     ┌──────────────────────────────────┐
-                                     │ On-Premises Network (VPN/DX)     │
-                                     └───────────────┬──────────────────┘
-                                                     │
-┌────────────────────────────────────────────────────┼────────────────────────────────┐
-│ AWS Cloud / VPC                                    │                                │
-│                                                    ▼                                │
-│   ┌─────────────────┐     ┌──────────────────────────────────┐                      │
-│   │  EC2 Instance   │───> │ VPC DNS Resolver                 │                      │
-│   │ (in Subnet B)   │     │ (s3.region...) -> (10.0.1.123)   │                      │
-│   └─────────────────┘     └──────────────────────┬───────────┘                      │
-│                                                  │                                  │
-│                                                  ▼                                  │
-│                                        ┌──────────────────┐                         │
-│                                        │ ENI (Private IP) │                         │
-│                                        │   10.0.1.123     │                         │
-│                                        │ (Security Group) │                         │
-│                                        └────────┬─────────┘                         │
-│                                                 │ (AWS PrivateLink)                 │
-└─────────────────────────────────────────────────┼───────────────────────────────────┘
-                                                  │
-                                                  ▼
-                                        ┌──────────────────┐
-                                        │      AWS S3      │
-                                        └──────────────────┘
+```mermaid
+graph TD
+    OnPrem["On-Premises Network (VPN/DX)"]
+
+    subgraph "AWS Cloud / VPC"
+        EC2["EC2 Instance<br>(in Subnet B)"]
+        DNS["VPC DNS Resolver<br>(s3.region...) -> (10.0.1.123)"]
+        ENI["ENI (Private IP)<br>10.0.1.123<br>(Security Group)"]
+
+        EC2 --> DNS
+        DNS --> ENI
+    end
+
+    S3["AWS S3"]
+
+    OnPrem --> ENI
+    ENI -- "(AWS PrivateLink)" --> S3
 ```
 
 ### 3. 비교 요약 표
