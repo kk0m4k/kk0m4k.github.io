@@ -65,7 +65,7 @@ sequenceDiagram
 
 #### 1.2. IAM 역할 생성
 
-`deploy.yml`에서 사용하는 `arn:aws:iam::992382851829:role/github-actions-ecr-deploy-role` 역할을 생성합니다. 역할의 **신뢰 정책(Trust Policy)**은 GitHub Actions가 이 역할을 수임(Assume)할 수 있도록 허용하는 설정입니다.
+`deploy.yml`에서 사용하는 `arn:aws:iam::9923******29:role/github-actions-ecr-deploy-role` 역할을 생성합니다. 역할의 **신뢰 정책(Trust Policy)**은 GitHub Actions가 이 역할을 수임(Assume)할 수 있도록 허용하는 설정입니다.
 
 -   **신뢰할 수 있는 엔터티 유형**: 웹 자격 증명(Web identity)
 -   **자격 증명 공급자**: 위에서 만든 `token.actions.githubusercontent.com`
@@ -78,7 +78,7 @@ sequenceDiagram
             {
                 "Effect": "Allow",
                 "Principal": {
-                    "Federated": "arn:aws:iam::992382851829:oidc-provider/token.actions.githubusercontent.com"
+                    "Federated": "arn:aws:iam::9923******29:oidc-provider/token.actions.githubusercontent.com"
                 },
                 "Action": "sts:AssumeRoleWithWebIdentity",
                 "Condition": {
@@ -124,7 +124,7 @@ Docker 이미지를 ECR에 푸시하기 위해 필요한 권한들입니다.
                 "ecr:CompleteLayerUpload",
                 "ecr:PutImage"
             ],
-            "Resource": "arn:aws:ecr:ap-northeast-2:992382851829:repository/kkom4k"
+            "Resource": "arn:aws:ecr:ap-northeast-2:9923******29:repository/kkom4k-repo"
         }
     ]
 }
@@ -140,7 +140,7 @@ Docker 이미지를 ECR에 푸시하기 위해 필요한 권한들입니다.
         {
             "Effect": "Allow",
             "Action": "eks:DescribeCluster",
-            "Resource": "arn:aws:eks:ap-northeast-2:992382851829:cluster/kkom4k"
+            "Resource": "arn:aws:eks:ap-northeast-2:9923******29:cluster/kkom4k-cluster"
         }
     ]
 }
@@ -166,11 +166,11 @@ permissions:
 
 env:
   AWS_REGION: ap-northeast-2
-  ECR_REPOSITORY: kkom4k
-  EKS_CLUSTER_NAME: kkom4k
+  ECR_REPOSITORY: kkom4k-repo
+  EKS_CLUSTER_NAME: kkom4k-cluster
   K8S_DEPLOYMENT_NAME: kkom4k-app-deployment
   K8S_CONTAINER_NAME: kkom4k-app-container
-  AWS_ROLE_ARN: arn:aws:iam::992382851829:role/github-actions-ecr-deploy-role
+  AWS_ROLE_ARN: arn:aws:iam::9923******29:role/github-actions-ecr-deploy-role
 
 jobs:
   build-and-push:
