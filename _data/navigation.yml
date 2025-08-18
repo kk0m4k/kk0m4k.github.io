@@ -38,6 +38,9 @@ docs:
           - title: "Using AssumeRole in an AWS Multi-Account Environment"
             url: /aws/aws-cross-account-s3-access-with-assumerole/
             category: "aws"
+          - title: "GitHub Actions OIDC를 이용한 배포"
+            url: /aws/secure-aws-deployment-with-github-actions-oidc/
+            category: "aws"
   - title: CyberSecurity
     children:
       - title: "Digital Forensics"
@@ -81,7 +84,7 @@ docs:
           - title: "블로그 게시물을 통한 숙주서버 IP수신..."
             url: /malware-analysis/Populate_C2_IP_via_blog/
             category: "malware-analysis"
-          - title: "8888.exe(048FFA99E842A101651A9E4691783EED) 디도스 악성코드"
+          - title: "8888.exe 디도스 악성코드"
             url: /malware-analysis/malware-8888/
             category: "malware-analysis"
           - title: "악성코드내 명시된 구글DNS 이용하여 IP Lookup 코드"
