@@ -25,42 +25,25 @@ Github Actions 기능을 이용하여 AWS ECR에 도커 이미지를 등록하�
 
 `kkom4k/github-actions-practice` 리포지토리의 배포 프로세스는 다음과 같이 진행됩니다.
 
-```
-┌──────────────────────────────────┐
-│ GitHub (repo: kkom4k/github-actions-practice) │
-│                                  │
-│   ┌──────────────────────────┐   │         1. Request Role with JWT (ID Token)
-│   │  GitHub Actions Workflow │   │───────────────────────────────────────────>
-│   │ (on: push to main)       │   │
-│   └──────────────────────────┘   │         2. Temporary Credentials
-│                                  │<───────────────────────────────────────────
-└──────────────────────────────────┘
+```mermaid
+sequenceDiagram
+    participant GA as GitHub Actions Workflow
+    participant GHOIDC as GitHub OIDC Provider
+    participant AWS_STS as AWS STS
+    participant AWS_IAM as AWS IAM Role & Trust Policy
+    participant AWS_SVC as AWS Services (ECR, EKS)
 
+    GA->>GHOIDC: 1. Request JWT (ID Token)
+    GHOIDC-->>GA: 2. Return signed JWT
 
-┌────────────────────────────────────────────────────────────────────────────────┐
-│ AWS Cloud (Account: 992382851829)                                              │
-│                                                                                │
-│   ┌──────────────────────────┐                                                 │
-│   │         AWS STS          │<───(Request from GitHub Actions)                │
-│   │ (Security Token Service) │                                                 │
-│   │                          │───>(Response to GitHub Actions)                 │
-│   │ Validates JWT,           │                                                 │
-│   │ Issues Temp Credentials  │                                                 │
-│   └─────────────┬────────────┘                                                 │
-│                 │                                                              │
-│                 │ (Actions are performed using the temporary credentials)      │
-│                 │                                                              │
-│   ┌─────────────▼────────────┐                ┌──────────────────────────────┐ │
-│   │     Amazon ECR           │<───────────────┤ 3. docker push to '''kkom4k'''   │ │
-│   │ (repo: kkom4k)           │                └──────────────────────────────┘ │
-│   └──────────────────────────┘                                                 │
-│                                                                                │
-│   ┌──────────────────────────┐                ┌──────────────────────────────┐ │
-│   │     Amazon EKS           │<───────────────┤ 4. kubectl apply to '''kkom4k''' │ │
-│   │ (cluster: kkom4k)        │                └──────────────────────────────┘ │
-│   └──────────────────────────┘                                                 │
-│                                                                                │
-└────────────────────────────────────────────────────────────────────────────────┘
+    GA->>AWS_STS: 3. AssumeRoleWithWebIdentity(JWT)
+
+    AWS_STS->>AWS_IAM: 4. Validate JWT claims & signature
+    AWS_IAM-->>AWS_STS: Validation Success
+
+    AWS_STS-->>GA: 5. Return Temporary Credentials
+
+    GA->>AWS_SVC: 6. Access services with temp credentials (ECR push, EKS deploy)
 ```
 
 ## 구현 단계별 가이드
