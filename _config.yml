@@ -249,7 +249,7 @@ whitelist:
 #    expect broken links (especially with breadcrumbs enabled)
 #  - <base_path>/tags/my-awesome-tag/index.html ~> path: /tags/
 #  - <base_path>/categories/my-awesome-category/index.html ~> path: /categories/
-#  - <base_path>/my-awesome-category/index.html ~> path: /
+#  - <base_path>/my-awesome-category/index.html ~> path: /my-awesome-category/
 category_archive:
   type: liquid
   path: /categories/
@@ -291,3 +291,8 @@ defaults:
       share: true
       related: true
       show_date: true
+
+# Mermaid.js Support
+after_footer_scripts:
+  - https://cdn.jsdelivr.net/npm/mermaid@9.4.3/dist/mermaid.js
+  - /assets/js/mermaid.js
