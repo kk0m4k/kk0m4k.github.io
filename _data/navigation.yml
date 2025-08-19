@@ -13,6 +13,10 @@ docs:
       - title: "pyspark"
         url: categories/#pyspark
         category: "pyspark"
+        children:
+          - title: "VPCFlow Log - Filter/Aggregation"
+            url: /pyspark/analyze-aws-vpc-flow-logs-with-pyspark-emr-elasticsearch/
+            category: "pyspark"
       - title: "splunk"
         children:
           - title: "CSC"
