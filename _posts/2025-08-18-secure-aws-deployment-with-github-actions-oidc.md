@@ -11,8 +11,6 @@ tags:
   - EKS
 ---
 
-# GitHub Actions와 OIDC를 이용한 안전한 AWS 배포 파이프라인 구축하기
-
 Github Actions 기능을 이용하여 AWS ECR에 도커 이미지를 등록하고, EKS를 통해서 이미지를 배포할때, AWS Longterm Access Keys를 사용하지 않고, OIDC를 기반의 STS를 사용하는 방법에 대한 내용이니다.  많은 팀이 CI/CD 파이프라인에서 AWS에 접근하기 위해 IAM 사용자의 Access Key를 GitHub Secrets에 저장하여 사용합니다. 이 방식은 간단하지만, 다음과 같은 심각한 보안 위협을 내포하고 있습니다.
 
 -   **키 유출 위험**: Secret에 저장된 키는 유출될 경우 큰 보안 사고로 이어질 수 있습니다.

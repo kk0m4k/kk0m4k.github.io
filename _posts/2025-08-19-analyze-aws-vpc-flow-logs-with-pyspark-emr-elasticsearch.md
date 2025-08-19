@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "대용량 AWS VPC Flow 로그, PySpark와 EMR로 분석하고 Elasticsearch에 저장하기"
+title: "대용량 AWS VPCFlow 로그 축약/필터링을 위한 Spark 활용"
 author: Francesco
 date: 2025-08-19 09:00:00 +0900
 categories:
@@ -11,19 +11,18 @@ tags:
   - EMR
 ---
 
-# 대용량 AWS VPC Flow 로그, PySpark와 EMR로 분석하고 Elasticsearch에 저장하기
+#### 들어가며: 왜 AWS VPCFlow 로그 분석이 중요한가?
 
-들어가며: 왜 VPC Flow 로그 분석이 중요한가?
-
-AWS 환경에서 네트워크 트래픽을 모니터링하고 보안을 강화하기 위해 VPC Flow 로그는 필수적인 데이터 소스입니다. VPC Flow 로그는 VPC 내의 모든 네트워크 인터페이스에서 발생하는 IP 트래픽 정보를 캡처하여, 다음과 같은 중요한 질문에 답을 제공합니다.
+AWS 환경에서 네트워크 트래픽을 모니터링하고 보안을 강화하기 위해 VPCFlow 로그는 필수적인 데이터 소스입니다. VPCFlow 로그는 VPC 내의 모든 네트워크 인터페이스에서 발생하는 IP 트래픽 정보를 캡처하여, 다음과 같은 중요한 질문에 답을 제공합니다.
 
 *   "어떤 IP가 우리 데이터베이스에 접근을 시도했는가?"
 *   "비정상적으로 많은 데이터가 외부로 전송되고 있지는 않은가?"
 *   "보안 그룹(Security Group)에 의해 차단(REJECT)된 트래픽은 무엇인가?"
+*   "외부와 주기적으로 통신하는 AWS 리소스가 있는가? ""
 
-하지만 VPC Flow 로그는 그 양이 엄청나게 많고, 원본(raw) 데이터는 분석하기 어려운 형태를 띄고 있습니다. 하루에도 수십, 수백 기가바이트에 달하는 로그를 효율적으로 처리하고 의미 있는 인사이트를 얻기 위해서는 강력한 데이터 처리 파이프라인이 필요합니다.
+하지만 VPCFlow 로그는 그 양이 엄청나게 많고, 원본(raw) 데이터는 분석하기 어려운 형태를 띄고 있습니다. 하루에도 수십, 수백 기가바이트에 달하는 로그를 효율적으로 처리하고 의미 있는 인사이트를 얻기 위해서는 강력한 데이터 처리 파이프라인이 필요합니다.
 
-이 글에서는 S3에 저장된 대용량 VPC Flow 로그를 AWS EMR(Elastic MapReduce) 클러스터와 PySpark를 사용해 주기적으로 분석하고, 그 결과를 Elasticsearch에 저장하여 검색 및 시각화를 용이하게 하는 파이프라인 구축 사례를 소개합니다.
+이 글에서는 S3에 저장된 대용량 VPCFlow 로그를 AWS EMR(Elastic MapReduce) 클러스터와 PySpark를 사용해 주기적으로 분석하고, 그 결과를 Elasticsearch에 저장하여 검색 및 시각화를 용이하게 하는 파이프라인에 대한 소개합니다.
 
 #### 시스템 간 데이터 및 연동 흐름
 
@@ -43,7 +42,7 @@ graph TD
     end
 
     subgraph Deployment
-        G[Local Development Environment] --> H(build_egg.sh)
+        G[Development Environment] --> H(build_egg.sh)
         H --> I(deploy_to_emr.sh)
         I -- Uploads Artifacts Egg, main.py, config --> J[S3 EMR Artifacts Bucket]
         D -- Fetches Code --> J
@@ -71,7 +70,7 @@ graph TD
 
 #### 핵심 구현 내용
 
-1.  PySpark를 이용한 데이터 처리 (`vpc_flow_processor.py`)
+##### 1.  PySpark를 이용한 데이터 처리 (`vpc_flow_processor.py`)
 
 이 태스크의 심장부입니다. `VPCFlowProcessor` 클래스는 다양한 필터링 시나리오에 맞춰 데이터를 처리하는 메서드를 제공합니다.
 
@@ -117,7 +116,7 @@ class VPCFlowProcessor(BaseLogProcessor):
     # ... (필터링 및 집계 로직 구현)
 ```
 
-2.  Elasticsearch 연동 (`elasticsearch_client.py`)
+##### 2.  Elasticsearch 연동 (`elasticsearch_client.py`)
 
 `ElasticsearchClient` 클래스는 처리된 데이터를 Elasticsearch에 안정적으로 전송하는 모든 기능을 캡슐화합니다.
 

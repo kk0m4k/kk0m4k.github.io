@@ -12,8 +12,6 @@ tags:
   - RateLimit
 ---
 
-# AWS API 호출이 실패하나요? Boto3의 Throttling과 Rate Limit 이해하기
-
 AWS 작업을 자동화하기 위해 `boto3`를 사용하다 보면, 특히 많은 리소스를 한 번에 처리하는 스크립트에서 `ThrottlingException` 또는 `RateExceeded`와 같은 에러를 마주칠 때가 있습니다. 이는 AWS가 의도적으로 설정한 보호 장치 때문입니다.
 
 AWS가 왜 이러한 제한을 두었는지, 어떻게 동작하는지, 그리고 `boto3`를 사용하여 이 문제를 얼마나 스마트하게 해결할 수 있는지 알아보겠습니다.

@@ -5,8 +5,6 @@ categories: aws
 tags: [aws, iam, sts, assumerole]
 ---
 
-## Using AssumeRole in an AWS Multi-Account Environment
-
 많은 기업들이 AWS를 사용하면서 보안 강화, 비용 분리, 장애 영향 범위 최소화 등을 위해 여러 개의 AWS 계정을 운영하는 '다중 계정(Multi-Account)' 전략을 채택합니다. 예를 들어, 다음과 같은 구조를 흔히 볼 수 있습니다.
 
 -   **`kkom4k-prod` (프로덕션 계정):** 실제 서비스가 운영되는 계정

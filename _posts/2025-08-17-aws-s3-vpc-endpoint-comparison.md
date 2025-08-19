@@ -1,5 +1,5 @@
 ---
-title: "AWS S3 VPC endpoint"
+title: "AWS S3 VPC endpoint - Gateway vs. Interface"
 author: Francesco
 
 layout: single
@@ -12,8 +12,6 @@ tags:
   - VPC Endpoint
   - S3
 ---
-
-## AWS S3 VPC 엔드포인트: Gateway vs. Interface 방식 비교
 
 AWS 환경에서 VPC(Virtual Private Cloud) 내의 리소스(예: EC2 인스턴스)가 S3 버킷과 통신해야 하는 경우는 매우 흔합니다. 이때 인터넷을 통하지 않고 AWS 내부 네트워크를 통해 안전하고 빠르게 통신하기 위해 VPC 엔드포인트를 사용합니다.
 
