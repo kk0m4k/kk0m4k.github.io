@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: "대용량 AWS VPC Flow 로그, PySpark와 EMR로 분석하고 Elasticsearch에 저장하기"
 author: Francesco
 date: 2025-08-19 09:00:00 +0900
