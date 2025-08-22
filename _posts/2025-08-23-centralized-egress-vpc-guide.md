@@ -5,7 +5,6 @@ author: Francesco
 date: 2025-08-23 09:00:00 +0900
 categories:
   - aws
-author_profile: true
 tags:
   - AWS
   - Transit Gateway
@@ -15,15 +14,13 @@ tags:
 
 ## 소개
 
-클라우드 환경에서 다수의 VPC(Virtual Private Cloud)를 운영할 때, 각 VPC가 개별적으로 인터넷 통신을 위한 NAT Gateway나 Internet Gateway를 가지는 것은 관리 및 보안 비용을 증가시킬 수 있습니다. 이러한 문제를 해결하기 위해 **중앙 집중식 Egress 아키텍처**는 매우 효과적인 솔루션입니다.
-
-이 가이드에서는 AWS Transit Gateway(TGW)를 사용하여 여러 VPC의 인터넷 트래픽을 단 하나의 Egress VPC에서 중앙 관리하는 방법을 단계별로 설명합니다. `kkom4k-vpc-01`(Egress VPC), `kkom4k-vpc-02`(Spoke VPC), `kkom4k-vpc-03`(Spoke VPC)의 3가지 VPC를 사용하는 구체적인 시나리오를 통해 아키텍처를 구축해 보겠습니다.
+클라우드 환경에서 다수의 VPC(Virtual Private Cloud)를 운영할 때, 각 VPC가 개별적으로 인터넷 통신을 위한 NAT Gateway나 Internet Gateway를 가지는 것은 관리 및 보안 비용을 증가시킬 수 있습니다. 이러한 문제를 해결하기 위해 **중앙 집중식 Egress 아키텍처**는 매우 효과적인 솔루션입니다. AWS Transit Gateway(TGW)를 사용하여 여러 VPC의 인터넷 트래픽을 단 하나의 Egress VPC에서 중앙 관리하는 방법을 단계별로 설명합니다. `kkom4k-vpc-01`(Egress VPC), `kkom4k-vpc-02`(Spoke VPC), `kkom4k-vpc-03`(Spoke VPC)의 3가지 VPC를 사용하는 구체적인 시나리오를 통해 아키텍처를 구축해 보겠습니다.
 
 ---
 
 ## 아키텍처 개요
 
-우리가 구축할 아키텍처는 다음과 같습니다.
+구축할 아키텍처는 다음과 같습니다.
 
 - **`kkom4k-vpc-01` (Egress VPC):** 인터넷과 직접 통신하는 유일한 VPC입니다. 이곳에 NAT Gateway와 Internet Gateway가 위치합니다. 모든 인터넷 바운드 트래픽의 관문 역할을 합니다.
 - **`kkom4k-vpc-02`, `kkom4k-vpc-03` (Spoke VPCs):** 애플리케이션 서버 등이 위치하는 내부 VPC입니다. 이 VPC들은 Private Subnet만 가지고 있으며, 인터넷에 접속해야 할 경우 모든 트래픽을 Transit Gateway를 통해 `kkom4k-vpc-01`로 보냅니다.
@@ -211,5 +208,3 @@ TGW가 Spoke VPC에서 온 인터넷 트래픽을 Egress VPC로 보내도록 설
 - 한 인스턴스에서 다른 인스턴스의 프라이빗 IP로 `ping`을 실행하여 통신이 정상적으로 이루어지는지 확인합니다.
 
 이처럼 TGW를 사용하면 VPC 피어링처럼 각 연결을 개별적으로 설정할 필요 없이, 중앙의 라우팅 테이블 하나로 모든 VPC 간의 통신을 손쉽게 제어할 수 있습니다.
-
----
