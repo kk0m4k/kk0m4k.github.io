@@ -45,7 +45,7 @@ docs:
           - title: "GitHub Actions OIDC를 이용한 배포"
             url: /aws/secure-aws-deployment-with-github-actions-oidc/
             category: "aws"
-          - title: "Multi-vpc환경에서 중앙 집중식 Egress 아키텍처"
+          - title: "Multi VPC환경에서 Egress 아키텍처"
             url: /aws/centralized-egress-vpc-guide/
             category: "aws"
   - title: CyberSecurity
