@@ -41,8 +41,8 @@ flowchart TB
         IGW[Internet Gateway]
         NAT[NAT Gateway<br/>Public Subnet]
         NFW[AWS Network<br/>Firewall]
-        IGW ~~~ NAT
-        NAT ~~~ NFW
+        IGW --- NAT
+        NAT --- NFW
     end
     
     subgraph TRANSIT[Transit Gateway]
