@@ -49,7 +49,7 @@ docs:
             url: /aws/centralized-egress-vpc-guide/
             category: "aws"
           - title: "AWS NFW을 활용한 트래픽 통제"
-            url: /aws/2025/08/25/aws-network-firewall-guide/
+            url: /aws/aws-network-firewall-guide/
             category: "aws"
   - title: CyberSecurity
     children:
