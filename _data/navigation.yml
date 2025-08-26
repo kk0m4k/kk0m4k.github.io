@@ -51,6 +51,9 @@ docs:
           - title: "AWS NFW을 활용한 트래픽 통제"
             url: /aws/aws-network-firewall-guide/
             category: "aws"
+          - title: "VPC Flow Log와 NAT GW IP 추적 분석"
+            url: /aws/analyzing-vpc-flow-logs-with-nat-gateway/
+            category: "aws"
   - title: CyberSecurity
     children:
       - title: "Digital Forensics"
