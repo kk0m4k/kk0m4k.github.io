@@ -9,11 +9,11 @@ AWS 환경에서 보안을 강화하기 위해 데이터베이스나 백엔드 �
 
 이때 Private Subnet의 인스턴스들이 인터넷과 안전하게 통신할 수 있도록 해주는 핵심 서비스가 바로 **NAT(Network Address Translation) Gateway**입니다. NAT Gateway는 여러 사설 IP 주소를 단일 공인 IP 주소로 변환하여 외부와 통신하게 해주는 역할을 합니다.
 
-그런데 여기서 한 가지 궁금증이 생깁니다. "만약 여러 EC2 인스턴스가 동시에 NAT Gateway를 통해 외부와 통신했다면, 어떤 인스턴스가 어느 외부 서비스와 통신했는지 어떻게 알 수 있을까?" 특히 보안 감사, 침해사고, 그리고 트러블슈팅 상황에서 이러한 트래픽 추적은 매우 중요합니다. VPC의 네트워크 트래픽을 모니터링하는 **VPC Flow Logs**를 활용하여 NAT Gateway를 통과하는 트래픽의 원래 출발지(EC2 인스턴스)를 추적하고 분석하는 방법을 구체적인 데이터 플로우와 로그 샘플을 통해 알아보겠습니다.
+그런데 여기서 한 가지 궁금증이 생깁니다. "만약 여러 EC2 인스턴스가 동시에 NAT Gateway를 통해 외부와 통신했다면, 어떤 인스턴스가 어느 외부 서비스와 통신했는지 어떻게 알 수 있을까?" 특히 보안 감사, 침해사고, 그리고 트러블슈팅 상황에서 이러한 트래픽 추적은 매우 중요합니다. VPC의 네트워크 트래픽을 모니터링하는 **VPC Flow Logs**를 활용하여 NAT Gateway를 통과하는 트래픽의 원래 출발지(EC2 인스턴스)를 추적, 그리고 EKS POD에서 출발지를 추적하고 분석하는 방법을 구체적인 데이터 플로우와 로그 샘플을 통해 알아보겠습니다.
 
 ## 핵심 원리: VPC Flow Logs는 어떻게 동작하는가?
 
-먼저 VPC Flow Logs는 VPC 내의 네트워크 인터페이스(ENI)를 오가는 IP 트래픽을 기록한다는 점을 이해해야 합니다. 즉, **하나의 로그 항목에 'EC2의 사설 IP'와 'NAT Gateway의 공인 IP'가 동시에 기록되지는 않습니다.**  트래픽이 흘러가는 경로에 있는 각기 다른 ENI(EC2의 ENI, NAT Gateway의 ENI)에서 생성된 로그들을 **연결(correlate)**하여 간접적으로 전체 흐름을 파악해야 합니다.
+먼저 VPC Flow Logs는 VPC 내의 네트워크 인터페이스(ENI)를 오가는 IP 트래픽을 기록한다는 점을 이해해야 합니다. 무엇보다도, **하나의 로그 항목에 'EC2의 사설 IP'와 'NAT Gateway의 공인 IP'가 동시에 기록되지는 않습니다.**  트래픽이 흘러가는 경로에 있는 각기 다른 ENI(EC2의 ENI, NAT Gateway의 ENI)에서 생성된 로그들을 **연결(correlate)**하여 간접적으로 전체 흐름을 파악해야 합니다.
 
 ## 전체 통신 흐름도
 
@@ -180,13 +180,104 @@ VPC Flow Logs는 **2020년 12월에 발표된 버전 5**부터 `pkt-srcaddr`와 
 
 ## 결론: 그래서 어떻게 IP를 매핑하는가?
 
-지금까지의 과정을 통해 우리는 VPC Flow Logs만으로 IP 매핑을 추적하는 방법을 알 수 있습니다. 방법은 다음과 같습니다.
+지금까지의 과정을 통해 우리는 VPC Flow Logs와 AWS 리소스 정보를 결합하여 IP 매핑을 추적하는 방법을 알 수 있습니다. 방법은 다음과 같습니다.
 
 1.  **NAT Gateway의 ENI ID로 Flow Logs를 필터링**하는 것이 가장 중요합니다.
-2.  필터링된 로그에서 **`srcaddr`가 VPC 내부 사설 IP**이고 **`dstaddr`가 외부 공인 IP**인 항목을 찾습니다.
-3.  위 조건에 맞는 로그 (예: `srcaddr: 10.0.1.10`, `dstaddr: 209.10.20.30`)를 찾았다면, 이는 "**`10.0.1.10` 인스턴스가 NAT Gateway를 통해 `209.10.20.30` 서버와 통신했다**"는 명백한 증거가 됩니다.
-4.  이때 외부 서버와 통신한 실제 공인 IP는 바로 이 로그가 기록된 **NAT Gateway에 할당된 공인 IP** (`203.0.113.12`)가 되는 것입니다.
+2.  필터링된 로그에서 **`srcaddr`가 VPC 내부 사설 IP**이고 **`dstaddr`가 외부 공인 IP**인 아웃바운드 로그 항목을 찾습니다.
+3.  위 조건에 맞는 로그 (예: `srcaddr: 10.0.1.10`, `dstaddr: 209.10.20.30`)를 찾았다면, 이는 "**`10.0.1.10` 인스턴스가 해당 NAT Gateway를 통해 `209.10.20.30` 서버와 통신했다**"는 명백한 증거가 됩니다.
+4.  **[핵심]** 이때 EC2의 사설 IP(`10.0.1.10`)가 어떤 공인 IP로 변환(SNAT)되었는지는 Flow Log에 직접 기록되지 않습니다. 따라서 로그에서 찾은 **NAT Gateway의 `interface-id`**를 사용하여 AWS에 직접 그 정보를 조회해야 합니다.
+5.  아래와 같이 AWS CLI 명령어를 사용하면 로그에 기록된 ENI ID를 통해 NAT Gateway의 공인 IP를 확인할 수 있습니다.
+
+    ```bash
+    # 로그에서 찾은 NAT Gateway의 ENI ID로 공인 IP를 확인하는 명령어
+    aws ec2 describe-nat-gateways --filter "Name=network-interface-id,Values=<eni-natgw-from-log>" --query "NatGateways[].NatGatewayAddresses[].PublicIp" --output text
+    ```
+    위 명령어를 통해 얻은 공인 IP (`203.0.113.12`)가 바로 외부 서버와 통신한 실제 IP가 되는 것입니다.
 
 대규모 환경에서는 수많은 로그가 쌓이기 때문에 수동으로 분석하기는 어렵습니다. **Amazon Athena**나 **CloudWatch Logs Insights**를 사용하여 특정 ENI ID를 필터링하고 `srcaddr`와 `dstaddr`를 기준으로 쿼리하면 원하는 통신 기록을 훨씬 효율적으로 찾아낼 수 있습니다.
 
 이처럼 VPC Flow Logs의 동작 방식을 이해하면 복잡해 보이는 NAT 환경의 트래픽도 명확하게 추적하고 분석할 수 있습니다.
+
+---
+
+## 별첨: v5 Flow Log 전체 흐름 상세 분석
+
+이 섹션에서는 EC2 인스턴스가 NAT Gateway를 통해 외부와 통신하고 응답을 받는 전체 과정에서, 각 네트워크 인터페이스(ENI)에서 v5 포맷으로 기록되는 모든 VPC Flow Log를 단계별로 상세하게 추적합니다.
+
+**시나리오 정보:**
+- **EC2 인스턴스**: `eni-ec2`, 사설 IP `10.0.1.10`
+- **NAT Gateway**: `eni-natgw`, 사설 IP `10.0.0.5`, 공인 IP `203.0.113.12`
+- **외부 서버**: 공인 IP `209.10.20.30`
+- **로그 포맷**: v5 (pkt-srcaddr, pkt-dstaddr 필드 포함)
+
+### 1. 아웃바운드 (EC2 → 외부 서버)
+
+#### 1-1. EC2 ENI Egress (EC2에서 패킷 출발)
+EC2 인스턴스가 외부 서버로 통신을 시작하며 자신의 ENI(`eni-ec2`)를 통해 패킷을 내보냅니다.
+
+**📜 `eni-ec2` 로그:**
+```bash
+# version interface-id srcaddr dstaddr pkt-srcaddr pkt-dstaddr ...
+5 eni-ec2 10.0.1.10 209.10.20.30 10.0.1.10 209.10.20.30 ... ACCEPT OK
+```
+- **해석**: `eni-ec2`에서 트래픽이 나가는(Egress) 기록입니다. 아직 캡슐화가 없으므로 `srcaddr`와 `pkt-srcaddr`는 모두 EC2의 IP이고, `dstaddr`와 `pkt-dstaddr`는 모두 외부 서버의 IP로 동일합니다.
+
+#### 1-2. NAT Gateway ENI Ingress (NAT GW에 패킷 도착)
+위 패킷이 라우팅 테이블에 따라 NAT Gateway의 ENI(`eni-natgw`)에 도착합니다.
+
+**📜 `eni-natgw` 로그:**
+```bash
+# version interface-id srcaddr dstaddr pkt-srcaddr pkt-dstaddr ...
+5 eni-natgw 10.0.1.10 209.10.20.30 10.0.1.10 209.10.20.30 ... ACCEPT OK
+```
+- **해석**: `eni-natgw`로 트래픽이 들어오는(Ingress) 기록입니다. 이 시점까지도 패킷의 내용은 변하지 않았습니다. 출발지는 여전히 EC2 IP, 목적지는 외부 서버 IP입니다.
+
+#### 1-3. NAT Gateway 내부 (SNAT 변환)
+NAT Gateway 서비스 내부에서 패킷의 출발지 IP 주소를 자신의 공인 IP(`203.0.113.12`)로 변환(SNAT)합니다.
+
+- **🚫 VPC Flow Log 없음**: 이 변환 과정은 AWS 관리형 서비스 내부에서 일어나며, 특정 ENI를 통과하는 트래픽이 아니므로 VPC Flow Log에 기록되지 않습니다.
+
+#### 1-4. NAT Gateway → 인터넷 게이트웨이
+변환된 패킷이 인터넷 게이트웨이를 통해 외부로 나갑니다.
+
+- **🚫 VPC Flow Log 없음**: 인터넷 게이트웨이는 Flow Log를 설정할 수 있는 ENI를 가지지 않으므로, 이 구간의 트래픽은 VPC Flow Log에 기록되지 않습니다.
+
+### 2. 인바운드 (외부 서버 → EC2)
+
+#### 2-1. NAT Gateway ENI Ingress (NAT GW에 응답 패킷 도착)
+외부 서버가 보낸 응답 패킷이 NAT Gateway의 공인 IP를 목적지로 하여 `eni-natgw`에 도착합니다. **이 로그가 v5의 핵심입니다.**
+
+**📜 `eni-natgw` 로그:**
+```bash
+# version interface-id srcaddr dstaddr pkt-srcaddr pkt-dstaddr ...
+5 eni-natgw 209.10.20.30 10.0.0.5 209.10.20.30 10.0.1.10 ... ACCEPT OK
+```
+- **해석**: `eni-natgw`로 트래픽이 들어오는(Ingress) 기록입니다.
+  - `dstaddr: 10.0.0.5`: 패킷의 겉 목적지는 **NAT Gateway의 사설 IP**입니다.
+  - `pkt-dstaddr: 10.0.1.10`: 하지만 패킷의 진짜 최종 목적지는 **EC2의 사설 IP**임을 명확히 보여줍니다.
+
+#### 2-2. NAT Gateway 내부 (DNAT 변환)
+NAT Gateway가 상태 테이블을 참조하여 패킷의 목적지 IP를 원래 요청을 보냈던 EC2의 사설 IP(`10.0.1.10`)로 변환(DNAT)합니다.
+
+- **🚫 VPC Flow Log 없음**: SNAT와 마찬가지로 서비스 내부 동작이므로 로그가 기록되지 않습니다.
+
+#### 2-3. NAT Gateway ENI Egress (NAT GW에서 패킷 출발)
+DNAT 변환이 완료된 패킷이 `eni-natgw`를 떠나 VPC 내부망을 통해 EC2로 향합니다.
+
+**📜 `eni-natgw` 로그:**
+```bash
+# version interface-id srcaddr dstaddr pkt-srcaddr pkt-dstaddr ...
+5 eni-natgw 209.10.20.30 10.0.1.10 209.10.20.30 10.0.1.10 ... ACCEPT OK
+```
+- **해석**: `eni-natgw`에서 트래픽이 나가는(Egress) 기록입니다. DNAT이 이미 끝났으므로, 이제 `dstaddr`와 `pkt-dstaddr`는 모두 최종 목적지인 EC2의 IP로 동일합니다.
+
+#### 2-4. EC2 ENI Ingress (EC2에 패킷 도착)
+최종적으로 응답 패킷이 EC2 인스턴스의 ENI(`eni-ec2`)에 도착합니다.
+
+**📜 `eni-ec2` 로그:**
+```bash
+# version interface-id srcaddr dstaddr pkt-srcaddr pkt-dstaddr ...
+5 eni-ec2 209.10.20.30 10.0.1.10 209.10.20.30 10.0.1.10 ... ACCEPT OK
+```
+- **해석**: `eni-ec2`로 트래픽이 들어오는(Ingress) 기록입니다. EC2가 받은 패킷의 출발지는 외부 서버, 목적지는 자기 자신입니다.
+
