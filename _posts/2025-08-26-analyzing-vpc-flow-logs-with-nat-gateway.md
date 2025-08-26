@@ -1,25 +1,19 @@
 ---
 title: "AWS NAT Gateway와 VPC Flow Log를 이용한 IP 추적 분석"
 date: 2025-08-26
-categories: [AWS, Networking]
-tags: [VPC, NAT Gateway, Flow Logs, Security, Logging]
+categories: AWS
+tags: [VPCFlow]
 ---
-
-## 들어가며
 
 AWS 환경에서 보안을 강화하기 위해 데이터베이스나 백엔드 애플리케이션 서버 등 외부에서 직접 접근할 필요가 없는 리소스들은 보통 Private Subnet에 배치합니다. 하지만 이 서버들도 소프트웨어 패치, 외부 API 호출 등 인터넷으로 아웃바운드 통신이 필요한 경우가 발생합니다.
 
 이때 Private Subnet의 인스턴스들이 인터넷과 안전하게 통신할 수 있도록 해주는 핵심 서비스가 바로 **NAT(Network Address Translation) Gateway**입니다. NAT Gateway는 여러 사설 IP 주소를 단일 공인 IP 주소로 변환하여 외부와 통신하게 해주는 역할을 합니다.
 
-그런데 여기서 한 가지 궁금증이 생깁니다. "만약 여러 EC2 인스턴스가 동시에 NAT Gateway를 통해 외부와 통신했다면, 어떤 인스턴스가 어느 외부 서비스와 통신했는지 어떻게 알 수 있을까?" 특히 보안 감사나 트러블슈팅 상황에서 이러한 트래픽 추적은 매우 중요합니다.
-
-이 글에서는 VPC의 네트워크 트래픽을 모니터링하는 **VPC Flow Logs**를 활용하여 NAT Gateway를 통과하는 트래픽의 원래 출발지(EC2 인스턴스)를 추적하고 분석하는 방법을 구체적인 데이터 플로우와 로그 샘플을 통해 알아보겠습니다.
+그런데 여기서 한 가지 궁금증이 생깁니다. "만약 여러 EC2 인스턴스가 동시에 NAT Gateway를 통해 외부와 통신했다면, 어떤 인스턴스가 어느 외부 서비스와 통신했는지 어떻게 알 수 있을까?" 특히 보안 감사, 침해사고, 그리고 트러블슈팅 상황에서 이러한 트래픽 추적은 매우 중요합니다. VPC의 네트워크 트래픽을 모니터링하는 **VPC Flow Logs**를 활용하여 NAT Gateway를 통과하는 트래픽의 원래 출발지(EC2 인스턴스)를 추적하고 분석하는 방법을 구체적인 데이터 플로우와 로그 샘플을 통해 알아보겠습니다.
 
 ## 핵심 원리: VPC Flow Logs는 어떻게 동작하는가?
 
-먼저 VPC Flow Logs는 VPC 내의 네트워크 인터페이스(ENI)를 오가는 IP 트래픽을 기록한다는 점을 이해해야 합니다. 즉, **하나의 로그 항목에 'EC2의 사설 IP'와 'NAT Gateway의 공인 IP'가 동시에 기록되지는 않습니다.**
-
-우리는 트래픽이 흘러가는 경로에 있는 각기 다른 ENI(EC2의 ENI, NAT Gateway의 ENI)에서 생성된 로그들을 **연결(correlate)**하여 간접적으로 전체 흐름을 파악해야 합니다.
+먼저 VPC Flow Logs는 VPC 내의 네트워크 인터페이스(ENI)를 오가는 IP 트래픽을 기록한다는 점을 이해해야 합니다. 즉, **하나의 로그 항목에 'EC2의 사설 IP'와 'NAT Gateway의 공인 IP'가 동시에 기록되지는 않습니다.**  트래픽이 흘러가는 경로에 있는 각기 다른 ENI(EC2의 ENI, NAT Gateway의 ENI)에서 생성된 로그들을 **연결(correlate)**하여 간접적으로 전체 흐름을 파악해야 합니다.
 
 ## 전체 통신 흐름도
 
