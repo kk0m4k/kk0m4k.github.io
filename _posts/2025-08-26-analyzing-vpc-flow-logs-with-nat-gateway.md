@@ -242,9 +242,19 @@ NAT Gateway 서비스 내부에서 패킷의 출발지 IP 주소를 자신의 �
 
 - **🚫 VPC Flow Log 없음**: 인터넷 게이트웨이는 Flow Log를 설정할 수 있는 ENI를 가지지 않으므로, 이 구간의 트래픽은 VPC Flow Log에 기록되지 않습니다.
 
+#### 1-5. Internet Gateway → 외부 서버
+Internet Gateway는 NAT Gateway로부터 받은 패킷(이제 출발지 IP는 NAT Gateway의 공인 IP)을 최종 목적지인 외부 서버로 라우팅합니다. 이 단계는 VPC 외부의 통신으로, ENI를 거치지 않기 때문에 VPC Flow Log에 기록되지 않습니다.
+
 ### 2. 인바운드 (외부 서버 → EC2)
 
-#### 2-1. NAT Gateway ENI Ingress (NAT GW에 응답 패킷 도착)
+#### 2-1. Internet Gateway (IGW) Ingress & Destination NAT
+외부 서버에서 출발한 응답 패킷은 가장 먼저 VPC의 관문인 Internet Gateway(IGW)에 도착합니다. 이때 패킷의 목적지 주소는 NAT Gateway의 공인 IP(`203.0.113.12`)입니다.
+
+IGW는 이 공인 IP와 연결된 NAT Gateway의 사설 IP(`10.0.0.5`)를 내부 맵핑 정보를 통해 인지하고 있으며, 패킷의 목적지 주소를 사설 IP로 변환(Destination NAT)하여 VPC 내부로 전달합니다.
+
+- **🚫 VPC Flow Log 없음**: Internet Gateway는 ENI를 가지지 않으므로, IGW에서 일어나는 이 주소 변환 과정은 VPC Flow Log에 기록되지 않습니다.
+
+#### 2-2. NAT Gateway ENI Ingress (NAT GW에 응답 패킷 도착)
 외부 서버가 보낸 응답 패킷이 NAT Gateway의 공인 IP를 목적지로 하여 `eni-natgw`에 도착합니다. **이 로그가 v5의 핵심입니다.**
 
 **📜 `eni-natgw` 로그:**
@@ -256,12 +266,12 @@ NAT Gateway 서비스 내부에서 패킷의 출발지 IP 주소를 자신의 �
   - `dstaddr: 10.0.0.5`: 패킷의 겉 목적지는 **NAT Gateway의 사설 IP**입니다.
   - `pkt-dstaddr: 10.0.1.10`: 하지만 패킷의 진짜 최종 목적지는 **EC2의 사설 IP**임을 명확히 보여줍니다.
 
-#### 2-2. NAT Gateway 내부 (DNAT 변환)
+#### 2-3. NAT Gateway 내부 (DNAT 변환)
 NAT Gateway가 상태 테이블을 참조하여 패킷의 목적지 IP를 원래 요청을 보냈던 EC2의 사설 IP(`10.0.1.10`)로 변환(DNAT)합니다.
 
 - **🚫 VPC Flow Log 없음**: SNAT와 마찬가지로 서비스 내부 동작이므로 로그가 기록되지 않습니다.
 
-#### 2-3. NAT Gateway ENI Egress (NAT GW에서 패킷 출발)
+#### 2-4. NAT Gateway ENI Egress (NAT GW에서 패킷 출발)
 DNAT 변환이 완료된 패킷이 `eni-natgw`를 떠나 VPC 내부망을 통해 EC2로 향합니다.
 
 **📜 `eni-natgw` 로그:**
@@ -271,7 +281,7 @@ DNAT 변환이 완료된 패킷이 `eni-natgw`를 떠나 VPC 내부망을 통해
 ```
 - **해석**: `eni-natgw`에서 트래픽이 나가는(Egress) 기록입니다. DNAT이 이미 끝났으므로, 이제 `dstaddr`와 `pkt-dstaddr`는 모두 최종 목적지인 EC2의 IP로 동일합니다.
 
-#### 2-4. EC2 ENI Ingress (EC2에 패킷 도착)
+#### 2-5. EC2 ENI Ingress (EC2에 패킷 도착)
 최종적으로 응답 패킷이 EC2 인스턴스의 ENI(`eni-ec2`)에 도착합니다.
 
 **📜 `eni-ec2` 로그:**
