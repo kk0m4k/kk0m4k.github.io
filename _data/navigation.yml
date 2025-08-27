@@ -31,7 +31,7 @@ docs:
         url: categories/#fastmcp
         category: "fastmcp"
         children:
-          - title: "PYENV 환겨에서 MCP 서버 설정"
+          - title: "PYENV 환경에서 MCP 서버 설정"
             url: /fastmcp/fastmcp-pyenv-calculator-guide/
             category: "fastmcp"
   - title: Public Cloud
