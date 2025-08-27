@@ -113,3 +113,10 @@ docs:
           - title: "SWIFT Issue..."
             url: /vulnerability/Switch_issue/
             category: "vulnerability"
+      - title: "fastmcp"
+        url: categories/#fastmcp
+        category: "fastmcp"
+        children:
+          - title: "pyenv 환경에서 MCP 서버 설정하기: Claude Desktop & Cursor AI"
+            url: /fastmcp/fastmcp-pyenv-calculator-guide/
+            category: "fastmcp"
