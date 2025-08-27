@@ -6,17 +6,19 @@ categories: fastmcp
 tags: [fastmcp]
 ---
 
-Claude Desktop과 Cursor AI에서 pyenv 가상환경을 사용하는 MCP(Model Context Protocol) 서버를 설정하는 방법입니다.
+Claude Desktop과 Cursor AI에서 pyenv 가상환경을 사용하는 MCP(Model Context Protocol) 서버를 설정하는 방법입니다. 저는 주로 pyenv를 사용하여 가상환경을 만들고, 필요한 패키지를 설치하여 개발을 합니다. 일반적으로 uv를 사용한 설정은 있지만, pyenv는 없어서 간략히 정리하여 포스팅하였습니다.
 
 ## MCP 서버 설정 파일
 
-Claude Desktop이나 Cursor AI의 `settings.json`에 다음과 같이 설정합니다:
+Claude Desktop이나 Cursor AI의 파일에 다음과 같이 설정합니다:
+- Cursor AI: mcp.json
+- Claude Desktop: claude_desktop_config.json
 
 ```json
 {
   "mcpServers": {
     "calculator": {
-      "command": "/bin/bash",
+      "command": "/bin/zsh",
       "args": [
         "-c",
         "PYENV_VERSION=mcp-venv pyenv exec python /path/to/your/mcp_server.py"
@@ -39,30 +41,26 @@ pyenv virtualenv 3.10.4 mcp-venv
 PYENV_VERSION=mcp-venv pip install fastmcp
 ```
 
-### 2. 샘플 MCP 서버 (계산기 예제)
+### 2. 샘플 MCP 서버 (예제)
 ```python
-# calculator_mcp.py
-import sys
-import json
+# mcp_server.py
+node_modules
+from fastmcp import FastMCP
 
-def main():
-    line = sys.stdin.readline()
-    if not line:
-        return
-    
-    parts = line.strip().split()
-    num1 = float(parts[0])
-    num2 = float(parts[1])
-    
-    result = {"result": num1 * num2}
-    print(json.dumps(result))
+mcp = FastMCP("name=calculator")
+
+@mcp.tool
+def multiply(a: float, b: float) -> float:
+    """ multiply function """
+    return a * b
 
 if __name__ == "__main__":
-    main()
+    mcp.run()
+
 ```
 
 ### 3. 클라이언트 설정
-위의 JSON 설정을 Claude Desktop 또는 Cursor AI의 설정 파일에 추가하면 완료입니다.
+위의 JSON 설정을 Claude Desktop 또는 Cursor AI의 설정 파일에 추가하면 완료입니다. 설정 파일을 인식시키기 위해서 재 실행이 필요합니다.
 
 ## 주의사항
 - 경로는 반드시 절대경로 사용
