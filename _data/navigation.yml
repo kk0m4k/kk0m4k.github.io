@@ -27,6 +27,13 @@ docs:
       - title: "ML/DeepLearning"
         url: categories/#ml_dl
         category: "ml_dl_"
+      - title: "fastmcp"
+        url: categories/#fastmcp
+        category: "fastmcp"
+        children:
+          - title: "PYENV 환겨에서 MCP 서버 설정"
+            url: /fastmcp/fastmcp-pyenv-calculator-guide/
+            category: "fastmcp"
   - title: Public Cloud
     children:
       - title: "AWS"
@@ -113,10 +120,3 @@ docs:
           - title: "SWIFT Issue..."
             url: /vulnerability/Switch_issue/
             category: "vulnerability"
-      - title: "fastmcp"
-        url: categories/#fastmcp
-        category: "fastmcp"
-        children:
-          - title: "pyenv 환경에서 MCP 서버 설정하기: Claude Desktop & Cursor AI"
-            url: /fastmcp/fastmcp-pyenv-calculator-guide/
-            category: "fastmcp"
