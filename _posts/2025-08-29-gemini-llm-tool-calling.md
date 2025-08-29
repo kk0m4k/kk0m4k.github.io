@@ -128,35 +128,46 @@ def llm_tool_handler(user_prompt: str):
         user_prompt,
         tool_config={"function_calling_config": {"mode": "AUTO"}}
     )
-    
+
     # LLM이 Tool 호출을 요청한 경우
-    if response.candidates[0].content.parts[0].function_call:
+    if (response.candidates[0].content.parts and
+        len(response.candidates[0].content.parts) > 0 and
+        hasattr(response.candidates[0].content.parts[0], 'function_call') and
+        response.candidates[0].content.parts[0].function_call):
         # 요청된 함수 호출 정보 추출
         function_call = response.candidates[0].content.parts[0].function_call
         function_name = function_call.name
         function_args = {key: value for key, value in function_call.args.items()}
-        
+
         # 함수 실행
         function_to_call = globals()[function_name]
         result = function_to_call(**function_args)
-        
-        # 함수 실행 결과를 포함하여 다시 generate_content 호출
-        response = model.generate_content([
-            user_prompt,
-            response.candidates[0].content,
-            genai.protos.Content(
-                parts=[genai.protos.Part(
-                    function_response=genai.protos.FunctionResponse(
-                        name=function_name,
-                        response={"result": result}
-                    )
-                )]
-            )
-        ])
-    
-    # 최종 답변 출력
-    print(f"🤖 Gemini: {response.text}")
 
+        # 함수 실행 결과를 포함하여 다시 generate_content 호출
+        function_response_content = genai.protos.Content(
+            parts=[genai.protos.Part(
+                function_response=genai.protos.FunctionResponse(
+                    name=function_name,
+                    response={"result": result}
+                )
+            )],
+            role="user"
+        )
+
+        response = model.generate_content([
+            genai.protos.Content(parts=[genai.protos.Part(text=user_prompt)], role="user"),
+            response.candidates[0].content,
+            function_response_content
+        ])
+
+    # 최종 답변 출력
+    try:
+        print(f"🤖 Gemini: {response.text}")
+    except ValueError as e:
+        if "finish_reason" in str(e):
+            print("🤖 Gemini: 죄송합니다. 해당 요청을 처리할 수 없습니다. 더 간단한 계산을 요청해 주세요.")
+        else:
+            print(f"🤖 Gemini: 오류가 발생했습니다: {str(e)}")
 
 # --- 실행 예시 ---
 llm_tool_handler("안녕 제미니")
