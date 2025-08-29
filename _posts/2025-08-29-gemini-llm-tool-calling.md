@@ -18,27 +18,24 @@ tags: [fastmcp, gemini, tool-calling, llm]
 ```mermaid
 sequenceDiagram
     participant User as 사용자
-    participant App as FastMCP 애플리케이션
+    participant Client as MCP 클라이언트
     participant Gemini as Gemini LLM
+    participant MCPServer as FastMCP 서버
     participant Calculator as 계산기 Tool
 
-    User->>App: "3 곱하기 5는 얼마야?"
-    App->>Gemini: 프롬프트와 사용 가능한 Tool 목록 전달
-    Gemini-->>App: Tool 호출 요청: multiply(a=3, b=5)
-    App->>Calculator: multiply(a=3, b=5) 실행
-    Calculator-->>App: 결과 (15) 반환
-    App->>Gemini: Tool 실행 결과(15) 전달
-    Gemini-->>App: 최종 답변 생성 ("3 곱하기 5의 결과는 15입니다.")
-    App-->>User: 최종 결과 표시
+    User->>Client: "3 곱하기 5는 얼마야?"
+    Client->>MCPServer: MCP 서버 연결 및 도구 목록 조회
+    MCPServer-->>Client: 사용 가능한 도구 목록 반환
+    Client->>Gemini: 프롬프트와 사용 가능한 Tool 목록 전달
+    Gemini-->>Client: Tool 호출 요청: multiply_tool(a=3, b=5)
+    Client->>MCPServer: multiply_tool(a=3, b=5) 호출
+    MCPServer->>Calculator: multiply(a=3, b=5) 실행
+    Calculator-->>MCPServer: 결과 (15) 반환
+    MCPServer-->>Client: 결과 (15) 반환
+    Client->>Gemini: Tool 실행 결과(15) 전달
+    Gemini-->>Client: 최종 답변 생성 ("3 곱하기 5의 결과는 15입니다.")
+    Client-->>User: 최종 결과 표시
 ```
-
-### 특징
-
--   **높은 유연성**: "5에서 3 빼줘", "10을 2로 나누면?", "2 더하기 2는" 등 다양한 형태의 자연어 요청을 처리할 수 있습니다.
--   **향상된 사용자 경험**: 사용자는 복잡한 명령어 대신 일상 언어로 시스템과 상호작용할 수 있습니다.
--   **느린 속도 및 비용**: LLM API를 호출하는 과정에서 네트워크 지연이 발생하며, API 사용 비용이 발생할 수 있습니다.
--   **낮은 예측 가능성**: LLM의 창의성으로 인해 때로는 예상치 못한 방식으로 Tool을 호출하거나 답변을 생성할 수 있습니다.
--   **적용 분야**: 챗봇, AI 비서 등 대화형 인터페이스나 복잡한 자연어 명령을 처리해야 하는 서비스에 적합합니다.
 
 ### 샘플 코드 및 단계별 설명
 
@@ -46,10 +43,10 @@ Gemini API를 사용하여 사용자의 자연어 요청을 처리하는 전체 
 
 #### **1단계: 라이브러리 설치**
 
-먼저 Google AI Python SDK를 설치합니다.
+필요한 라이브러리들을 설치합니다.
 
 ```bash
-pip install google-generativeai
+pip install google-generativeai fastmcp mcp
 ```
 
 #### **2단계: API 키 설정**
@@ -67,116 +64,174 @@ import os
 genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 ```
 
-#### **3단계: Tool 함수 정의**
+#### **3단계: FastMCP 서버 구현 (mcp_server.py)**
 
-LLM에게 제공할 Tool(함수)들을 정의합니다. 이때 함수 설명(docstring)과 타입 힌트(`a: int`)를 명확하게 작성하는 것이 매우 중요합니다. LLM은 이 정보를 바탕으로 각 Tool의 용도와 필요한 인자를 파악합니다.
+계산기 도구를 제공하는 MCP 서버를 구현합니다.
 
 ```python
-# 직접 호출 방식에서 사용한 Calculator 클래스의 메서드를 그대로 사용하거나,
-# 아래와 같이 개별 함수로 정의할 수 있습니다.
+"""
+FastMCP 서버 구현
+계산기 도구를 제공하는 MCP 서버
+"""
 
-def multiply(a: int, b: int) -> int:
+import asyncio
+from fastmcp import FastMCP
+from calculator_tool import multiply, divide, add, subtract
+
+# FastMCP 서버 인스턴스 생성
+mcp = FastMCP("Calculator Server")
+
+@mcp.tool()
+def multiply_tool(a: int, b: int) -> int:
     """두 정수를 곱한 결과를 반환합니다."""
-    return a * b
+    return multiply(a, b)
 
-def divide(a: int, b: int) -> float:
+@mcp.tool()
+def divide_tool(a: int, b: int) -> float | str:
     """첫 번째 정수를 두 번째 정수로 나눈 결과를 반환합니다."""
-    if b == 0:
-        return "오류: 0으로 나눌 수 없습니다."
-    return a / b
+    return divide(a, b)
 
-def add(a: int, b: int) -> int:
+@mcp.tool()
+def add_tool(a: int, b: int) -> int:
     """두 정수를 더한 결과를 반환합니다."""
-    return a + b
+    return add(a, b)
 
-def subtract(a: int, b: int) -> int:
+@mcp.tool()
+def subtract_tool(a: int, b: int) -> int:
     """첫 번째 정수에서 두 번째 정수를 뺀 결과를 반환합니다."""
-    return a - b
+    return subtract(a, b)
+
+if __name__ == "__main__":
+    # 서버 실행
+    mcp.run(transport="stdio")
 ```
 
-#### **4단계: Gemini 모델 및 Tool 설정**
+#### **4단계: MCP 클라이언트 구현 (mcp_client.py)**
 
-사용할 모델(`gemini-1.5-flash`는 빠르고 비용 효율적)을 선택하고, 위에서 정의한 함수들을 `tools` 파라미터에 등록합니다.
-
-```python
-# 사용할 함수(Tool)들을 리스트로 묶기
-available_tools = [multiply, divide, add, subtract]
-
-# 모델 설정: 사용할 모델과 Tool 목록 지정
-model = genai.GenerativeModel(
-    model_name="gemini-1.5-flash",
-    tools=available_tools
-)
-```
-
-#### **5단계: 사용자 입력으로 LLM에 요청 및 결과 처리**
-
-사용자의 자연어 입력을 받아 LLM에 전달하고, LLM이 Tool 호출을 요청하면 해당 Tool을 실행한 뒤 결과를 다시 LLM에 알려주어 최종 답변을 받습니다.
+MCP 서버와 연동하여 Gemini LLM이 계산기 도구를 사용할 수 있도록 하는 클라이언트를 구현합니다.
 
 ```python
+"""
+MCP 클라이언트를 사용하여 Gemini LLM과 연동하는 코드
+"""
+
+import asyncio
 import google.generativeai as genai
-from google.protobuf.struct_pb2 import Struct
+import os
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
 
-# --- 1~4단계 코드 (위에서 정의) ---
-
-# 5단계: 실제 요청 처리
-def llm_tool_handler(user_prompt: str):
-    print(f"👤 사용자: {user_prompt}")
-
-    # generate_content를 사용하여 직접 요청
-    response = model.generate_content(
-        user_prompt,
-        tool_config={"function_calling_config": {"mode": "AUTO"}}
-    )
-
-    # LLM이 Tool 호출을 요청한 경우
-    if (response.candidates[0].content.parts and
-        len(response.candidates[0].content.parts) > 0 and
-        hasattr(response.candidates[0].content.parts[0], 'function_call') and
-        response.candidates[0].content.parts[0].function_call):
-        # 요청된 함수 호출 정보 추출
-        function_call = response.candidates[0].content.parts[0].function_call
-        function_name = function_call.name
-        function_args = {key: value for key, value in function_call.args.items()}
-
-        # 함수 실행
-        function_to_call = globals()[function_name]
-        result = function_to_call(**function_args)
-
-        # 함수 실행 결과를 포함하여 다시 generate_content 호출
-        function_response_content = genai.protos.Content(
-            parts=[genai.protos.Part(
-                function_response=genai.protos.FunctionResponse(
-                    name=function_name,
-                    response={"result": result}
-                )
-            )],
-            role="user"
+class MCPGeminiClient:
+    def __init__(self, server_script_path: str):
+        self.server_script_path = server_script_path
+        self.session = None
+        self.available_tools = []
+        
+        # Gemini API 설정
+        genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+        
+    async def connect_to_server(self):
+        """MCP 서버에 연결하고 사용 가능한 도구를 가져옵니다."""
+        server_params = StdioServerParameters(
+            command="python",
+            args=[self.server_script_path]
         )
-
-        response = model.generate_content([
-            genai.protos.Content(parts=[genai.protos.Part(text=user_prompt)], role="user"),
-            response.candidates[0].content,
-            function_response_content
-        ])
-
-    # 최종 답변 출력
-    try:
-        print(f"🤖 Gemini: {response.text}")
-    except ValueError as e:
-        if "finish_reason" in str(e):
-            print("🤖 Gemini: 죄송합니다. 해당 요청을 처리할 수 없습니다. 더 간단한 계산을 요청해 주세요.")
-        else:
+        
+        async with stdio_client(server_params) as (read, write):
+            async with ClientSession(read, write) as session:
+                self.session = session
+                
+                # 서버 초기화
+                await session.initialize()
+                
+                # 사용 가능한 도구 목록 가져오기
+                tools_result = await session.list_tools()
+                self.available_tools = tools_result.tools
+                
+                print(f"✅ MCP 서버 연결됨. 사용 가능한 도구: {len(self.available_tools)}개")
+                for tool in self.available_tools:
+                    print(f"  - {tool.name}: {tool.description}")
+                
+                return session
+    
+    async def handle_user_request(self, user_prompt: str):
+        """사용자 요청을 처리합니다."""
+        print(f"👤 사용자: {user_prompt}")
+        
+        # Gemini 모델 설정
+        model = genai.GenerativeModel(
+            model_name="gemini-1.5-flash",
+            tools=self.create_gemini_function_declarations()
+        )
+        
+        try:
+            response = model.generate_content(
+                user_prompt,
+                tool_config={"function_calling_config": {"mode": "AUTO"}}
+            )
+            
+            # 함수 호출이 요청된 경우
+            if (response.candidates[0].content.parts and
+                len(response.candidates[0].content.parts) > 0 and
+                hasattr(response.candidates[0].content.parts[0], 'function_call') and
+                response.candidates[0].content.parts[0].function_call):
+                
+                function_call = response.candidates[0].content.parts[0].function_call
+                function_name = function_call.name
+                function_args = {key: value for key, value in function_call.args.items()}
+                
+                print(f"🔧 MCP 도구 호출: {function_name}({function_args})")
+                
+                # MCP 도구 실행
+                tool_result = await self.call_mcp_tool(function_name, function_args)
+                
+                # 결과를 포함하여 다시 Gemini에 요청
+                function_response_content = genai.protos.Content(
+                    parts=[genai.protos.Part(
+                        function_response=genai.protos.FunctionResponse(
+                            name=function_name,
+                            response={"result": tool_result}
+                        )
+                    )],
+                    role="user"
+                )
+                
+                response = model.generate_content([
+                    genai.protos.Content(parts=[genai.protos.Part(text=user_prompt)], role="user"),
+                    response.candidates[0].content,
+                    function_response_content
+                ])
+            
+            print(f"🤖 Gemini: {response.text}")
+            
+        except Exception as e:
             print(f"🤖 Gemini: 오류가 발생했습니다: {str(e)}")
 
-# --- 실행 예시 ---
-llm_tool_handler("안녕 제미니")
-print("-" * 20)
-llm_tool_handler("3이랑 5를 곱해줘")
-print("-" * 20)
-llm_tool_handler("100을 4로 나누면 결과가 뭐야?")
-print("-" * 20)
-llm_tool_handler("50 더하기 30에서 15를 뺀 값은?")
+async def main():
+    """메인 실행 함수"""
+    server_script = "mcp_server.py"
+    client = MCPGeminiClient(server_script)
+    
+    async with await client.connect_to_server():
+        await client.handle_user_request("안녕 제미니")
+        print("-" * 40)
+        
+        await client.handle_user_request("3이랑 5를 곱해줘")
+        print("-" * 40)
+        
+        await client.handle_user_request("100을 4로 나누면 결과가 뭐야?")
+        print("-" * 40)
+        
+        await client.handle_user_request("50 더하기 30에서 15를 뺀 값은?")
+
+if __name__ == "__main__":
+    asyncio.run(main())
 ```
 
-`generate_content` 메서드를 사용할 때는 `tool_config`에서 `mode: "AUTO"`를 설정하여 Tool 호출을 활성화합니다. LLM이 Tool 호출을 요청하면, 개발자가 직접 함수를 실행하고 그 결과를 다시 LLM에 전달하는 과정을 구현해야 합니다.
+### 실행 방법
+
+1. **환경 변수 설정**: `GEMINI_API_KEY` 환경 변수에 Google AI Studio에서 발급받은 API 키를 설정합니다.
+2. **서버 실행**: `python mcp_server.py`로 MCP 서버를 실행할 수도 있지만, 클라이언트에서 자동으로 서버를 시작합니다.
+3. **클라이언트 실행**: `python mcp_client.py`로 MCP 클라이언트를 실행합니다.
+
+MCP 아키텍처를 사용함으로써 도구의 모듈화가 향상되고, 서로 다른 LLM 클라이언트들이 동일한 MCP 서버의 도구를 공유할 수 있게 됩니다.
