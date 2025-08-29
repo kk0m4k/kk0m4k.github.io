@@ -265,3 +265,26 @@ if __name__ == "__main__":
 3. **클라이언트 실행**: `python mcp_client.py`로 MCP 클라이언트를 실행합니다.
 
 MCP 아키텍처를 사용함으로써 도구의 모듈화가 향상되고, 서로 다른 LLM 클라이언트들이 동일한 MCP 서버의 도구를 공유할 수 있게 됩니다.
+
+### 별첨
+MCP Tool를 Gemini 함수 선언으로 변환하는 코드에서 주요 파라미텅에 대한 추가 설명
+```
+  - inputSchema: MCP 도구의 입력 스키마를 정의하는 JSON Schema 형식. 도구가 받을 수 있는 파라미터들의 타입과 제약조건을 명시
+  - properties: 각 파라미터의 상세 정의 (타입, 설명, 기본값 등)
+  - required: 필수 파라미터 목록 (배열 형식)
+  - description: 도구의 기능을 설명하는 텍스트
+
+  예시 - MCP 도구 형식을 Gemini 함수 변환
+  {
+      "name": "multiply_tool",
+      "description": "두 정수를 곱한 결과를 반환합니다.",
+      "inputSchema": {
+          "type": "object",
+          "properties": {
+              "a": {"type": "integer", "description": "첫 번째 정수"},
+              "b": {"type": "integer", "description": "두 번째 정수"}
+          },
+          "required": ["a", "b"]
+      }
+  }
+  ```
