@@ -113,18 +113,18 @@ MCP 서버와 연동하여 Gemini LLM이 계산기 도구를 사용할 수 있�
 ```python
 """
 MCP 클라이언트를 사용하여 Gemini LLM과 연동하는 코드
+FastMCP 2.0 버전 사용
 """
 
 import asyncio
 import google.generativeai as genai
 import os
-from mcp import ClientSession, StdioServerParameters
-from mcp.client.stdio import stdio_client
+from fastmcp.client import MCPClient
 
 class MCPGeminiClient:
     def __init__(self, server_script_path: str):
         self.server_script_path = server_script_path
-        self.session = None
+        self.client = None
         self.available_tools = []
         
         # Gemini API 설정
@@ -132,27 +132,47 @@ class MCPGeminiClient:
         
     async def connect_to_server(self):
         """MCP 서버에 연결하고 사용 가능한 도구를 가져옵니다."""
-        server_params = StdioServerParameters(
+        self.client = MCPClient()
+        
+        # 서버 연결
+        await self.client.connect(
             command="python",
             args=[self.server_script_path]
         )
         
-        async with stdio_client(server_params) as (read, write):
-            async with ClientSession(read, write) as session:
-                self.session = session
-                
-                # 서버 초기화
-                await session.initialize()
-                
-                # 사용 가능한 도구 목록 가져오기
-                tools_result = await session.list_tools()
-                self.available_tools = tools_result.tools
-                
-                print(f"✅ MCP 서버 연결됨. 사용 가능한 도구: {len(self.available_tools)}개")
-                for tool in self.available_tools:
-                    print(f"  - {tool.name}: {tool.description}")
-                
-                return session
+        # 사용 가능한 도구 목록 가져오기
+        self.available_tools = await self.client.list_tools()
+        
+        print(f"✅ MCP 서버 연결됨. 사용 가능한 도구: {len(self.available_tools)}개")
+        for tool in self.available_tools:
+            print(f"  - {tool['name']}: {tool['description']}")
+        
+        return self.client
+    
+    def create_gemini_function_declarations(self):
+        """MCP 도구를 Gemini 함수 선언으로 변환합니다."""
+        function_declarations = []
+        
+        for tool in self.available_tools:
+            parameters = {"type": "object", "properties": {}, "required": []}
+            
+            if "inputSchema" in tool and "properties" in tool["inputSchema"]:
+                parameters["properties"] = tool["inputSchema"]["properties"]
+                if "required" in tool["inputSchema"]:
+                    parameters["required"] = tool["inputSchema"]["required"]
+            
+            function_declarations.append({
+                "name": tool["name"],
+                "description": tool["description"],
+                "parameters": parameters
+            })
+        
+        return function_declarations
+    
+    async def call_mcp_tool(self, function_name: str, function_args: dict):
+        """MCP 도구를 호출합니다."""
+        result = await self.client.call_tool(function_name, function_args)
+        return result.get("content", [{}])[0].get("text", "")
     
     async def handle_user_request(self, user_prompt: str):
         """사용자 요청을 처리합니다."""
@@ -206,13 +226,20 @@ class MCPGeminiClient:
             
         except Exception as e:
             print(f"🤖 Gemini: 오류가 발생했습니다: {str(e)}")
+    
+    async def close(self):
+        """클라이언트 연결을 종료합니다."""
+        if self.client:
+            await self.client.close()
 
 async def main():
     """메인 실행 함수"""
     server_script = "mcp_server.py"
     client = MCPGeminiClient(server_script)
     
-    async with await client.connect_to_server():
+    try:
+        await client.connect_to_server()
+        
         await client.handle_user_request("안녕 제미니")
         print("-" * 40)
         
@@ -223,6 +250,9 @@ async def main():
         print("-" * 40)
         
         await client.handle_user_request("50 더하기 30에서 15를 뺀 값은?")
+        
+    finally:
+        await client.close()
 
 if __name__ == "__main__":
     asyncio.run(main())
