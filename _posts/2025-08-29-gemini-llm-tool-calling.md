@@ -267,14 +267,16 @@ if __name__ == "__main__":
 MCP 아키텍처를 사용함으로써 도구의 모듈화가 향상되고, 서로 다른 LLM 클라이언트들이 동일한 MCP 서버의 도구를 공유할 수 있게 됩니다.
 
 ### 별첨
-MCP Tool를 Gemini 함수 선언으로 변환하는 코드에서 주요 파라미텅에 대한 추가 설명
+
+1.MCP Tool를 Gemini 함수 선언으로 변환하는 코드에서 주요 파라미텅에 대한 추가 설명
 ```
   - inputSchema: MCP 도구의 입력 스키마를 정의하는 JSON Schema 형식. 도구가 받을 수 있는 파라미터들의 타입과 제약조건을 명시
   - properties: 각 파라미터의 상세 정의 (타입, 설명, 기본값 등)
   - required: 필수 파라미터 목록 (배열 형식)
   - description: 도구의 기능을 설명하는 텍스트
 
-  예시 - MCP 도구 형식을 Gemini 함수 변환
+  예시 
+  - MCP 도구 형식
   {
       "name": "multiply_tool",
       "description": "두 정수를 곱한 결과를 반환합니다.",
@@ -287,4 +289,38 @@ MCP Tool를 Gemini 함수 선언으로 변환하는 코드에서 주요 파라�
           "required": ["a", "b"]
       }
   }
+
+  - Gemini가 요구하는 형식
+  {
+      "name": "multiply_tool",
+      "description": "두 정수를 곱합니다",
+      "parameters": {  # Gemini는 'parameters' 사용
+          "type": "object",
+          "properties": {...},
+          "required": [...]
+      }
+  }
+
+  # 위 MCP 도구 형식을 Gemini가 인식하는 형식으로 변환이 필요함
+  ```
+
+  2. generate_content() 함수 인자
+-  Gemini LLM에게 텍스트나 멀티모달 콘텐츠를 입력으로 제공하고, AI가 생성한 응답을 받아오는 함수
+  ```
+  리스트로 여러 Content 객체를 전달할 때는 순서가 중요합니다.
+
+  response = model.generate_content([
+      genai.protos.Content(parts=[genai.protos.Part(text=user_prompt)],
+  role="user"),
+      response.candidates[0].content,
+      function_response_content
+  ])
+
+  이 순서는 대화의 시간순 흐름을 나타냅니다:
+
+  1. 첫 번째: 사용자의 원래 질문 (user_prompt)
+  2. 두 번째: Gemini의 함수 호출 응답 (response.candidates[0].content)
+  3. 세 번째: 함수 실행 결과 (function_response_content)
+
+  이 순서를 바꾸면 Gemini가 대화 맥락을 잘못 이해할 수 있어서 올바른 응답을 생성하지 못할 수 있습니다. 대화형 AI에서는 메시지의 시간적 순서가 매우 중요하기 때문입니다.
   ```
