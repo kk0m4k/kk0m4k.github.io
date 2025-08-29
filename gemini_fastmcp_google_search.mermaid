@@ -1,0 +1,35 @@
+graph TD
+    subgraph "사용자 및 LLM 영역"
+        User(👤 사용자)
+        LLM(🤖 Gemini LLM)
+    end
+
+    subgraph "fastmcp 서버 (Screamable HTTP 기반)"
+        direction LR
+        Endpoint["1. HTTP Request 수신<br>(/google-search 엔드포인트)"]
+        Parse["2. 요청 분석 및 유효성 검사<br>Request Body에서 'query' 추출"]
+        CallAPI["3. Google Search API 호출<br>비동기 HTTP 클라이언트(aiohttp 등) 사용"]
+        Process["4. 검색 결과 처리 및 가공<br>LLM이 이해하기 쉽게<br>제목, 스니펫, 링크 등 추출 및 요약"]
+        Format["5. 최종 응답 포맷팅<br>Tool이 반환할 JSON 형식으로 구성"]
+        Response["6. HTTP Response 반환"]
+        
+        Endpoint --> Parse --> CallAPI
+        CallAPI --> Process --> Format --> Response
+    end
+
+    subgraph "외부 서비스"
+        GoogleAPI(🌐 Google Search API)
+    end
+
+    %% --- 데이터 흐름 정의 ---
+    User -- "검색이 필요한 질문<br>e.g., 'fastmcp가 뭐야?'" --> LLM
+
+    LLM -- "1. Tool 사용 결정 및 함수 호출<br>Tool: google_search<br>POST /google-search<br>Body: {'query': 'fastmcp'}" --> Endpoint
+
+    CallAPI -- "3a. 비동기 API 요청 전송<br>GET https://...&q=fastmcp" --> GoogleAPI
+    
+    GoogleAPI -- "3b. 검색 결과 (JSON) 응답" --> CallAPI
+
+    Response -- "6a. 처리된 검색 결과 반환<br>{'results': '요약된 텍스트...'}" --> LLM
+
+    LLM -- "7. 최종 답변 생성 및 전달<br>'fastmcp는... 검색 결과에 따르면...'" --> User

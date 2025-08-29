@@ -44,7 +44,6 @@ PYENV_VERSION=mcp-venv pip install fastmcp
 ### 2. 샘플 MCP 서버 (예제)
 ```python
 # mcp_server.py
-node_modules
 from fastmcp import FastMCP
 
 mcp = FastMCP("name=calculator")
