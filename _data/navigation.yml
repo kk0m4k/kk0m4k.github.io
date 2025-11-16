@@ -64,6 +64,13 @@ docs:
           - title: "VPC Flow Log와 NAT GW IP 추적 분석"
             url: /aws/analyzing-vpc-flow-logs-with-nat-gateway/
             category: "aws"
+  - title: Git & GitHub
+    url: categories/#git-github
+    category: "git-github"
+    children:
+      - title: "Git & GitHub Guide"
+        url: /git-github/git-github-guide/
+        category: "git-github"
   - title: CyberSecurity
     children:
       - title: "Digital Forensics"
