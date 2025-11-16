@@ -5,8 +5,6 @@ categories: [Data Engineering, Git]
 tags: [git, github, version control, git-flow, github actions, branch, merge, pull request, tag, mirror, rebase, conflict, diff, fetch]
 ---
 
-안녕하세요! 개발자에게 버전 관리 시스템(Version Control System)은 선택이 아닌 필수입니다. 그중에서도 Git은 전 세계적으로 가장 널리 사용되는 도구이죠. 이 글에서는 Git의 가장 기본적인 개념과 명령어부터, 브랜치를 활용한 병렬 작업, 그리고 Git-Flow와 풀 리퀘스트(Pull Request)를 이용한 실전 협업 전략까지 예제 중심으로 깊이 있게 알아보겠습니다.
-
 ### Git이란 무엇인가?
 
 Git은 소스 코드의 변경 이력을 관리하는 **분산 버전 관리 시스템**입니다. 코드를 특정 시점의 스냅샷으로 저장하고, 여러 개발자가 동시에 작업하는 환경에서 코드 충돌을 최소화하며 협업할 수 있도록 돕습니다.
@@ -20,28 +18,36 @@ Git은 '분산' 버전 관리 시스템이라는 점이 중요합니다. 이는 
 
 ### Git의 핵심 키워드 이해하기
 
-Git을 효과적으로 사용하려면 몇 가지 핵심 용어와 각 영역 간의 관계를 시각적으로 이해하는 것이 중요합니다. 아래 다이어그램은 Git의 주요 작업 흐름을 보여줍니다.
+Git을 효과적으로 사용하려면 몇 가지 핵심 용어와 각 영역 간의 관계를 시각적으로 이해하는 것이 중요합니다. 아래 다이어그램은 Git의 주요 영역과 각 영역을 오가는 핵심 명령어들을 보여줍니다.
 
 ```mermaid
-graph LR
+graph TD
     subgraph "내 컴퓨터 (Local)"
-        A[Working Directory] -- 파일 수정 --> A
-        A -- git add --> B(Staging Area)
-        B -- git commit --> C{Local Repository}
-        C -- git checkout --> A
+        A["<font size=4><b>Working Directory</b></font><br/>(작업 공간)"]
+        B["<font size=4><b>Staging Area</b></font><br/>(인덱스)"]
+        C["<font size=4><b>Local Repository</b></font><br/>(.git 디렉토리)"]
     end
 
     subgraph "원격 서버 (Remote)"
-        D{{Remote Repository}}
+        D[("<font size=4><b>Remote Repository</b></font>")]
     end
 
-    C -- git push --> D
-    D -- git fetch / pull --> C
+    %% Styling - 각 영역에 의미있는 색상 부여
+    style A fill:#fff3b0,stroke:#333,stroke-width:2px
+    style B fill:#cce5ff,stroke:#333,stroke-width:2px
+    style C fill:#d4edda,stroke:#333,stroke-width:2px
+    style D fill:#f8d7da,stroke:#333,stroke-width:2px
 
-    style A fill:#FFF,stroke:#333,stroke-width:2px
-    style B fill:#FFF,stroke:#333,stroke-width:2px
-    style C fill:#FFF,stroke:#333,stroke-width:2px
-    style D fill:#FFF,stroke:#333,stroke-width:2px
+    %% Workflow - 데이터 흐름을 나타내는 실선 화살표
+    A -- "<b>git add</b><br/>(파일 수정 후 스테이징)" --> B
+    B -- "<b>git commit</b><br/>(스테이징된 변경사항 커밋)" --> C
+    C -- "<b>git checkout / reset</b><br/>(특정 버전으로 복원)" --> A
+    C -- "<b>git push</b><br/>(원격 서버에 업로드)" --> D
+    D -- "<b>git fetch / pull</b><br/>(원격 변경사항 가져오기)" --> C
+    
+    %% Comparison - 상태를 변경하지 않는 비교 명령어는 점선으로 표현
+    A -. "<b>git diff</b><br/>(Working vs Staging)" .-> B
+    B -. "<b>git diff --staged</b><br/>(Staging vs Local Repo)" .-> C
 ```
 
 -   **Working Directory (작업 디렉토리)**: 현재 작업 중인, 실제 파일들로 이루어진 프로젝트 폴더입니다. 여기서 파일을 수정, 생성, 삭제합니다.
@@ -343,52 +349,64 @@ git push origin v1.0.0
 ```
 
 #### 6.4. Git-Flow 플로우 다이어그램 (Mermaid)
+
+Git-Flow는 Vincent Driessen이 제안한 브랜치 관리 전략으로, `main`과 `develop`이라는 두 개의 핵심 브랜치를 중심으로 운영됩니다. 이 모델은 신규 기능 개발, 릴리즈 준비, 긴급 버그 수정 등 각기 다른 목적을 가진 브랜치들을 체계적으로 분리하고 통합하는 규칙을 제공하여, 복잡한 프로젝트를 효율적으로 관리할 수 있도록 돕습니다.
+
+아래 다이어그램은 Git-Flow의 전체적인 흐름을 시각적으로 보여줍니다.
+
+-   **`main`** 브랜치는 항상 배포 가능한 안정 상태를 유지합니다. (진한 남색)
+-   **`develop`** 브랜치는 다음 릴리즈를 위한 개발의 통합 지점입니다. (파란색)
+-   **`feature`** 브랜치는 `develop`에서 시작하여 기능 개발이 완료되면 다시 `develop`으로 병합됩니다. (노란색)
+-   **`release`** 브랜치는 배포 준비를 위해 `develop`에서 분기하며, 완료되면 `main`과 `develop` 양쪽에 모두 병합됩니다. (초록색)
+-   **`hotfix`** 브랜치는 `main`에서 발생한 긴급 버그를 수정하기 위해 분기하며, 완료되면 `main`과 `develop` 양쪽에 모두 병합됩니다. (빨간색)
+
 ```mermaid
-graph TD
-    subgraph "Production (main)"
-        M1[main: v1.0] --> M2[main: v1.1] --> M3[main: v2.0]
+graph TB
+    %% Define classes for styling each branch type
+    classDef main fill:#2c3e50,color:#fff,stroke-width:2px,stroke:#fff
+    classDef develop fill:#3498db,color:#fff,stroke-width:2px,stroke:#fff
+    classDef feature fill:#f1c40f,color:#333,stroke-width:2px,stroke:#fff
+    classDef release fill:#2ecc71,color:#fff,stroke-width:2px,stroke:#fff
+    classDef hotfix fill:#e74c3c,color:#fff,stroke-width:2px,stroke:#fff
+
+    %% Main and Develop branches as the main arteries
+    subgraph "main (Production)"
+        direction LR
+        M1("v1.0"):::main --> M2("v1.0.1"):::main --> M3("v1.1"):::main
     end
 
-    subgraph "Development (develop)"
-        D1[develop] --> D2 --> D3 --> D4
+    subgraph "develop (Next Release)"
+        direction LR
+        D1(dev) --> D2(dev) --> D3(dev) --> D4(dev)
+        class D1,D2,D3,D4 develop
+    end
+    
+    %% Feature, Release, Hotfix branches
+    subgraph "feature"
+        F1("feat: new-login"):::feature
     end
 
-    subgraph "Feature Branches"
-        F1[feature/login]
+    subgraph "release"
+        R1("release: v1.1"):::release
     end
 
-    subgraph "Release Branches"
-        R1[release/v1.1]
+    subgraph "hotfix"
+        H1("hotfix: v1.0.1"):::hotfix
     end
 
-    subgraph "Hotfix Branches"
-        H1[hotfix/v1.0.1]
-    end
+    %% Define the flows between branches
+    M1 -- "Start Project" --> D1
+    
+    D1 -. "Start Feature" .-> F1
+    F1 -- "PR Merge" --> D2
 
-    %% Flows
-    M1 -- 분기 --> D1
-    D1 -- 분기 --> F1
-    F1 -- PR/Merge --> D2
+    D2 -. "Start Release" .-> R1
+    R1 -- "Merge to main" --> M3
+    R1 -- "Merge back" --> D4
 
-    D2 -- 분기 --> R1
-    R1 -- Merge --> M2
-    R1 -- Merge --> D3
-
-    M2 -- 분기 --> H1
-    H1 -- Merge --> M2
-    H1 -- Merge --> D3
-
-    D3 -- PR/Merge --> M3
-    M3 -- 분기 --> D4
-
-    %% Styling
-    style M1 fill:#2E8B57,stroke:#333,stroke-width:2px
-    style M2 fill:#2E8B57,stroke:#333,stroke-width:2px
-    style M3 fill:#2E8B57,stroke:#333,stroke-width:2px
-    style D1 fill:#4682B4,stroke:#333,stroke-width:2px
-    style D2 fill:#4682B4,stroke:#333,stroke-width:2px
-    style D3 fill:#4682B4,stroke:#333,stroke-width:2px
-    style D4 fill:#4682B4,stroke:#333,stroke-width:2px
+    M1 -. "Urgent Bug Found" .-> H1
+    H1 -- "Merge to main" --> M2
+    H1 -- "Merge back" --> D3
 ```
 
 ---
@@ -441,18 +459,22 @@ GitHub Actions를 사용하면 한 저장소의 변경 사항을 다른 저장�
               git push --mirror "$DEST_URL_WITH_AUTH"
     ```
 
-#### 워크플로우 설명
+#### 워크플로우 상세 설명
 
--   `on: push: branches: [main]`: 이 워크플로우는 `main` 브랜치에 새로운 커밋이 `push`될 때마다 자동으로 실행됩니다.
--   `actions/checkout@v4`: 소스 코드를 체크아웃하는 공식 액션입니다. `fetch-depth: 0` 옵션은 모든 커밋 히스토리를 가져와 완전한 미러링을 보장합니다.
--   `git push --mirror`: 이 명령어가 핵심입니다. 현재 로컬에 복제된 저장소의 모든 참조(브랜치, 태그 등)를 지정된 원격 저장소로 그대로 푸시하여 완벽한 복제본을 만듭니다. `DESTINATION_PAT`를 이용해 인증을 수행합니다.
-
-이제 `main` 브랜치에 변경 사항이 생길 때마다 GitHub Actions가 자동으로 대상 저장소에 모든 내용을 동기화해 줄 것입니다.
-
----
-
-### 마무리하며
-
-Git은 현대 개발 환경의 근간을 이루는 강력한 도구입니다. 오늘 다룬 기본 개념과 명령어부터 시작하여 브랜치, 풀 리퀘스트, 그리고 Git-Flow와 같은 협업 전략을 팀에 도입해 보세요. 더 나아가 GitHub Actions를 활용하면 반복적인 작업을 자동화하여 개발 생산성을 크게 향상시킬 수 있습니다.
-
-이 글이 여러분의 Git 여정에 든든한 발판이 되기를 바랍니다!
+-   `name`: 워크플로우의 이름을 지정합니다. GitHub Actions의 'Actions' 탭에서 이 이름으로 워크플로우를 확인할 수 있습니다.
+-   `on`: 어떤 이벤트가 발생했을 때 이 워크플로우를 실행할지 정의합니다.
+    -   `push`: `git push` 이벤트가 발생했을 때를 의미합니다.
+    -   `branches: [main]`: `push` 이벤트가 `main` 브랜치에서 발생했을 때만 워크플로우를 실행하도록 제한합니다.
+-   `jobs`: 워크플로우에서 실행될 하나 이상의 작업(job)들의 모음입니다.
+    -   `mirror`: `mirror`라는 ID를 가진 작업을 정의합니다.
+    -   `runs-on: ubuntu-latest`: 작업을 실행할 가상 머신(Runner)의 종류를 지정합니다. `ubuntu-latest`는 GitHub에서 제공하는 최신 버전의 Ubuntu Linux 환경을 사용하겠다는 의미입니다.
+-   `steps`: 작업(job) 내에서 순차적으로 실행될 단계(step)들의 목록입니다.
+    -   `name`: 각 단계의 이름을 지정합니다. UI에 표시되어 진행 상황을 쉽게 파악할 수 있습니다.
+    -   `uses: actions/checkout@v4`: 다른 사람이 만들었거나 공식적으로 제공되는 액션(Action)을 재사용하는 키워드입니다. `actions/checkout@v4`는 현재 저장소의 코드를 Runner로 내려받는 공식 액션입니다.
+    -   `with`: `uses`로 지정된 액션에 특정 파라미터를 전달할 때 사용합니다.
+        -   `fetch-depth: 0`: Git 히스토리를 얼마나 깊게 복제할지 결정합니다. `0`은 전체 히스토리를 모두 가져오라는 의미로, 저장소의 모든 브랜치와 태그를 완벽하게 미러링하기 위해 필수적인 옵션입니다.
+    -   `env`: 해당 단계(step)에서 사용할 환경 변수를 설정합니다.
+        -   `DESTINATION_REPO_URL: ${{ secrets.DESTINATION_REPO_URL }}`: GitHub 저장소의 `Settings > Secrets`에 등록된 `DESTINATION_REPO_URL` 값을 이 환경 변수에 할당합니다. `${{ }}` 구문은 GitHub Actions의 컨텍스트 및 표현식에 접근하는 방법으로, `secrets` 컨텍스트에서 값을 안전하게 가져옵니다.
+    -   `run`: Runner의 셸(기본적으로 bash)을 사용하여 직접 명령어를 실행합니다.
+        -   `sed "s|://|://$DESTINATION_PAT@|"`: `sed` 명령어는 문자열을 치환하는 스트림 편집기입니다. 여기서는 `https://github.com/...` 같은 URL을 `https://<토큰값>@github.com/...` 형태로 동적으로 변경하여, `git push` 시 인증을 통과할 수 있도록 합니다.
+        -   `git push --mirror "$DEST_URL_WITH_AUTH"`: 이 명령어가 미러링의 핵심입니다. `--mirror` 옵션은 현재 로컬에 복제된 저장소의 모든 참조(브랜치, 태그 등)를 지정된 원격 저장소로 그대로 복제하여 완벽한 동기화를 수행합니다.
