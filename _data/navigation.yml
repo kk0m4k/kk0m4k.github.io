@@ -128,5 +128,5 @@ docs:
         category: "vulnerability"
         children:
           - title: "SWIFT Issue..."
-            url: /vulnerability/Switch_issue/
+            url: /vulnerability/Swift_issue/
             category: "vulnerability"

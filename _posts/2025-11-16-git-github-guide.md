@@ -1,7 +1,7 @@
 ---
 title: "Git 설명"
 date: 2025-11-16 11:00:00 +0900
-categories: [Data Engineering, Git]
+categories: git-github
 tags: [git, github]
 ---
 
