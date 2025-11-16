@@ -217,8 +217,63 @@ git rebase origin/develop
 이 과정은 `feature` 브랜치에서 했던 커밋들을 잠시 떼어놓고, `develop` 브랜치의 최신 커밋 위로 하나씩 다시 쌓는 것과 같습니다. 그 결과, `feature` 브랜치는 마치 `develop`의 가장 최신 버전에서 막 작업을 시작한 것처럼 보이게 됩니다.
 
 #### 3.2. Merge vs Rebase
-- **Merge**: 이력을 보존하는 데 중점을 둡니다. "언제, 무엇을 합쳤는가"가 중요한 공개 브랜치(`main`, `develop`)에 적합합니다.
-- **Rebase**: 깔끔한 선형 히스토리를 만드는 데 중점을 둡니다. PR을 올리기 전, 개인 `feature` 브랜치를 정리하는 데 매우 유용합니다.
+
+**시나리오**: `develop` 브랜치의 `C1` 커밋에서 `feature` 브랜치를 생성했습니다. 그동안 `develop` 브랜치에는 팀원이 `C2`라는 새 커밋을 추가했고, 나는 `feature` 브랜치에 `F1`이라는 커밋을 추가했습니다. 이제 `feature` 브랜치에 `develop`의 최신 변경사항(`C2`)을 반영해야 합니다.
+
+- **Merge**: **"두 브랜치의 역사를 그대로 보존하며 합칩니다."**
+    - **설명**: `Merge`는 `feature` 브랜치의 작업 내역(`F1`)과 `develop` 브랜치의 작업 내역(`C2`)을 합쳐, `M3`라는 새로운 **병합 커밋(Merge Commit)**을 `develop` 브랜치에 생성합니다. 이를 통해 'feature 브랜치가 develop에 병합되었다'는 사실이 히스토리에 명확하게 남습니다.
+    - **명령어**:
+        ```bash
+        # 1. develop 브랜치로 이동
+        git checkout develop
+        # 2. feature 브랜치를 현재 브랜치(develop)에 병합
+        git merge feature
+        ```
+    - **결과**:
+        ```mermaid
+        graph TB
+            classDef common fill:#ecf0f1,color:#333
+            classDef develop fill:#3498db,color:#fff
+            classDef feature fill:#f1c40f,color:#333
+            classDef merge fill:#95a5a6,color:#fff
+
+            subgraph "Before"
+                C1(C1):::common --> C2(C2):::develop
+                C1 --> F1(F1):::feature
+            end
+
+            subgraph "After `git merge feature`"
+                C1_2(C1):::common --> C2_2(C2):::develop --> M3(M3):::merge
+                F1_2(F1):::feature --> M3
+                C1_2 --> F1_2
+            end
+        ```
+
+- **Rebase**: **"히스토리를 한 줄로 깔끔하게 재정렬합니다."**
+    - **설명**: `Rebase`는 `feature` 브랜치의 시작점(base)을 `C1`에서 `develop`의 최신 커밋인 `C2`로 옮깁니다. 그 다음, `feature` 브랜치에 있던 `F1` 커밋의 변경사항을 `C2` 위에 다시 적용하여 `F1'`이라는 **새로운 커밋**을 생성합니다. 그 결과, `feature` 브랜치는 마치 처음부터 최신 `develop` 브랜치에서 작업을 시작한 것처럼 깨끗한 직선 히스토리를 갖게 됩니다.
+    - **명령어**:
+        ```bash
+        # 1. feature 브랜치로 이동
+        git checkout feature
+        # 2. develop 브랜치를 기준으로 현재 브랜치(feature)를 재정렬
+        git rebase develop
+        ```
+    - **결과**:
+        ```mermaid
+        graph TB
+            classDef common fill:#ecf0f1,color:#333
+            classDef develop fill:#3498db,color:#fff
+            classDef feature fill:#f1c40f,color:#333
+
+            subgraph "Before"
+                C1(C1):::common --> C2(C2):::develop
+                C1 --> F1(F1):::feature
+            end
+
+            subgraph "After `git rebase develop`"
+                C1_2(C1):::common --> C2_2(C2):::develop --> F1_r(F1'):::feature
+            end
+        ```
 
 > **Rebase의 황금률: 절대로 공유된 브랜치를 Rebase하지 마라!**
 > `main`이나 `develop`처럼 여러 사람이 함께 사용하는 브랜치를 `rebase`하면, 다른 팀원들의 저장소와 히스토리가 꼬여버리는 대재앙이 발생할 수 있습니다. `rebase`는 아직 원격에 푸시하지 않았거나, 나만 사용하는 개인 브랜치에만 사용해야 합니다.
@@ -236,17 +291,20 @@ git rebase origin/develop
 #### 4.2. Merge 충돌 해결하기
 1.  `git pull` 또는 `git merge`를 실행했을 때 충돌이 발생하면, Git은 어떤 파일에서 충돌이 났는지 알려줍니다.
 2.  `git status`를 통해 충돌 중인 파일 목록을 확인할 수 있습니다.
-3.  해당 파일을 열면 아래와 같은 충돌 표시자(conflict marker)가 보입니다.
+3.  해당 파일을 열면 아래와 같은 충돌 표시자(conflict marker)가 보입니다. 예를 들어, 로컬 `feature` 브랜치에서 `git pull origin main`을 실행하여 `main` 브랜치의 최신 내용을 가져오려 할 때 충돌이 발생한 상황입니다.
 
     ```
     <<<<<<< HEAD
-    // 내가 작업한 내용 (현재 브랜치)
+    // 내가 작업한 내용 (현재 브랜치: feature)
     const message = "Hello World";
     =======
-    // 상대방이 작업한 내용 (병합하려는 브랜치)
+    // 상대방이 작업한 내용 (가져오려는 브랜치: origin/main)
     const message = "Hello Git";
     >>>>>>> origin/main
     ```
+    - `<<<<<<< HEAD`: `HEAD`가 가리키는 현재 내 브랜치(`feature`)에서 변경된 내용을 의미합니다.
+    - `=======`: 내 변경 내용과 충돌이 발생한 상대방의 변경 내용을 구분하는 선입니다.
+    - `>>>>>>> origin/main`: 병합을 시도한 대상인 `origin/main` 브랜치에서 변경된 내용을 의미합니다.
 
 4.  `<<<<<<<`, `=======`, `>>>>>>>` 표시자를 모두 제거하고, 두 코드를 비교하여 최종적으로 남길 코드를 결정하고 파일을 수정합니다.
     ```
