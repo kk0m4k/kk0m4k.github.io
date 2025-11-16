@@ -218,7 +218,37 @@ git rebase origin/develop
 
 #### 3.2. Merge vs Rebase
 
-**시나리오**: `develop` 브랜치의 `C1` 커밋에서 `feature` 브랜치를 생성했습니다. 그동안 `develop` 브랜치에는 팀원이 `C2`라는 새 커밋을 추가했고, 나는 `feature` 브랜치에 `F1`이라는 커밋을 추가했습니다. 이제 `feature` 브랜치에 `develop`의 최신 변경사항(`C2`)을 반영해야 합니다.
+**시나리오 설정**: `develop` 브랜치의 `C1` 커밋에서 `feature` 브랜치를 생성했습니다. 그 사이 `develop` 브랜치에는 팀원이 `C2`라는 새 커밋을 추가했고, 나는 `feature` 브랜치에 `F1`이라는 커밋을 추가하여 브랜치가 아래와 같이 갈라진 상태가 되었습니다. 이제 `feature` 브랜치에 `develop`의 최신 변경사항(`C2`)을 반영해야 합니다.
+
+- **시나리오 재현 명령어**:
+    ```bash
+    # (C1 커밋이 있는 develop 브랜치에서 시작)
+    # 1. C1을 기반으로 feature 브랜치 생성 및 이동
+    git checkout -b feature
+
+    # 2. feature 브랜치에서 F1 커밋 작업
+    # (...파일 수정...) && git add . && git commit -m "F1: 새로운 기능 추가"
+
+    # 3. develop 브랜치로 이동
+    git checkout develop
+
+    # 4. develop 브랜치에서 C2 커밋 작업 (다른 팀원이 했다고 가정)
+    # (...파일 수정...) && git add . && git commit -m "C2: 다른 기능 추가"
+    ```
+- **현재 브랜치 상태 (Before)**:
+    ```mermaid
+    graph TB
+        classDef common fill:#ecf0f1,color:#333
+        classDef develop fill:#3498db,color:#fff
+        classDef feature fill:#f1c40f,color:#333
+
+        subgraph "현재 브랜치 상태"
+            C1(C1):::common --> C2(C2):::develop
+            C1 --> F1(F1):::feature
+        end
+    ```
+
+이제 이 상태에서 `Merge`와 `Rebase`를 각각 실행했을 때 히스토리가 어떻게 달라지는지 비교해 보겠습니다.
 
 - **Merge**: **"두 브랜치의 역사를 그대로 보존하며 합칩니다."**
     - **설명**: `Merge`는 `feature` 브랜치의 작업 내역(`F1`)과 `develop` 브랜치의 작업 내역(`C2`)을 합쳐, `M3`라는 새로운 **병합 커밋(Merge Commit)**을 `develop` 브랜치에 생성합니다. 이를 통해 'feature 브랜치가 develop에 병합되었다'는 사실이 히스토리에 명확하게 남습니다.
@@ -229,7 +259,7 @@ git rebase origin/develop
         # 2. feature 브랜치를 현재 브랜치(develop)에 병합
         git merge feature
         ```
-    - **결과**:
+    - **결과 (After `git merge`)**:
         ```mermaid
         graph TB
             classDef common fill:#ecf0f1,color:#333
@@ -237,12 +267,7 @@ git rebase origin/develop
             classDef feature fill:#f1c40f,color:#333
             classDef merge fill:#95a5a6,color:#fff
 
-            subgraph "Before"
-                C1(C1):::common --> C2(C2):::develop
-                C1 --> F1(F1):::feature
-            end
-
-            subgraph "After `git merge feature`"
+            subgraph "Merge 이후"
                 C1_2(C1):::common --> C2_2(C2):::develop --> M3(M3):::merge
                 F1_2(F1):::feature --> M3
                 C1_2 --> F1_2
@@ -258,19 +283,14 @@ git rebase origin/develop
         # 2. develop 브랜치를 기준으로 현재 브랜치(feature)를 재정렬
         git rebase develop
         ```
-    - **결과**:
+    - **결과 (After `git rebase`)**:
         ```mermaid
         graph TB
             classDef common fill:#ecf0f1,color:#333
             classDef develop fill:#3498db,color:#fff
             classDef feature fill:#f1c40f,color:#333
 
-            subgraph "Before"
-                C1(C1):::common --> C2(C2):::develop
-                C1 --> F1(F1):::feature
-            end
-
-            subgraph "After `git rebase develop`"
+            subgraph "Rebase 이후"
                 C1_2(C1):::common --> C2_2(C2):::develop --> F1_r(F1'):::feature
             end
         ```
