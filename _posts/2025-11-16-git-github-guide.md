@@ -1,8 +1,8 @@
 ---
-title: "초보자를 위한 Git & GitHub 완벽 가이드: 기본 개념부터 실전 협업 전략까지"
+title: "Git 설명"
 date: 2025-11-16 11:00:00 +0900
-categories: [git-github]
-tags: [git, github, version control, git-flow, github actions, branch, merge, pull request, tag, mirror, rebase, conflict, diff, fetch]
+categories: [Data Engineering, Git]
+tags: [git, github]
 ---
 
 ### Git이란 무엇인가?
