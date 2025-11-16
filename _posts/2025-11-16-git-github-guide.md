@@ -218,7 +218,7 @@ git rebase origin/develop
 
 #### 3.2. Merge vs Rebase
 
-**시나리오 설정**: `develop` 브랜치의 `C1` 커밋에서 `feature` 브랜치를 생성했습니다. 그 사이 `develop` 브랜치에는 팀원이 `C2`라는 새 커밋을 추가했고, 나는 `feature` 브랜치에 `F1`이라는 커밋을 추가하여 브랜치가 아래와 같이 갈라진 상태가 되었습니다. 이제 `feature` 브랜치에 `develop`의 최신 변경사항(`C2`)을 반영해야 합니다.
+**시나리오 설정**: `develop` 브랜치의 `C1` 커밋에서 `feature` 브랜치를 생성했습니다. 그 사이 `develop` 브랜치에는 팀원이 `C2`라는 **새로운 커밋을 완료**했고, 나는 `feature` 브랜치에 `F1`이라는 **커밋을 완료**하여 브랜치가 아래와 같이 갈라진 상태가 되었습니다. `Merge`와 `Rebase`는 이처럼 **이미 존재하는 커밋들을 통합**하기 위한 명령어들입니다. 이제 `feature` 브랜치에 `develop`의 최신 변경사항(`C2`)을 반영해야 합니다.
 
 - **시나리오 재현 명령어**:
     ```bash
@@ -276,13 +276,18 @@ git rebase origin/develop
 
 - **Rebase**: **"히스토리를 한 줄로 깔끔하게 재정렬합니다."**
     - **설명**: `Rebase`는 `feature` 브랜치의 시작점(base)을 `C1`에서 `develop`의 최신 커밋인 `C2`로 옮깁니다. 그 다음, `feature` 브랜치에 있던 `F1` 커밋의 변경사항을 `C2` 위에 다시 적용하여 `F1'`이라는 **새로운 커밋**을 생성합니다. 그 결과, `feature` 브랜치는 마치 처음부터 최신 `develop` 브랜치에서 작업을 시작한 것처럼 깨끗한 직선 히스토리를 갖게 됩니다.
-    - **명령어**:
+    - **명령어 및 내부 동작**:
         ```bash
         # 1. feature 브랜치로 이동
         git checkout feature
         # 2. develop 브랜치를 기준으로 현재 브랜치(feature)를 재정렬
         git rebase develop
         ```
+        > **`git rebase develop` 명령어의 내부 동작 단계:**
+        > 1.  `feature` 브랜치에서만 변경된 내용(커밋 `F1`)을 임시 공간에 저장합니다.
+        > 2.  `feature` 브랜치의 포인터를 `develop` 브랜치의 최신 커밋(`C2`)으로 이동시킵니다.
+        > 3.  임시 저장했던 변경 내용(`F1`)을 현재 `feature` 브랜치(`C2` 위치) 위에 새로운 커밋(`F1'`)으로 적용합니다.
+
     - **결과 (After `git rebase`)**:
         ```mermaid
         graph TB
