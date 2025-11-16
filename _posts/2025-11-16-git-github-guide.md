@@ -343,7 +343,289 @@ git rebase origin/develop
     ```
 6.  마지막으로 `git commit`을 실행하여 병합을 완료합니다. (`rebase` 중이었다면 `git rebase --continue`)
 
-#### 4.3. Rebase 후 강제 푸시 (`force push`)
+#### 4.3. 실전 충돌 케이스 및 해결 방법
+
+충돌은 협업 시 빈번하게 발생하는 일상적인 이슈입니다. 다음은 실제 개발 환경에서 자주 마주치는 구체적인 충돌 케이스들과 각각의 해결 방법입니다.
+
+##### 케이스 1: 같은 함수의 다른 부분을 수정한 경우
+**상황**: 팀원 A는 함수의 첫 부분을 수정하고, 팀원 B는 같은 함수의 마지막 부분을 수정했습니다.
+
+```javascript
+// 원본 코드
+function calculatePrice(items) {
+    let total = 0;
+    for (let item of items) {
+        total += item.price;
+    }
+    return total;
+}
+```
+
+팀원 A의 변경사항:
+```javascript
+function calculatePrice(items) {
+    // 입력 검증 추가
+    if (!items || items.length === 0) {
+        return 0;
+    }
+    let total = 0;
+    for (let item of items) {
+        total += item.price;
+    }
+    return total;
+}
+```
+
+팀원 B의 변경사항:
+```javascript
+function calculatePrice(items) {
+    let total = 0;
+    for (let item of items) {
+        total += item.price;
+    }
+    // 세금 계산 추가
+    const tax = total * 0.1;
+    return total + tax;
+}
+```
+
+**충돌 발생 시 표시**:
+```javascript
+function calculatePrice(items) {
+<<<<<<< HEAD
+    // 입력 검증 추가
+    if (!items || items.length === 0) {
+        return 0;
+    }
+=======
+>>>>>>> feature/add-tax
+    let total = 0;
+    for (let item of items) {
+        total += item.price;
+    }
+<<<<<<< HEAD
+    return total;
+=======
+    // 세금 계산 추가
+    const tax = total * 0.1;
+    return total + tax;
+>>>>>>> feature/add-tax
+}
+```
+
+**해결 방법**: 두 변경사항 모두 유용하므로 둘 다 포함시킵니다.
+```javascript
+function calculatePrice(items) {
+    // 입력 검증 추가
+    if (!items || items.length === 0) {
+        return 0;
+    }
+    let total = 0;
+    for (let item of items) {
+        total += item.price;
+    }
+    // 세금 계산 추가
+    const tax = total * 0.1;
+    return total + tax;
+}
+```
+
+##### 케이스 2: 파일 이동/이름 변경과 내용 수정이 겹친 경우
+**상황**: 팀원 A는 `utils.js` 파일을 `helpers/utils.js`로 이동했고, 팀원 B는 원래 위치의 `utils.js` 파일 내용을 수정했습니다.
+
+```bash
+# 팀원 A의 작업
+git mv utils.js helpers/utils.js
+git commit -m "Reorganize: Move utils.js to helpers directory"
+
+# 팀원 B의 작업 (동시에)
+# utils.js 파일에 새 함수 추가
+echo "export function newFunction() { ... }" >> utils.js
+git commit -m "Add newFunction to utils.js"
+```
+
+**충돌 발생 시**:
+```bash
+CONFLICT (rename/modify): utils.js renamed to helpers/utils.js in HEAD but modified in feature/add-function
+```
+
+**해결 방법**:
+```bash
+# 1. 충돌 상태 확인
+git status
+
+# 2. 이동된 파일에 변경사항 수동으로 적용
+# helpers/utils.js 파일을 열어 팀원 B의 변경사항을 추가
+
+# 3. 기존 위치의 파일 제거 (필요시)
+git rm utils.js
+
+# 4. 변경사항 스테이징 및 커밋
+git add helpers/utils.js
+git commit -m "Merge: Apply changes to moved utils.js file"
+```
+
+##### 케이스 3: 배열이나 객체의 동일 위치 수정
+**상황**: package.json의 dependencies에 서로 다른 패키지를 동일한 위치에 추가한 경우
+
+원본:
+```json
+{
+  "dependencies": {
+    "react": "^18.0.0",
+    "axios": "^1.0.0"
+  }
+}
+```
+
+팀원 A의 추가:
+```json
+{
+  "dependencies": {
+    "react": "^18.0.0",
+    "axios": "^1.0.0",
+    "lodash": "^4.17.0"
+  }
+}
+```
+
+팀원 B의 추가:
+```json
+{
+  "dependencies": {
+    "react": "^18.0.0",
+    "axios": "^1.0.0",
+    "moment": "^2.29.0"
+  }
+}
+```
+
+**충돌 표시**:
+```json
+{
+  "dependencies": {
+    "react": "^18.0.0",
+    "axios": "^1.0.0",
+<<<<<<< HEAD
+    "lodash": "^4.17.0"
+=======
+    "moment": "^2.29.0"
+>>>>>>> feature/add-moment
+  }
+}
+```
+
+**해결 방법**: 두 패키지 모두 필요하다면 둘 다 추가합니다.
+```json
+{
+  "dependencies": {
+    "react": "^18.0.0",
+    "axios": "^1.0.0",
+    "lodash": "^4.17.0",
+    "moment": "^2.29.0"
+  }
+}
+```
+
+##### 케이스 4: 삭제된 파일에 대한 수정
+**상황**: 팀원 A는 파일을 삭제했지만, 팀원 B는 같은 파일을 수정했습니다.
+
+```bash
+# 팀원 A
+git rm old-component.js
+git commit -m "Remove deprecated component"
+
+# 팀원 B (동시에)
+# old-component.js 파일 수정
+git commit -m "Fix bug in old-component.js"
+```
+
+**충돌 발생 시**:
+```
+CONFLICT (modify/delete): old-component.js deleted in HEAD and modified in feature/fix-bug
+```
+
+**해결 방법**: 팀과 상의하여 결정해야 합니다.
+```bash
+# 옵션 1: 파일 삭제를 유지 (팀원 A의 의도 존중)
+git rm old-component.js
+git add -u
+git commit -m "Resolve conflict: Keep file deletion"
+
+# 옵션 2: 파일을 복원하고 수정사항 유지 (팀원 B의 수정이 중요한 경우)
+git add old-component.js
+git commit -m "Resolve conflict: Keep modified file"
+```
+
+##### 케이스 5: Rebase 중 발생하는 연속적인 충돌
+**상황**: feature 브랜치를 develop에 rebase하는 중 여러 커밋에서 충돌이 발생합니다.
+
+```bash
+git rebase develop
+# 첫 번째 커밋에서 충돌 발생
+CONFLICT (content): Merge conflict in app.js
+```
+
+**해결 과정**:
+```bash
+# 1. 첫 번째 충돌 해결
+# app.js 파일 수정
+git add app.js
+git rebase --continue
+
+# 2. 두 번째 커밋에서 또 충돌 발생
+CONFLICT (content): Merge conflict in app.js
+
+# 3. 두 번째 충돌 해결
+# app.js 파일 다시 수정
+git add app.js
+git rebase --continue
+
+# 4. Rebase 완료될 때까지 반복
+```
+
+**팁**: Rebase가 너무 복잡해지면 중단할 수 있습니다.
+```bash
+git rebase --abort  # rebase 취소하고 원래 상태로 돌아가기
+```
+
+##### 케이스 6: 바이너리 파일 충돌
+**상황**: 이미지, PDF 등 바이너리 파일에서 충돌이 발생한 경우
+
+```bash
+CONFLICT (content): Merge conflict in logo.png
+```
+
+**해결 방법**: 바이너리 파일은 텍스트처럼 병합할 수 없으므로 하나를 선택해야 합니다.
+```bash
+# 옵션 1: 내 버전 사용
+git checkout --ours logo.png
+
+# 옵션 2: 상대방 버전 사용
+git checkout --theirs logo.png
+
+# 옵션 3: 완전히 새로운 파일로 교체
+cp /path/to/new/logo.png .
+git add logo.png
+```
+
+#### 4.4. 충돌 예방을 위한 모범 사례
+
+1. **자주 Pull/Fetch 하기**: 원격 저장소의 변경사항을 자주 가져와 로컬을 최신 상태로 유지합니다.
+   ```bash
+   git fetch origin
+   git merge origin/develop  # 또는 git pull
+   ```
+
+2. **작은 단위로 커밋하기**: 큰 변경사항을 작은 논리적 단위로 나누어 커밋하면 충돌 범위가 줄어듭니다.
+
+3. **브랜치 수명 줄이기**: Feature 브랜치를 오래 유지하지 말고 빠르게 병합합니다.
+
+4. **코드 리뷰 활용**: PR을 통해 충돌 가능성을 사전에 파악합니다.
+
+5. **팀 커뮤니케이션**: 같은 파일을 작업하기 전에 팀원들과 미리 조율합니다.
+
+#### 4.5. Rebase 후 강제 푸시 (`force push`)
 `feature` 브랜치를 `rebase`하면 로컬 브랜치의 커밋 히스토리가 변경됩니다. 만약 이 브랜치를 이미 원격에 `push`한 적이 있다면, 원격 저장소의 이력과 로컬의 이력이 달라져 일반적인 `git push`가 거부됩니다.
 
 이때는 히스토리가 의도적으로 변경되었음을 Git에 알리고 강제로 푸시해야 합니다.

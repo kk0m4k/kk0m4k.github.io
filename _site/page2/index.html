@@ -13,7 +13,7 @@
 <meta name="description" content="An amazing website.">
 
 
-  <meta name="author" content="KK0M4k">
+  <meta name="author" content="KK0M4k - Francesco">
   
 
 
@@ -21,14 +21,14 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="KK0M4K BLog">
 <meta property="og:title" content="KK0M4K BLog">
-<meta property="og:url" content="/page2/">
+<meta property="og:url" content="http://localhost:4000/page2/">
 
 
   <meta property="og:description" content="An amazing website.">
 
 
 
-  <meta property="og:image" content="/assets/images/background.jpg">
+  <meta property="og:image" content="http://localhost:4000/assets/images/background.jpg">
 
 
 
@@ -43,11 +43,13 @@
   
 
 
-<link rel="canonical" href="/page2/">
+<link rel="canonical" href="http://localhost:4000/page2/">
 
 
-  <link rel="prev" href="/">
+  <link rel="prev" href="http://localhost:4000/">
 
+
+  <link rel="next" href="http://localhost:4000/page3">
 
 
 <script type="application/ld+json">
@@ -56,7 +58,7 @@
     
       "@type": "Person",
       "name": "KK0M4K",
-      "url": "/"
+      "url": "http://localhost:4000/"
     
   }
 </script>
@@ -188,15 +190,15 @@
 
   
     <div class="author__avatar">
-      <a href="/">
-        <img src="/assets/images/photo.jpg" alt="KK0M4k" itemprop="image" class="u-photo">
+      <a href="http://localhost:4000/">
+        <img src="/assets/images/photo.jpg" alt="KK0M4k - Francesco" itemprop="image" class="u-photo">
       </a>
     </div>
   
 
   <div class="author__content">
     <h3 class="author__name p-name" itemprop="name">
-      <a class="u-url" rel="me" href="/" itemprop="url">KK0M4k</a>
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">KK0M4k - Francesco</a>
     </h3>
     
       <div class="author__bio p-note" itemprop="description">
@@ -251,6 +253,12 @@
 
       
 
+      
+        <li>
+          <a href="https://github.com/kk0m4k" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+            <i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span>
+          </a>
+        </li>
       
 
       
@@ -318,11 +326,20 @@
             <li class="nav-tree-item">
               <div class="nav-item-wrapper">
                 
-                  <span class="dash-icon">-</span>
+                  <span class="toggle-icon" data-toggle="nav-data-engineering-1">+</span>
                 
                 <a href="/categories/#pyspark">pyspark</a>
               </div>
               
+              
+                <ul class="nav-subtree" id="nav-data-engineering-1" style="display: none;">
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/pyspark/analyze-aws-vpc-flow-logs-with-pyspark-emr-elasticsearch/">VPCFlow Log - Filter/Aggregation</a>
+                    </li>
+                  
+                </ul>
               
             </li>
           
@@ -332,7 +349,7 @@
                 
                   <span class="toggle-icon" data-toggle="nav-data-engineering-2">+</span>
                 
-                <a href="/categories/#splunk">splunk</a>
+                <a href="">splunk</a>
               </div>
               
               
@@ -340,8 +357,7 @@
                   
                     <li class="nav-subtree-item">
                       <span class="dash-icon static">-</span>
-                      <span class="subtree-icon">ㄴ</span>
-                      <a href="/categories/#splunk-csc">CSC</a>
+                            <a href="/categories/#splunk-csc">CSC</a>
                     </li>
                   
                 </ul>
@@ -372,13 +388,102 @@
               
             </li>
           
+            
+            <li class="nav-tree-item">
+              <div class="nav-item-wrapper">
+                
+                  <span class="toggle-icon" data-toggle="nav-data-engineering-5">+</span>
+                
+                <a href="/categories/#fastmcp">fastmcp</a>
+              </div>
+              
+              
+                <ul class="nav-subtree" id="nav-data-engineering-5" style="display: none;">
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/fastmcp/fastmcp-pyenv-calculator-guide/">PYENV 환경에서 MCP 서버 설정</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/fastmcp/gemini-llm-tool-calling/">Gemini LLM을 활용한 Tool 호출 구현하기</a>
+                    </li>
+                  
+                </ul>
+              
+            </li>
+          
         </ul>
         
       </li>
     
       <li>
         
-          <span class="nav__sub-title">Django</span>
+          <span class="nav__sub-title">Public Cloud</span>
+        
+
+        
+        <ul class="nav-tree">
+          
+            
+            <li class="nav-tree-item">
+              <div class="nav-item-wrapper">
+                
+                  <span class="toggle-icon" data-toggle="nav-public-cloud-1">+</span>
+                
+                <a href="/categories/#aws">AWS</a>
+              </div>
+              
+              
+                <ul class="nav-subtree" id="nav-public-cloud-1" style="display: none;">
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/aws/aws_api_rate_limit/">API Call rate limit(throttling)</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/aws/aws-s3-vpc-endpoint-comparison/">S3 - VPC endpoint</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/aws/aws-cross-account-s3-access-with-assumerole/">Using AssumeRole in an AWS Multi-Account Environment</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/aws/secure-aws-deployment-with-github-actions-oidc/">GitHub Actions OIDC를 이용한 배포</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/aws/centralized-egress-vpc-guide/">Multi VPC환경에서 Egress 아키텍처</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/aws/aws-network-firewall-guide/">AWS NFW을 활용한 트래픽 통제</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/aws/analyzing-vpc-flow-logs-with-nat-gateway/">VPC Flow Log와 NAT GW IP 추적 분석</a>
+                    </li>
+                  
+                </ul>
+              
+            </li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <a href="/categories/#git-github"><span class="nav__sub-title">Git & GitHub</span></a>
         
 
         
@@ -390,7 +495,7 @@
                 
                   <span class="dash-icon">-</span>
                 
-                <a href="/categories/#django-restframework">RestFramework</a>
+                <a href="/git-github/git-github-guide/">Git & GitHub Guide</a>
               </div>
               
               
@@ -412,35 +517,122 @@
             <li class="nav-tree-item">
               <div class="nav-item-wrapper">
                 
-                  <span class="dash-icon">-</span>
+                  <span class="toggle-icon" data-toggle="nav-cybersecurity-1">+</span>
                 
                 <a href="/categories/#digital-forensics">Digital Forensics</a>
               </div>
               
               
+                <ul class="nav-subtree" id="nav-cybersecurity-1" style="display: none;">
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/digital-forensics/Windows_file_timestamp/">Live OS로 부팅 후, 파일 수정 시의 타임스탬프</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/digital-forensics/MFT_USNJRNL_LOG/">사고분석 관점에서 $MFT,$USNJRNL,$LOGFILE 활용</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/digital-forensics/create_time_in_Linux/">Create Time in EXT4 Filesystem of Linux</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/digital-forensics/Whiteout-docker-container/">Docker Storage Driver에서 Whiteout 검색</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/digital-forensics/MFT_STD_FN/">splunk를 활용하여 $MFT 파일의 STD과 Fn속성에 있는 타임스탬프 비교</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/digital-forensics/AWS_EC2_dump_analysis/">AWS EC2 디스크 이미징 및 분석 관련..</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/digital-forensics/Mysql_Log_artifact/">Mysql 로그 유형 정리</a>
+                    </li>
+                  
+                </ul>
+              
             </li>
           
             
             <li class="nav-tree-item">
               <div class="nav-item-wrapper">
                 
-                  <span class="dash-icon">-</span>
+                  <span class="toggle-icon" data-toggle="nav-cybersecurity-2">+</span>
                 
                 <a href="/categories/#malware-analysis">Malware analysis</a>
               </div>
               
               
+                <ul class="nav-subtree" id="nav-cybersecurity-2" style="display: none;">
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/malware-analysis/DDoS_dynamic_c2_generation/">디도스 악성코드의 C&C 문자열 생성 로직</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/malware-analysis/Linux_malware_backdoor/">Linux 악성코드: 디도스 및 백도어 기능</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/malware-analysis/ATM_malware/">ATM Malware 분석</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/malware-analysis/Populate_C2_IP_via_blog/">블로그 게시물을 통한 숙주서버 IP수신...</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/malware-analysis/malware-8888/">8888.exe 디도스 악성코드</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/malware-analysis/Malware_using_google_DNS/">악성코드내 명시된 구글DNS 이용하여 IP Lookup 코드</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/malware-analysis/Vmware_bypass/">Vmware 가상머신 우회 악성코드</a>
+                    </li>
+                  
+                </ul>
+              
             </li>
           
             
             <li class="nav-tree-item">
               <div class="nav-item-wrapper">
                 
-                  <span class="dash-icon">-</span>
+                  <span class="toggle-icon" data-toggle="nav-cybersecurity-3">+</span>
                 
-                <a href="/categories/#vuln">Vulnerability</a>
+                <a href="/categories/#vulnerability">Vulnerability</a>
               </div>
               
+              
+                <ul class="nav-subtree" id="nav-cybersecurity-3" style="display: none;">
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/vulnerability/Switch_issue/">SWIFT Issue...</a>
+                    </li>
+                  
+                </ul>
               
             </li>
           
@@ -476,7 +668,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/malware-analysis/Malware_using_google_DNS/" rel="permalink">악성코드내 명시된 구글DNS 이용하여 IP Lookup 코드
+        <a href="/aws/aws_api_rate_limit/" rel="permalink">AWS API Rate Limit(Throttling) 이해
 </a>
       
     </h2>
@@ -488,7 +680,7 @@
       <span class="page__meta-date">
         <i class="far fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2013-11-17T00:00:00+09:00">November 17, 2013</time>
+        <time datetime="2025-08-16T00:00:00+09:00">August 16, 2025</time>
       </span>
     
 
@@ -501,16 +693,16 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          less than 1 minute read
+          3 minute read
         
       </span>
     
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">악성코드를 분석하다 보면, PC에 셋팅된 DNS 서버를 사용하지 않고 악성코드 내 명시된 DNs를 사용하는 경우가 있습니다. 아마도, DNS 싱크홀처리/블랙홀처리를 우회하기 위한 목적일 것으로 보입니다.
+    <p class="archive__item-excerpt" itemprop="description">AWS 작업을 자동화하기 위해 boto3를 사용하다 보면, 특히 많은 리소스를 한 번에 처리하는 스크립트에서 ThrottlingException 또는 RateExceeded와 같은 에러를 마주칠 때가 있습니다. 이는 AWS가 의도적으로 설정한 보호 장치 때문입니다.
 
-  -rtlipv4stringtoaddress API를 사용하여 구글 DNS...</p>
+</p>
   </article>
 </div>
 
@@ -524,7 +716,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/malware-analysis/malware-8888/" rel="permalink">8888.exe(048FFA99E842A101651A9E4691783EED) 디도스 악성코드
+        <a href="/digital-forensics/create_time_in_Linux/" rel="permalink">Create Time in EXT4 Filesystem of Linux
 </a>
       
     </h2>
@@ -536,7 +728,7 @@
       <span class="page__meta-date">
         <i class="far fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2013-03-08T00:00:00+09:00">March 8, 2013</time>
+        <time datetime="2020-07-09T00:00:00+09:00">July 9, 2020</time>
       </span>
     
 
@@ -549,14 +741,14 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          less than 1 minute read
+          2 minute read
         
       </span>
     
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">8888.exe(048FFA99E842A101651A9E4691783EED)는 8888b.pinoera.com 호스트를 숙주서버(C&amp;C)로 사용하는 디도스 악성코드입니다. Asprotect 2.x로 실행압축(패킹)되어 있으며,  악성코드는 윈도우 서비스(bbb88ijk)로 ...</p>
+    <p class="archive__item-excerpt" itemprop="description">Linux 운영체제에서는 파일 및 디렉터리에 대한 시간 정보를 갖고 있으며, 그 시간 정보는 Modified Time, Access Time, 그리고 Changed Time 정보이다. 일반적으로 축약해서 이야기하는 MAC이다. 하지만,  대부분의 Linux 파일시스템, EXT2/E...</p>
   </article>
 </div>
 
@@ -570,7 +762,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/malware-analysis/Populate_C2_IP_via_blog/" rel="permalink">블로그 게시물을 통한 숙주서버 IP수신…
+        <a href="/digital-forensics/Mysql_Log_artifact/" rel="permalink">Mysql 로그 유형 정리
 </a>
       
     </h2>
@@ -582,7 +774,7 @@
       <span class="page__meta-date">
         <i class="far fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2012-12-28T00:00:00+09:00">December 28, 2012</time>
+        <time datetime="2018-12-04T00:00:00+09:00">December 4, 2018</time>
       </span>
     
 
@@ -602,7 +794,14 @@
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">대부분의 숙주서버(C&amp;C) 호스트 또는 IP 정보는 악성코드 내에 하드코딩되어 있거나, 내부 연산을 통해 동적으로 생성되는 경우가 일반적입니다.  최근에 접한 악성코드 9902.exe(52F6218A2AA9DE9096727D365D53297A)는 특정 블로그 게시물 내용에 ...</p>
+    <p class="archive__item-excerpt" itemprop="description">MYSQL DBMS를 대상으로 사고조사 시에 검토해야 하는 로그 유형 정리…
+
+  MYSQL DBMS 로그인 이력
+  MYSQL DDL 사용이력
+  MYSQL DML 사용 이력
+
+
+</p>
   </article>
 </div>
 
@@ -616,7 +815,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/malware-analysis/Vmware_bypass/" rel="permalink">Vmware 가상머신 우회 악성코드
+        <a href="/digital-forensics/Whiteout-docker-container/" rel="permalink">Docker Storage Driver에서 Whiteout 검색
 </a>
       
     </h2>
@@ -628,7 +827,7 @@
       <span class="page__meta-date">
         <i class="far fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2012-05-30T00:00:00+09:00">May 30, 2012</time>
+        <time datetime="2018-09-02T00:00:00+09:00">September 2, 2018</time>
       </span>
     
 
@@ -648,7 +847,7 @@
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">‘12년 5월, DDoS 공격을 유발한 좀비PC에서 수집한 악성코드(32EBE2CEF738DA27B03A36E9BCB29196)는 vmware 가상머신 환경이면 실행을 종료하는 코드가 내장되어 있습니다.  알려진 vmware 가상머신 탐지 기법은 많이 있지만, 이번 악성코드는  V...</p>
+    <p class="archive__item-excerpt" itemprop="description">Docker는 Union filesystem 구조를 지원하는 Storage Driver를 사용하며, 파일 및 디렉터리가 삭제되었을 경우, whiteout 처리를 한다. Whiteout처리 방식은 Storage Driver에 따라 다르다. 대표적인 Storage Driver인 AUF...</p>
   </article>
 </div>
 
@@ -662,7 +861,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/malware-analysis/DDoS_dynamic_c2_generation/" rel="permalink">디도스 악성코드의 C&amp;C 문자열 생성 로직
+        <a href="/digital-forensics/MFT_STD_FN/" rel="permalink">splunk를 활용하여 $MFT 파일의 STD과 Fn속성에 있는 타임스탬프 비교
 </a>
       
     </h2>
@@ -674,7 +873,7 @@
       <span class="page__meta-date">
         <i class="far fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2012-05-10T00:00:00+09:00">May 10, 2012</time>
+        <time datetime="2017-11-30T00:00:00+09:00">November 30, 2017</time>
       </span>
     
 
@@ -694,7 +893,246 @@
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">‘12.05.05 그리고 ‘12.0.510 이렇게 두 차례 디도스 공격을 유발시킨 악성코드가 있었습니다. 5.10일 악성코드는 5.5일 악성코드로 변종입니다.  5.10일 디도스 악성코드의 다양한 변종이 현재까지 출몰하고 있습니다. 이전 포스팅했던 다 수의 악성코드가 5.10일 변...</p>
+    <p class="archive__item-excerpt" itemprop="description">analyzeMFT.py로 파싱된 $MFT 파일의 output를 splunk에 인덱싱하여, STD과 FN 속성에 있는 시간 값을 비교하는 Splunk Query ….
+
+</p>
+  </article>
+</div>
+
+  
+    
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/digital-forensics/AWS_EC2_dump_analysis/" rel="permalink">AWS EC2 디스크 이미징 및 분석 관련..
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2017-09-13T00:00:00+09:00">September 13, 2017</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">클라우드기반 아마존 AWS EC2 서버에 대한 디스크 포렌직을 위한 이미징을 위한 방법은 생각보다 간단하며, 이미징한 파일을 다운로드 받은 후, 분석 시스템에서 포렌직 툴(예, Autopsy)로 불러오면 분석이 가능하다. 또한, 이미지를  VMDX 로 변환하여 vmware에서 라이...</p>
+  </article>
+</div>
+
+  
+    
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/digital-forensics/MFT_USNJRNL_LOG/" rel="permalink">사고분석 관점에서 $MFT,$USNJRNL,$LOGFILE 활용
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2017-06-20T00:00:00+09:00">June 20, 2017</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">NTFS 파일 시스템 기반의 윈도우 시스템 사고분석 과정에서 NTFS파일 시스템과 관련된 메타데이터를 수집하여 분석하는 경우가 일반적이다.
+
+</p>
+  </article>
+</div>
+
+  
+    
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/malware-analysis/ATM_malware/" rel="permalink">ATM Malware 분석
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2017-03-22T00:00:00+09:00">March 22, 2017</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">최근에 이슈가 된 ATM 악성코드(인터넷 샌드박스 사이트에서 다운로드 가능)가 white-listing security solution를 우회할 수 있는 기능이 있는 궁금하여 분석을 수행하고 있으며, 샘플로 받은 파일과 이 파일에서 드랍되는 3개 파일에 대해서 분석을 하고 있음.
+
+</p>
+  </article>
+</div>
+
+  
+    
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/digital-forensics/Windows_file_timestamp/" rel="permalink">Live OS로 부팅 후, 파일 수정 시의 타임스탬프
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2017-03-19T00:00:00+09:00">March 19, 2017</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Live OS를 이용하여, 윈도우 10이 설치되어 있는 데스크탑을 부팅한 후, Live OS에서 윈도우 10이 설치되어 있는 파일시스템의 특정 파일의 컨텐츠를 변경(수정) 하였을 경우, 변경된 파일의 스탬프 값을 확인하는 테스트를 수행 하였음.
+
+</p>
+  </article>
+</div>
+
+  
+    
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/vulnerability/Swift_issue/" rel="permalink">SWIFT Issue…
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2017-03-07T00:00:00+09:00">March 7, 2017</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">은행 근무 시절에 가장 핫 했던 SWIFT 이슈 관련하여, 국내 OO 기관에서 SWIFT 위협과 보안 방안에 대해서 발표 요청이 있었고, 그 당시 발표했던 자료 컨텐츠 중에 방글라데시 중앙은행 사고 관련된 장표 일부를 첨부하였습니다.
+방글라데시를 포함하여, 해외 주요 은행의 SWI...</p>
   </article>
 </div>
 
@@ -725,17 +1163,21 @@
     
 
     
-
-    
-    
-
-    
-      <li><a href="#" class="disabled current">2</a></li>
+      
+        <li><a href="/page2" class="disabled current">2</a></li>
+      
     
 
     
     
-      <li><a href="#" class="disabled"><span aria-hidden="true">Next</span></a></li>
+
+    
+      <li><a href="/page3">3</a></li>
+    
+
+    
+    
+      <li><a href="/page3">Next</a></li>
     
   </ul>
 </nav>
@@ -810,6 +1252,12 @@
 
 
 
+
+  
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@9.4.3/dist/mermaid.js"></script>
+  
+    <script src="/assets/js/mermaid.js"></script>
+  
 
 
 
