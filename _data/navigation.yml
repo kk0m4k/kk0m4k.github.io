@@ -64,6 +64,9 @@ docs:
           - title: "VPC Flow Log와 NAT GW IP 추적 분석"
             url: /aws/analyzing-vpc-flow-logs-with-nat-gateway/
             category: "aws"
+          - title: "RDS Audit Log 중앙 관리 아키텍처"
+            url: /aws/aws-cross-account-rds-audit-log-archiving/
+            category: "aws"
   - title: Git & GitHub
     url: categories/#git-github
     category: "git-github"
