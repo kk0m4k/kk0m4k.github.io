@@ -10,7 +10,7 @@ tags:
   - firehose
 ---
 
-👋 오늘은 여러 AWS 계정에 분산된 RDS 데이터베이스의 감사 로그(Audit Log)를 중앙 로깅 계정으로 안전하고 효율적으로 수집하여 아카이빙하는 방법에 대한 내용을  담고 있습니다. 이 아키텍처는 컴플라이언스 요구사항 충족, 보안 모니터링 강화, 그리고 사후 분석 및 감사 대응에 매우 중요합니다.
+👋 여러 AWS 계정에 분산된 RDS 데이터베이스의 감사 로그(Audit Log)를 중앙 로깅 계정으로 안전하고 효율적으로 수집하여 아카이빙하는 방법에 대해서 다루고자 합니다. 이 아키텍처는 컴플라이언스 요구사항 충족, 보안 모니터링 강화, 그리고 사후 분석 및 감사 대응에 매우 중요합니다.
 
 ## 🚀 왜 중앙 로깅이 필요한가요?
 
@@ -34,23 +34,22 @@ tags:
 
 ```mermaid
 graph TD
-    subgraph kk0m4k-PROD Account
-        A[RDS Instance] -- Audit Log --> B(CloudWatch Log Group);
-        B -- Subscription Filter --> C{IAM Role for CWL};
+    subgraph PROD["kk0m4k-PROD Account"]
+        A[RDS Instance] -->|Audit Log| B(CloudWatch Log Group)
+        B -->|Subscription Filter| C{IAM Role for CWL}
     end
 
-    subgraph centralized-Logarchive Account
-        E(CloudWatch Log Destination<br>cwl-destination-logarchive) -- IAM Policy --> F(Amazon Data Firehose<br>firehose-to-s3);
-        F -- IAM Role for Firehose --> G[S3 Bucket<br>centralized-rds-audit-log-s3];
+    subgraph LOG["centralized-Logarchive Account"]
+        E(CloudWatch Log Destination) -->|IAM Policy| F(Amazon Data Firehose)
+        F -->|IAM Role for Firehose| G[S3 Bucket]
     end
 
-    C -- STS AssumeRole & PutLogEvents --> E;
+    C -->|STS AssumeRole & PutLogEvents| E
 
     style A fill:#D4A7B0,stroke:#333,stroke-width:2px
     style B fill:#C1E1C1,stroke:#333,stroke-width:2px
     style F fill:#FDFD96,stroke:#333,stroke-width:2px
     style G fill:#AEC6CF,stroke:#333,stroke-width:2px
-end
 ```
 
 ## 🛠️ 단계별 구축 가이드 (AWS CLI)
@@ -73,6 +72,73 @@ export S3_BUCKET_NAME="centralized-rds-audit-log-s3"
 export FIREHOSE_NAME="firehose-to-s3"
 export CWL_DESTINATION_NAME="cwl-destination-logarchive"
 export RDS_LOG_GROUP_NAME="/aws/rds/instance/your-rds-instance/audit"
+```
+
+### AWS SSO를 활용한 인증 설정
+
+기업 환경에서는 IAM User 대신 AWS IAM Identity Center(구 AWS SSO)를 사용하여 임시 자격 증명으로 AWS 리소스에 접근하는 것이 보안상 권장됩니다.
+
+#### SSO 프로필 설정
+
+`~/.aws/config` 파일에 SSO 프로필을 설정합니다:
+
+```ini
+# 중앙 로깅 계정 (Log Archive)
+[profile log-archive-profile]
+sso_start_url = https://your-org.awsapps.com/start
+sso_region = ap-northeast-2
+sso_account_id = <CENTRALIZED_LOG_ARCHIVE_ACCOUNT_ID>
+sso_role_name = AdministratorAccess
+region = ap-northeast-2
+output = json
+
+# 운영 계정 (PROD)
+[profile prod-profile]
+sso_start_url = https://your-org.awsapps.com/start
+sso_region = ap-northeast-2
+sso_account_id = <PRODUCTION_ACCOUNT_ID>
+sso_role_name = AdministratorAccess
+region = ap-northeast-2
+output = json
+```
+
+#### SSO 로그인 및 CLI 명령 실행
+
+```bash
+# 중앙 로깅 계정 SSO 로그인
+aws sso login --profile log-archive-profile
+
+# PROD 계정 SSO 로그인
+aws sso login --profile prod-profile
+
+# 로그인 확인 (각 프로필에서 호출자 ID 확인)
+aws sts get-caller-identity --profile log-archive-profile
+aws sts get-caller-identity --profile prod-profile
+```
+
+> **💡 Tip**: SSO 세션은 기본적으로 8시간 후 만료됩니다. 장시간 작업 시 `aws sso login` 명령을 다시 실행하여 세션을 갱신하세요.
+
+#### 자동 로그인 스크립트 (선택사항)
+
+여러 계정에 동시에 로그인해야 할 경우, 다음 스크립트를 활용할 수 있습니다:
+
+```bash
+#!/bin/bash
+# multi-account-sso-login.sh
+
+PROFILES=("log-archive-profile" "prod-profile")
+
+for profile in "${PROFILES[@]}"; do
+    echo "Logging in to $profile..."
+    aws sso login --profile "$profile"
+
+    # 로그인 확인
+    if aws sts get-caller-identity --profile "$profile" > /dev/null 2>&1; then
+        echo "✅ $profile: Login successful"
+    else
+        echo "❌ $profile: Login failed"
+    fi
+done
 ```
 
 ---
@@ -163,7 +229,43 @@ aws iam attach-role-policy \
 
 #### 1.3. Amazon Data Firehose 생성
 
-S3로 데이터를 전송할 Firehose Delivery Stream을 생성합니다. `YYYY/MM/DD/HH` 형식의 파티셔닝을 설정하는 것이 핵심입니다.
+S3로 데이터를 전송할 Firehose Delivery Stream을 생성합니다.
+
+##### 📊 Firehose 파티셔닝 전략: 정적 vs 동적
+
+Firehose는 S3에 데이터를 저장할 때 **정적 파티셔닝**과 **동적 파티셔닝** 두 가지 방식을 지원합니다.
+
+| 구분 | 정적 파티셔닝 (Static Partitioning) | 동적 파티셔닝 (Dynamic Partitioning) |
+|------|-------------------------------------|--------------------------------------|
+| **파티션 키** | 타임스탬프 기반 (`!{timestamp:yyyy}`) | 데이터 내용 기반 (JSON 필드, Lambda 변환) |
+| **S3 경로 예시** | `audit-logs/2025/12/02/10/` | `audit-logs/cluster=prod-db-01/2025/12/02/` |
+| **설정 복잡도** | 낮음 | 높음 (JQ 표현식 또는 Lambda 필요) |
+| **추가 비용** | 없음 | 동적 파티셔닝 처리 비용 발생 |
+| **버퍼링** | 시간/크기 기반 | 파티션별 버퍼링 (메모리 사용량 증가) |
+| **적합한 경우** | 단일 소스, 시간순 분석 | 멀티 소스 구분, 세분화된 쿼리 필요 시 |
+
+**정적 파티셔닝의 장점:**
+- 설정이 단순하고 비용이 저렴
+- 시간순 로그 분석에 최적화
+- 버퍼링이 효율적
+
+**정적 파티셔닝의 단점:**
+- 데이터 내용 기반 분류 불가
+- 멀티 소스 구분이 어려움
+
+**동적 파티셔닝의 장점:**
+- 로그 데이터 내 필드로 파티션 생성 가능 (예: `cluster_id`, `db_instance`)
+- Athena/Glue에서 파티션 프루닝으로 쿼리 성능 향상
+- 데이터 소스별 격리 및 접근 제어 가능
+
+**동적 파티셔닝의 단점:**
+- 추가 처리 비용 발생
+- 설정 복잡도 증가
+- 파티션당 버퍼가 필요하여 메모리 사용량 증가
+
+##### 방법 A: 정적 파티셔닝 (단일 RDS 또는 간단한 구성)
+
+`YYYY/MM/DD/HH` 형식의 타임스탬프 기반 파티셔닝을 사용합니다.
 
 ```bash
 FIREHOSE_ROLE_ARN="arn:aws:iam::${LOG_ARCHIVE_ACCOUNT_ID}:role/Firehose-S3-Role"
@@ -186,6 +288,187 @@ aws firehose create-delivery-stream \
     --region ${LOG_ARCHIVE_REGION} \
     --profile log-archive-profile
 ```
+
+---
+
+## 🗂️ 멀티 RDS 클러스터 로그 수집 아키텍처
+
+여러 RDS 인스턴스/클러스터에서 Audit Log를 수집할 때, 각 데이터베이스를 식별할 수 있어야 사후 분석이 용이합니다.
+
+### 식별 방법 비교
+
+| 방법 | 파티셔닝 유형 | 구현 복잡도 | 비용 | 식별 정확도 |
+|------|--------------|-------------|------|-------------|
+| CloudWatch Log Group 이름 기반 | 정적 | 낮음 | 없음 | 높음 |
+| 각 RDS별 별도 Firehose | 정적 | 중간 | Firehose 수 × 비용 | 높음 |
+| 동적 파티셔닝 + Lambda | 동적 | 높음 | Lambda + 동적파티셔닝 비용 | 매우 높음 |
+
+### 방법 1: CloudWatch Log Group 이름 기반 식별 (권장 - 정적 파티셔닝)
+
+RDS Audit Log는 CloudWatch로 전송될 때 로그 그룹 이름에 인스턴스 식별자가 포함됩니다:
+- `/aws/rds/instance/{db-instance-id}/audit`
+- `/aws/rds/cluster/{cluster-id}/audit`
+
+이 정보는 CloudWatch Logs 구독 필터를 통해 Firehose로 전송될 때 **메타데이터**로 함께 전달됩니다. 따라서 **동적 파티셔닝 없이도 로그 데이터 내에서 RDS 인스턴스를 식별**할 수 있습니다.
+
+**S3에 저장되는 로그 형식 예시:**
+```json
+{
+    "messageType": "DATA_MESSAGE",
+    "owner": "123456789012",
+    "logGroup": "/aws/rds/instance/prod-mysql-01/audit",
+    "logStream": "prod-mysql-01",
+    "subscriptionFilters": ["rds-auditlog-firehose-filter"],
+    "logEvents": [
+        {
+            "id": "...",
+            "timestamp": 1701489600000,
+            "message": "20231202 10:00:00,ip-10-0-1-50,admin,10.0.1.100,12345,67890,QUERY,mydb,'SELECT * FROM users',0"
+        }
+    ]
+}
+```
+
+> **💡 핵심**: `logGroup` 필드에 RDS 인스턴스 식별자가 포함되어 있어, Athena 쿼리 시 이 필드로 필터링할 수 있습니다.
+
+**Athena 쿼리 예시:**
+```sql
+SELECT *
+FROM rds_audit_logs
+WHERE logGroup LIKE '%prod-mysql-01%'
+  AND year = '2025' AND month = '12' AND day = '02';
+```
+
+### 방법 2: 각 RDS별 별도 구독 필터 + Prefix 분리 (정적 파티셔닝)
+
+RDS 인스턴스별로 별도의 구독 필터를 생성하고, 각기 다른 S3 prefix로 저장하는 방법입니다.
+
+```bash
+# RDS 인스턴스 목록 정의
+RDS_INSTANCES=("prod-mysql-01" "prod-mysql-02" "prod-postgres-01")
+
+for RDS_INSTANCE in "${RDS_INSTANCES[@]}"; do
+    # 각 RDS별 Firehose 생성 (또는 단일 Firehose 사용 시 prefix만 다르게)
+    aws firehose create-delivery-stream \
+        --delivery-stream-name "firehose-${RDS_INSTANCE}" \
+        --delivery-stream-type DirectPut \
+        --extended-s3-destination-configuration '{
+            "RoleARN": "'${FIREHOSE_ROLE_ARN}'",
+            "BucketARN": "'${S3_BUCKET_ARN}'",
+            "Prefix": "audit-logs/rds='${RDS_INSTANCE}'/!{timestamp:yyyy}/!{timestamp:MM}/!{timestamp:dd}/!{timestamp:HH}/",
+            "ErrorOutputPrefix": "error-logs/'${RDS_INSTANCE}'/!{firehose:error-output-type}/!{timestamp:yyyy}/!{timestamp:MM}/!{timestamp:dd}/",
+            "BufferingHints": { "IntervalInSeconds": 300, "SizeInMBs": 5 },
+            "CompressionFormat": "GZIP"
+        }' \
+        --region ${LOG_ARCHIVE_REGION} \
+        --profile log-archive-profile
+
+    echo "Created Firehose for ${RDS_INSTANCE}"
+done
+```
+
+**S3 경로 구조:**
+```
+s3://centralized-rds-audit-log-s3/
+├── audit-logs/
+│   ├── rds=prod-mysql-01/
+│   │   └── 2025/12/02/10/
+│   ├── rds=prod-mysql-02/
+│   │   └── 2025/12/02/10/
+│   └── rds=prod-postgres-01/
+│       └── 2025/12/02/10/
+```
+
+### 방법 3: 동적 파티셔닝 (Lambda 변환 활용)
+
+로그 데이터를 Lambda로 변환하여 RDS 인스턴스 ID를 추출하고, 이를 파티션 키로 사용하는 방법입니다.
+
+> **⚠️ 주의**: CloudWatch Logs에서 Firehose로 전송되는 데이터는 Base64 + Gzip으로 인코딩되어 있어 JQ 표현식만으로는 파싱이 어렵습니다. Lambda 변환이 필요합니다.
+
+**Lambda 함수 코드 예시 (`firehose-transform.py`):**
+```python
+import base64
+import gzip
+import json
+
+def lambda_handler(event, context):
+    output = []
+
+    for record in event['records']:
+        # Base64 + Gzip 디코딩
+        compressed_payload = base64.b64decode(record['data'])
+        uncompressed_payload = gzip.decompress(compressed_payload)
+        log_data = json.loads(uncompressed_payload)
+
+        # logGroup에서 RDS 인스턴스 ID 추출
+        log_group = log_data.get('logGroup', '')
+        # /aws/rds/instance/prod-mysql-01/audit -> prod-mysql-01
+        parts = log_group.split('/')
+        rds_instance = parts[4] if len(parts) > 4 else 'unknown'
+
+        # 파티션 키 추가
+        result = {
+            'recordId': record['recordId'],
+            'result': 'Ok',
+            'data': base64.b64encode(
+                (json.dumps(log_data) + '\n').encode('utf-8')
+            ).decode('utf-8'),
+            'metadata': {
+                'partitionKeys': {
+                    'rds_instance': rds_instance
+                }
+            }
+        }
+        output.append(result)
+
+    return {'records': output}
+```
+
+**동적 파티셔닝이 적용된 Firehose 생성:**
+```bash
+aws firehose create-delivery-stream \
+    --delivery-stream-name ${FIREHOSE_NAME} \
+    --delivery-stream-type DirectPut \
+    --extended-s3-destination-configuration '{
+        "RoleARN": "'${FIREHOSE_ROLE_ARN}'",
+        "BucketARN": "'${S3_BUCKET_ARN}'",
+        "Prefix": "audit-logs/rds_instance=!{partitionKeyFromLambda:rds_instance}/year=!{timestamp:yyyy}/month=!{timestamp:MM}/day=!{timestamp:dd}/hour=!{timestamp:HH}/",
+        "ErrorOutputPrefix": "error-logs/!{firehose:error-output-type}/!{timestamp:yyyy}/!{timestamp:MM}/!{timestamp:dd}/",
+        "BufferingHints": { "IntervalInSeconds": 300, "SizeInMBs": 5 },
+        "CompressionFormat": "GZIP",
+        "DynamicPartitioningConfiguration": {
+            "Enabled": true,
+            "RetryOptions": { "DurationInSeconds": 300 }
+        },
+        "ProcessingConfiguration": {
+            "Enabled": true,
+            "Processors": [
+                {
+                    "Type": "Lambda",
+                    "Parameters": [
+                        { "ParameterName": "LambdaArn", "ParameterValue": "arn:aws:lambda:'${LOG_ARCHIVE_REGION}':'${LOG_ARCHIVE_ACCOUNT_ID}':function:firehose-rds-transform" },
+                        { "ParameterName": "BufferSizeInMBs", "ParameterValue": "1" },
+                        { "ParameterName": "BufferIntervalInSeconds", "ParameterValue": "60" }
+                    ]
+                }
+            ]
+        }
+    }' \
+    --region ${LOG_ARCHIVE_REGION} \
+    --profile log-archive-profile
+```
+
+### 권장 사항
+
+| 상황 | 권장 방법 |
+|------|-----------|
+| RDS 인스턴스 1~3개, 비용 최소화 | **방법 1**: Log Group 이름 기반 식별 |
+| RDS 인스턴스 다수, S3 파티션 분리 필요 | **방법 2**: 각 RDS별 별도 구독 필터 |
+| 복잡한 쿼리 요구, Athena 파티션 프루닝 필수 | **방법 3**: 동적 파티셔닝 + Lambda |
+
+대부분의 경우 **방법 1 (CloudWatch Log Group 이름 기반 식별)**이 가장 비용 효율적이며, Athena에서 JSON 파싱을 통해 충분히 RDS 인스턴스를 구분할 수 있습니다.
+
+---
 
 #### 1.4. CloudWatch Log Destination 생성
 
@@ -324,4 +607,47 @@ aws logs put-subscription-filter \
     --region ${PROD_REGION} \
     --profile prod-profile
 ```
-*`filter-pattern`을 `""` (공백)으로 설정하면 모든 로그가 전송됩니다. 특정 키워드가 포함된 로그만 보내려면 패턴을 지정할 수.*
+*`filter-pattern`을 `""` (공백)으로 설정하면 모든 로그가 전송됩니다. 특정 키워드가 포함된 로그만 보내려면 패턴을 지정할 수 있습니다.*
+
+---
+
+## 🔍 검증 및 트러블슈팅
+
+### 로그 흐름 검증
+
+구성이 완료되면 다음 순서로 로그 흐름을 검증합니다:
+
+```bash
+# 1. RDS에서 CloudWatch Log Group으로 로그 전송 확인
+aws logs describe-log-streams \
+    --log-group-name ${RDS_LOG_GROUP_NAME} \
+    --order-by LastEventTime \
+    --descending \
+    --limit 5 \
+    --profile prod-profile
+
+# 2. 구독 필터 상태 확인
+aws logs describe-subscription-filters \
+    --log-group-name ${RDS_LOG_GROUP_NAME} \
+    --profile prod-profile
+
+# 3. Firehose 전송 상태 확인
+aws firehose describe-delivery-stream \
+    --delivery-stream-name ${FIREHOSE_NAME} \
+    --profile log-archive-profile
+
+# 4. S3 버킷에 로그 파일 생성 확인
+aws s3 ls s3://${S3_BUCKET_NAME}/audit-logs/ --recursive \
+    --profile log-archive-profile | head -20
+```
+
+### 일반적인 문제 해결
+
+| 문제 | 원인 | 해결 방법 |
+|------|------|-----------|
+| 구독 필터 생성 실패 | Destination 정책에 PROD 계정 미허용 | `put-destination-policy`로 정책 재설정 |
+| S3에 로그 미도착 | Firehose IAM Role 권한 부족 | S3 PutObject 권한 확인 |
+| 로그 지연 발생 | Firehose 버퍼링 설정 | BufferIntervalInSeconds 조정 |
+| Cross-Account 인증 실패 | STS AssumeRole 실패 | Trust Policy 및 Principal 확인 |
+
+---
