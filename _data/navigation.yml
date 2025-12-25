@@ -24,9 +24,13 @@ docs:
       - title: "Elasticsearch"
         url: categories/#elasticsearch
         category: "elasticsearch"
-      - title: "ML/DeepLearning"
-        url: categories/#ml_dl
-        category: "ml_dl_"
+      - title: "AI/ML/DeepLearning"
+        url: categories/#ai_mil_dl
+        category: "ai_mil_dl"
+        children:
+          - title: "LiteLLM 기반 AWS Bedrock 보안 거버넌스"
+            url: /ai_mil_dl/litellm-gateway-aws-bedrock-firehose/
+            category: "ai_mil_dl"
       - title: "fastmcp"
         url: categories/#fastmcp
         category: "fastmcp"
