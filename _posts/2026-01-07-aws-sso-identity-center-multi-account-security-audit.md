@@ -1,14 +1,14 @@
 ---
 layout: single
-title: "AWS SSO Identity Center를 활용한 Multi-Account 접근 🔐"
+title: "CLI에서 AWS SSO Identity Center를 활용한 Multi-Account 접근 🔐"
 date: 2026-01-07 23:00:00 +0900
 categories: aws
 tags: [aws-sso, identity-center]
 ---
 
-AWS Organizations를 사용하는 환경에서 여러 계정의 리소스에 접근하고, 운영 및 보안 감사를 수행하려면, **안전하고 효율적인 인증 방식**이 필요합니다. 사용자 단말 또는 운영 서버 콘솔환경에서 AWS SSO (IAM Identity Center)를 활용하여 Long-term Access Key 없이도 Multi-Account 환경에서 보안 감사를 수행하는 방법을 다룹니다.
+AWS Organizations를 사용하는 환경에서 여러 계정의 리소스에 접근하고, 운영 및 보안 감사를 수행하려면, **안전하고 효율적인 인증 방식**이 필요합니다. 사용자 단말 또는 운영 서버 콘솔환경에서 AWS SSO (IAM Identity Center)를 활용하여 Long-term Access Key 없이도 Multi-Account 환경에서 CLI를 통해 리소스를 접근하는 방법을 다룹니다.
 
-## 🎯 사용자 단말에서 AWS SSO Identity Center를 사용해야 하나?
+## 🎯 CLI에서 AWS SSO Identity Center를 사용해야 하나?
 
 ### 🚫 Long-term Access Key의 위험성
 
