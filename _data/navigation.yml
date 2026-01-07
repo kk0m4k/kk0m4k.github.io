@@ -71,7 +71,7 @@ docs:
           - title: "RDS Audit Log 중앙 관리 아키텍처"
             url: /aws/aws-cross-account-rds-audit-log-archiving/
             category: "aws"
-          - title: "AWS SSO Identity Center Multi-Account 보안 감사"
+          - title: "CLI에서 AWS SSO Identity Center를 활용한 Multi-Account 접근"
             url: /aws/aws-sso-identity-center-multi-account-security-audit/
             category: "aws"
   - title: Git & GitHub
