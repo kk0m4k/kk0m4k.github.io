@@ -1,11 +1,11 @@
 # main links
 main:
-   - title: "Posts"
-     url: /posts/
-   - title: "Categories"
-     url: /categories/
-   - title: "Tags"
-     url: /tags/
+  - title: "Posts"
+    url: /posts/
+  - title: "Categories"
+    url: /categories/
+  - title: "Tags"
+    url: /tags/
 
 docs:
   - title: Data Engineering
@@ -70,6 +70,9 @@ docs:
             category: "aws"
           - title: "RDS Audit Log 중앙 관리 아키텍처"
             url: /aws/aws-cross-account-rds-audit-log-archiving/
+            category: "aws"
+          - title: "AWS SSO Identity Center Multi-Account 보안 감사"
+            url: /aws/aws-sso-identity-center-multi-account-security-audit/
             category: "aws"
   - title: Git & GitHub
     url: categories/#git-github
