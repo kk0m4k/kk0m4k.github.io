@@ -1,18 +1,18 @@
 ---
 layout: single
-title: "AWS SSO Identity Center로 Multi-Account 보안 감사 자동화 🔐"
+title: "AWS SSO Identity Center를 활용한 Multi-Account 접근 🔐"
 date: 2026-01-07 23:00:00 +0900
 categories: aws
 tags: [aws-sso, identity-center]
 ---
 
-AWS Organizations를 사용하는 환경에서 여러 계정의 리소스를 수집하고 보안 감사를 수행하려면, **안전하고 효율적인 인증 방식**이 필수입니다. 이 글에서는 **AWS SSO (IAM Identity Center)**를 활용하여 Long-term Access Key 없이도 Multi-Account 환경에서 보안 감사를 수행하는 방법을 다룹니다.
+AWS Organizations를 사용하는 환경에서 여러 계정의 리소스에 접근하고, 운영 및 보안 감사를 수행하려면, **안전하고 효율적인 인증 방식**이 필요합니다. 사용자 단말 또는 운영 서버 콘솔환경에서 AWS SSO (IAM Identity Center)를 활용하여 Long-term Access Key 없이도 Multi-Account 환경에서 보안 감사를 수행하는 방법을 다룹니다.
 
-## 🎯 왜 AWS SSO Identity Center인가?
+## 🎯 사용자 단말에서 AWS SSO Identity Center를 사용해야 하나?
 
 ### 🚫 Long-term Access Key의 위험성
 
-전통적인 IAM User의 Access Key/Secret Key 방식은 여러 보안 취약점을 가지고 있습니다:
+전통적인 IAM User의 Access Key/Secret Key 방식은 사용자 단말에서 직접 Access Keys를 설정하고 관리해야 하므로 여러 보안 취약점을 가지고 있습니다:
 
 | 위험 요소            | 설명                                      |
 | -------------------- | ----------------------------------------- |
@@ -149,26 +149,6 @@ sso_registration_scopes = sso:account:access
 [profile kk0m4k-management]
 sso_session = kk0m4k-sso
 sso_account_id = 111111111111
-sso_role_name = ReadOnlyForSecurityAudit
-region = ap-northeast-2
-output = json
-
-# ===================================
-# Production Account Profile
-# ===================================
-[profile kk0m4k-prod]
-sso_session = kk0m4k-sso
-sso_account_id = 222222222222
-sso_role_name = ReadOnlyForSecurityAudit
-region = ap-northeast-2
-output = json
-
-# ===================================
-# Development Account Profile
-# ===================================
-[profile kk0m4k-dev]
-sso_session = kk0m4k-sso
-sso_account_id = 333333333333
 sso_role_name = ReadOnlyForSecurityAudit
 region = ap-northeast-2
 output = json
@@ -686,6 +666,201 @@ $ python security_audit.py
 📁 결과 저장: security_audit_20260107_230000.csv
 ============================================================
 ```
+
+## ⚠️ AWS SSO의 한계: 사용자 개입 필수
+
+AWS SSO (Identity Center)는 **대화형(interactive) 인증**을 전제로 설계되어 있어, **배치 작업에는 적합하지 않습니다**.
+
+### 🔄 자동화 시나리오별 권장 인증 방식
+
+```
+┌──────────────────────────────────────────────────────────────────────────┐
+│                    시나리오별 인증 방식 권장                               │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  👤 사용자 단말 (대화형)          → AWS SSO (Identity Center) ✅          │
+│                                                                          │
+│  🖥️ EC2/ECS/Lambda (AWS 내부)   → IAM Instance Profile / Role ✅        │
+│                                                                          │
+│  🏢 On-premise 서버 (배치)       → IAM Role + AssumeRole ✅              │
+│                                    (Service Account 방식)                │
+│                                                                          │
+│  🔄 CI/CD (GitHub Actions 등)   → OIDC Federation ✅                     │
+│                                                                          │
+└──────────────────────────────────────────────────────────────────────────┘
+```
+
+### 📋 배치 스크립트를 위한 권장 패턴
+
+| 실행 환경                 | 권장 방식                    | 설명                                    |
+| ------------------------- | ---------------------------- | --------------------------------------- |
+| **AWS 내부 (EC2/Lambda)** | Instance Profile             | 인스턴스에 IAM Role 연결, 자동 자격증명 |
+| **On-premise**            | Service Account + AssumeRole | 제한된 권한의 IAM User로 AssumeRole     |
+| **CI/CD**                 | OIDC Federation              | GitHub/GitLab 등과 IAM 연동             |
+
+> 💡 **요약**: 사용자가 직접 실행하는 경우 → SSO, 자동화/배치 작업 → IAM Role + AssumeRole
+
+### 🏢 On-premise에서 AssumeRole 사용 방법
+
+On-premise 서버에서 AWS 리소스에 접근하려면, **초기 자격증명(Bootstrap Credentials)**이 필요합니다. 이것이 바로 SSO와의 차이점입니다.
+
+#### 🔄 동작 흐름
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                     On-premise AssumeRole 인증 흐름                          │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│  📁 ~/.aws/credentials                                                       │
+│  ┌─────────────────────────────────────────┐                                 │
+│  │ [service-account]                       │                                 │
+│  │ aws_access_key_id = AKIA...             │  ← 최소 권한 IAM User            │
+│  │ aws_secret_access_key = xxxxx           │    (sts:AssumeRole만 허용)       │
+│  └─────────────────────────────────────────┘                                 │
+│                          │                                                   │
+│                          ▼                                                   │
+│  ┌─────────────────────────────────────────┐                                 │
+│  │  1️⃣ STS AssumeRole 호출                  │                                 │
+│  │     RoleArn: arn:aws:iam::111111:role/  │                                 │
+│  │              SecurityAuditRole          │                                 │
+│  └─────────────────────────────────────────┘                                 │
+│                          │                                                   │
+│                          ▼                                                   │
+│  ┌─────────────────────────────────────────┐                                 │
+│  │  2️⃣ 임시 자격증명 수신                    │                                 │
+│  │     AccessKeyId (임시)                   │                                 │
+│  │     SecretAccessKey (임시)               │                                 │
+│  │     SessionToken                        │                                 │
+│  │     Expiration: 1시간 후                 │                                 │
+│  └─────────────────────────────────────────┘                                 │
+│                          │                                                   │
+│                          ▼                                                   │
+│  ┌─────────────────────────────────────────┐                                 │
+│  │  3️⃣ 임시 자격증명으로 AWS 리소스 접근      │                                 │
+│  │     ec2:Describe*, rds:Describe* 등     │                                 │
+│  └─────────────────────────────────────────┘                                 │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+#### 📋 구성 요소
+
+**1️⃣ Service Account용 IAM User (최소 권한)**
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "sts:AssumeRole",
+      "Resource": [
+        "arn:aws:iam::111111111111:role/SecurityAuditRole",
+        "arn:aws:iam::222222222222:role/SecurityAuditRole",
+        "arn:aws:iam::333333333333:role/SecurityAuditRole"
+      ]
+    }
+  ]
+}
+```
+
+> ⚠️ 이 IAM User는 **sts:AssumeRole 권한만** 가집니다. 직접 EC2, RDS 등에 접근 불가!
+
+**2️⃣ 대상 계정의 IAM Role (SecurityAuditRole)**
+
+Trust Policy (누가 이 Role을 Assume할 수 있는가):
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::111111111111:user/batch-service-account"
+      },
+      "Action": "sts:AssumeRole",
+      "Condition": {
+        "StringEquals": {
+          "sts:ExternalId": "unique-external-id-12345"
+        }
+      }
+    }
+  ]
+}
+```
+
+Permission Policy (이 Role이 할 수 있는 것):
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["ec2:Describe*", "rds:Describe*", "s3:List*"],
+      "Resource": "*"
+    }
+  ]
+}
+```
+
+#### 🐍 Python 코드 예시
+
+```python
+import boto3
+
+# 1️⃣ Service Account 자격증명으로 STS 클라이언트 생성
+sts_client = boto3.client(
+    'sts',
+    aws_access_key_id='AKIA...',      # Service Account
+    aws_secret_access_key='xxxxx'
+)
+
+# 2️⃣ 대상 계정의 Role로 AssumeRole
+assumed_role = sts_client.assume_role(
+    RoleArn='arn:aws:iam::222222222222:role/SecurityAuditRole',
+    RoleSessionName='batch-audit-session',
+    ExternalId='unique-external-id-12345',  # 추가 보안
+    DurationSeconds=3600  # 1시간
+)
+
+# 3️⃣ 임시 자격증명 추출
+credentials = assumed_role['Credentials']
+
+# 4️⃣ 임시 자격증명으로 EC2 클라이언트 생성
+ec2_client = boto3.client(
+    'ec2',
+    region_name='ap-northeast-2',
+    aws_access_key_id=credentials['AccessKeyId'],
+    aws_secret_access_key=credentials['SecretAccessKey'],
+    aws_session_token=credentials['SessionToken']
+)
+
+# 5️⃣ EC2 리소스 조회
+instances = ec2_client.describe_instances()
+```
+
+#### 🔐 보안 포인트
+
+| 항목                    | 설명                                                |
+| ----------------------- | --------------------------------------------------- |
+| **최소 권한 원칙**      | Service Account는 `sts:AssumeRole`만 가능           |
+| **External ID**         | Cross-account AssumeRole 시 confused deputy 방지    |
+| **Role Chaining**       | 임시 자격증명으로 다시 AssumeRole 가능 (최대 1시간) |
+| **Access Key 로테이션** | Service Account의 키는 정기적으로 로테이션 필요     |
+
+#### 📊 SSO vs Service Account 비교
+
+| 구분                | AWS SSO        | Service Account + AssumeRole |
+| ------------------- | -------------- | ---------------------------- |
+| **사용자 개입**     | 필수 (로그인)  | ❌ 불필요                    |
+| **배치 작업**       | ❌ 부적합      | ✅ 적합                      |
+| **Access Key 저장** | ❌ 없음        | ⚠️ 필요 (최소 권한)          |
+| **MFA**             | ✅ 기본 지원   | 선택적                       |
+| **권한 관리**       | Permission Set | IAM Role                     |
+
+> 🔑 **결론**: On-premise 배치에서는 **최소 권한의 Service Account + AssumeRole** 패턴을 사용하세요. Access Key가 저장되지만, 그 키는 **sts:AssumeRole만 가능**하므로 유출되어도 직접적인 리소스 접근은 불가능합니다.
 
 ## 🔒 보안 모범 사례 (Best Practices)
 
