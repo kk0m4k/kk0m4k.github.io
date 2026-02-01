@@ -31,6 +31,9 @@ docs:
           - title: "LiteLLM 기반 AWS Bedrock 보안 거버넌스"
             url: /ai_mil_dl/litellm-gateway-aws-bedrock-firehose/
             category: "ai_mil_dl"
+          - title: "Gen AI Guardrail 기술적 우회 공격 테스트"
+            url: /ai_mil_dl/genai-prompt-injection-technical-exploit-testing/
+            category: "ai_mil_dl"
       - title: "fastmcp"
         url: categories/#fastmcp
         category: "fastmcp"
