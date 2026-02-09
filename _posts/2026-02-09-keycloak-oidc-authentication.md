@@ -1,9 +1,9 @@
 ---
 layout: single
-title: "🔐 Keycloak으로 배우는 OIDC 인증 완벽 가이드: BFF vs Standard vs PKCE 비교"
+title: "🔐 Keycloak을 활용한 OIDC 인증 : BFF vs Standard vs PKCE 비교"
 date: 2026-02-09 21:00:00 +0900
 categories: authn-z
-tags: [oidc, keycloak, authentication, bff, pkce, fastapi, security, oauth2]
+tags: [oidc, keycloak, AuthN, AuthZ, Oauth2]
 ---
 
 개발자라면 한 번쯤 들어본 요청이죠. "로그인 기능 좀 만들어주세요." 하지만 직접 인증 시스템을 만드는 건 정말 위험합니다. 비밀번호 해싱, 세션 관리, 토큰 갱신... 고려할 게 한두 가지가 아닙니다. 😰
@@ -161,6 +161,43 @@ token_url = openid_config.get("token_endpoint")
 - Keycloak 버전이 바뀌어도 코드 수정 불필요
 - Realm 이름만 바꾸면 모든 URL 자동 업데이트
 - 표준 방식이라 다른 OIDC 서버(Auth0, Okta 등)로 교체 쉬움
+
+### ❓ "Authorization Code를 가져오는 엔드포인트는 없나요?"
+
+**없습니다!** Authorization Code는 별도 API 엔드포인트가 아니라 **`authorization_endpoint`의 리다이렉트 응답**으로 받습니다.
+
+**실제 흐름:**
+
+```python
+# 1️⃣ authorization_endpoint로 사용자를 보냄
+auth_url = (
+    f"{authorization_endpoint}"
+    f"?client_id={CLIENT_ID}"
+    f"&response_type=code"  # ← "code를 주세요"
+    f"&redirect_uri=http://localhost:8888/callback"
+)
+# 사용자를 여기로 리다이렉트
+
+# 2️⃣ 로그인 후 Keycloak이 브라우저를 redirect_uri로 보냄
+# http://localhost:8888/callback?code=eyJhbG...
+# ↑ URL 쿼리 파라미터로 code가 옴!
+
+# 3️⃣ Callback에서 code를 추출
+@app.get("/callback")
+async def callback(code: str):  # ← FastAPI가 자동으로 쿼리 파라미터 파싱
+    # 이제 token_endpoint로 code를 token으로 교환
+    ...
+```
+
+**정리:**
+
+| 엔드포인트               | 역할                                   | 받는 방법                             |
+| :----------------------- | :------------------------------------- | :------------------------------------ |
+| `authorization_endpoint` | 로그인 + **Authorization Code 발급**   | 리다이렉트 URL의 `?code=xxx` 파라미터 |
+| `token_endpoint`         | Authorization Code → Access Token 교환 | POST 요청의 응답 JSON                 |
+| `userinfo_endpoint`      | Access Token → 사용자 정보 조회        | GET 요청의 응답 JSON                  |
+
+> 💡 **핵심**: Authorization Code는 **HTTP 응답 본문이 아니라 리다이렉트 URL의 쿼리 파라미터**로 전달됩니다!
 
 ---
 

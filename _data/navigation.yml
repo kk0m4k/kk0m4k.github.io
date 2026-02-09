@@ -86,7 +86,7 @@ docs:
         category: "git-github"
   - title: CyberSecurity
     children:
-      - title: "AuthN-Z (인증/인가)"
+      - title: "AuthN-Z"
         url: categories/#authn-z
         category: "authn-z"
         children:
