@@ -34,6 +34,9 @@ docs:
           - title: "Gen AI Guardrail 기술적 우회 공격 테스트"
             url: /ai_mil_dl/genai-prompt-injection-technical-exploit-testing/
             category: "ai_mil_dl"
+          - title: "Palo Alto NGFW Egress 이상탐지 ML 파이프라인"
+            url: /ai_mil_dl/paloalto-anomaly-detection-pipeline/
+            category: "ai_mil_dl"
       - title: "fastmcp"
         url: categories/#fastmcp
         category: "fastmcp"
