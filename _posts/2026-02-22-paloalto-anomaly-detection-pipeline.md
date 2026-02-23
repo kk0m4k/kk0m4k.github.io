@@ -6,7 +6,7 @@ categories: ai_mil_dl
 tags: [anomaly-detection, ML, isolation-forest, pyod]
 ---
 
-> AWS Egress 트래픽을 수집하고 분석하는데 있어서, VPCFlow를 서브넷 단위로 적용하여 Flow logs를 분석하거나, 또는 GWLB Endpoint로 AWS Egress 트래픽을 NGFW로 돌려서 방화벽 트래픽 로그를 분석하는 방식이 있다. 여기서는 Palo Alto NGFW 방화벽 로그 수만 건을 10분마다 수집하고, ~140개 피처로 변환하고, 4개 모델 앙상블로 이상 트래픽을 실시간 탐지하는 SecOps ML 파이프라인을 다루고 있습니다.
+> AWS Egress 트래픽을 수집하고 분석하는데 있어서, VPCFlow를 서브넷 단위로 적용하여 Flow logs를 분석하거나, 또는 GWLB Endpoint로 AWS Egress 트래픽을 NGFW로 돌려서 방화벽 트래픽 로그를 분석하는 방식이 있습니다. 여기서는 Palo Alto NGFW 방화벽 로그 수만 건을 10분마다 수집하고, ~140개 피처로 변환하고, 4개 모델 앙상블로 이상 트래픽을 실시간 탐지하는 SecOps ML 파이프라인을 다루고 있습니다.
 
 ## 🤔 보안 분야에서 ML을 적용한다는 것
 
@@ -54,7 +54,7 @@ Palo Alto NGFW(Next-Generation Firewall)는 L7 수준의 애플리케이션 식�
 
   Splunk (index=ngfw-egressfw)
   ┌──────────────────────────┐
-  │   Raw Traffic Logs       │  150+ fields, TRAFFIC/THREAT
+  │   Raw Traffic Logs       │  150+ fields, TRAFFIC
   └────────────┬─────────────┘
                │  every 10 min
                ▼
@@ -95,9 +95,9 @@ start → fetch_and_engineer → send_to_splunk → end
 
 ### 상세 동작
 
-**1단계 — 원본 데이터 수집**: Splunk에서 최근 **10분** 분량의 TRAFFIC/THREAT 로그를 조회합니다. 수집된 데이터 내에서 롤링 통계(예: `src_conns_5min`, `src_conns_1hr`)와 IP별 행동 패턴을 계산하며, 충분한 세션 수가 확보되는 환경에서 동작합니다.
+**1단계 — 원본 데이터 수집**: Splunk에서 최근 **10분** 분량의 TRAFFIC 로그를 조회합니다. 수집된 데이터 내에서 롤링 통계(예: `src_conns_5min`, `src_conns_1hr`)와 IP별 행동 패턴을 계산하며, 충분한 세션 수가 확보되는 환경에서 동작합니다.
 
-**2단계 — 전처리**: 150개 이상의 원본 필드에서 불필요한 48개 컬럼(Splunk 메타데이터, PA 예약 필드)을 제거하고, TRAFFIC 로그와 THREAT 로그를 JOIN하여 URL 위협 정보를 보강합니다.
+**2단계 — 전처리**: 150개 이상의 원본 필드에서 불필요한 48개 컬럼(Splunk 메타데이터, PA 예약 필드)을 제거하고, TRAFFIC 로그를 JOIN하여 URL 위협 정보를 보강합니다.
 
 **3단계 — 76개 세션 피처 생성**: 7개 카테고리로 나눠 세션 단위 피처를 추출합니다:
 
@@ -255,7 +255,7 @@ anomaly_detail = '[{"rule": "c2_beaconing", "col": "beacon_score_sum", ...}]'
 
 ## 🌐 Palo Alto NGFW Egress 트래픽의 구조
 
-Palo Alto NGFW에서 수집하는 Egress 트래픽 로그는 크게 **TRAFFIC**과 **THREAT** 두 가지 유형으로 구성됩니다.
+Palo Alto NGFW에서 수집하는 Egress 트래픽 로그는 크게 **TRAFFIC** 두 가지 유형으로 구성됩니다.
 
 ### TRAFFIC 로그
 
@@ -276,10 +276,6 @@ Palo Alto NGFW에서 수집하는 Egress 트래픽 로그는 크게 **TRAFFIC**�
 │  dest_loc (국가 코드: KR, US, CN, RU, ...)           │
 └──────────────────────────────────────────────────────┘
 ```
-
-### THREAT 로그
-
-TRAFFIC과 1:N으로 연결되며, URL 필터링/IPS에서 탐지된 위협 정보를 포함합니다. 파이프라인에서는 TRAFFIC과 THREAT를 JOIN하여 세션에 위협 컨텍스트를 보강합니다.
 
 ### Egress 방향의 특수성
 
