@@ -3,21 +3,10 @@ layout: single
 title: "Palo Alto NGFW Egress 트래픽 이상탐지 파이프라인: Airflow + ML 앙상블로 구축하기"
 date: 2026-02-22 21:00:00 +0900
 categories: ai_mil_dl
-tags:
-  [
-    paloalto,
-    anomaly-detection,
-    airflow,
-    ML,
-    ensemble,
-    splunk,
-    secops,
-    isolation-forest,
-    pyod,
-  ]
+tags: [anomaly-detection, ML, isolation-forest, pyod]
 ---
 
-> 방화벽 로그 수만 건을 10분마다 수집하고, ~140개 피처로 변환하고, 4개 모델 앙상블로 이상 트래픽을 실시간 탐지하는 SecOps ML 파이프라인을 소개합니다.
+> AWS Egress 트래픽을 수집하고 분석하는데 있어서, VPCFlow를 서브넷 단위로 적용하여 Flow logs를 분석하거나, 또는 GWLB Endpoint로 AWS Egress 트래픽을 NGFW로 돌려서 방화벽 트래픽 로그를 분석하는 방식이 있다. 여기서는 Palo Alto NGFW 방화벽 로그 수만 건을 10분마다 수집하고, ~140개 피처로 변환하고, 4개 모델 앙상블로 이상 트래픽을 실시간 탐지하는 SecOps ML 파이프라인을 다루고 있습니다.
 
 ---
 
@@ -102,15 +91,15 @@ start → fetch_and_engineer → send_to_splunk → end
 
 **3단계 — 76개 세션 피처 생성**: 7개 카테고리로 나눠 세션 단위 피처를 추출합니다:
 
-| 카테고리        | 피처 수 | 주요 피처 예시                                                           |
-| --------------- | ------- | ------------------------------------------------------------------------ |
-| 🕐 시간         | 10      | `hour_sin/cos`, `is_business_hour`, `src_conns_5min`, `src_burst_ratio`  |
-| 📊 볼륨         | 11      | `bytes_log`, `bytes_zscore`, `transfer_asymmetry`, `is_large_outbound`   |
-| 🧠 행동         | 13      | `src_unique_dst_ips`, `session_end_risk`, `is_rare_dst_ip`               |
-| 🌐 네트워크     | 7       | `dest_ip_popularity_log`, `dns_query_count`, `dest_ip_port_rarity`       |
-| 🌍 지리         | 4       | `dest_country_risk`, `is_unusual_country`, `dest_country_freq_log`       |
-| 📱 애플리케이션 | 7       | `app_frequency_log`, `url_category_risk`, `is_unknown_domain`            |
-| 🔬 고급         | 24      | `beacon_score`, `dest_unique_subnets`, `network_risk_score`              |
+| 카테고리        | 피처 수 | 주요 피처 예시                                                          |
+| --------------- | ------- | ----------------------------------------------------------------------- |
+| 🕐 시간         | 10      | `hour_sin/cos`, `is_business_hour`, `src_conns_5min`, `src_burst_ratio` |
+| 📊 볼륨         | 11      | `bytes_log`, `bytes_zscore`, `transfer_asymmetry`, `is_large_outbound`  |
+| 🧠 행동         | 13      | `src_unique_dst_ips`, `session_end_risk`, `is_rare_dst_ip`              |
+| 🌐 네트워크     | 7       | `dest_ip_popularity_log`, `dns_query_count`, `dest_ip_port_rarity`      |
+| 🌍 지리         | 4       | `dest_country_risk`, `is_unusual_country`, `dest_country_freq_log`      |
+| 📱 애플리케이션 | 7       | `app_frequency_log`, `url_category_risk`, `is_unknown_domain`           |
+| 🔬 고급         | 24      | `beacon_score`, `dest_unique_subnets`, `network_risk_score`             |
 
 **4단계 — (src_ip, dst_ip, 10분 윈도우) 집계**: 세션 단위 피처를 소스 IP + 목적지 IP + 10분 타임 버킷 기준으로 집계합니다. 집계 전략은 피처 특성에 따라 다릅니다:
 
