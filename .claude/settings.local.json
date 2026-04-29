@@ -6,7 +6,10 @@
       "WebFetch(domain:docs.litellm.ai)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(ls -1 /Users/taehoon/Personal/kk0m4k.github.io/_posts/*.md)",
+      "Bash(grep -h \"categories:\" -A 2 /Users/taehoon/Personal/kk0m4k.github.io/_posts/*.md)",
+      "Bash(grep -v \"^--$\")"
     ]
   }
 }
