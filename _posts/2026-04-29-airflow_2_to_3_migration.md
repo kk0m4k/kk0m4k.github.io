@@ -13,6 +13,7 @@ tags:
   - DataEngineering
   - Migration
 ---
+{% raw %}
 
 Apache Airflow 3.0은 2.x 대비 내부 아키텍처를 대폭 개편한 메이저 릴리즈입니다.
 DAG 작성 인터페이스의 SDK 분리, 표준 Operator의 Provider 이전, `execution_date` 제거 등 여러 Breaking Change가 포함되어 있습니다.
@@ -626,3 +627,4 @@ Airflow 3.0은 내부 아키텍처와 외부 인터페이스 모두에서 상당
 ---
 
 _Apache Airflow 공식 마이그레이션 가이드: [https://airflow.apache.org/docs/apache-airflow/stable/migration-guide.html](https://airflow.apache.org/docs/apache-airflow/stable/migration-guide.html)_
+{% endraw %}

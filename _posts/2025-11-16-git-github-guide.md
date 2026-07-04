@@ -4,6 +4,7 @@ date: 2025-11-16 11:00:00 +0900
 categories: git-github
 tags: [git, github]
 ---
+{% raw %}
 
 ### Git이란 무엇인가?
 
@@ -843,3 +844,4 @@ GitHub Actions를 사용하면 한 저장소의 변경 사항을 다른 저장�
     -   `run`: Runner의 셸(기본적으로 bash)을 사용하여 직접 명령어를 실행합니다.
         -   `sed "s|://|://$DESTINATION_PAT@|"`: `sed` 명령어는 문자열을 치환하는 스트림 편집기입니다. 여기서는 `https://github.com/...` 같은 URL을 `https://<토큰값>@github.com/...` 형태로 동적으로 변경하여, `git push` 시 인증을 통과할 수 있도록 합니다.
         -   `git push --mirror "$DEST_URL_WITH_AUTH"`: 이 명령어가 미러링의 핵심입니다. `--mirror` 옵션은 현재 로컬에 복제된 저장소의 모든 참조(브랜치, 태그 등)를 지정된 원격 저장소로 그대로 복제하여 완벽한 동기화를 수행합니다.
+{% endraw %}
