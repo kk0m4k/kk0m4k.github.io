@@ -23,6 +23,10 @@ end
 gem "kramdown-parser-gfm"
 gem "faraday-retry"
 
+# Extracted from stdlib in Ruby 3.4+; needed by Jekyll 3.x deps (safe_yaml, liquid)
+gem "base64"
+gem "bigdecimal"
+
 # Platform specific gems
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "wdm", "~> 0.1.0" if Gem.win_platform?
