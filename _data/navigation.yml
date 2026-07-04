@@ -80,6 +80,9 @@ docs:
           - title: "CLI에서 AWS SSO Identity Center를 활용한 Multi-Account 접근"
             url: /aws/aws-sso-identity-center-multi-account-security-audit/
             category: "aws"
+          - title: "EKS Pod 권한 부여: IRSA vs Pod Identity"
+            url: /aws/eks-irsa-vs-pod-identity/
+            category: "aws"
   - title: Git & GitHub
     url: categories/#git-github
     category: "git-github"
