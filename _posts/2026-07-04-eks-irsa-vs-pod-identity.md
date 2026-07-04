@@ -261,6 +261,31 @@ OIDC provider ARN도, 긴 `sub` 조건도 없다. 클러스터가 바뀌어도 �
 
 `ListBucket`은 버킷 ARN에, `GetObject`는 객체 ARN(`/raw/*`)에 걸어야 한다. 이 둘을 헷갈리면 목록은 되는데 다운로드가 안 되거나 그 반대가 된다.
 
+### 권한 정책을 Role에 붙이기
+
+위 권한 정책 JSON에는 Role 이름도, 주체(principal)도 없다. 정책은 "무엇을 할 수 있나"만 담은 독립 객체이고, "어느 Role이 이 능력을 갖나"는 **attach**라는 별도 단계에서 정해진다. eksctl은 이 과정을 자동으로 처리해 주지만, 수동으로 하면 세 단계다.
+
+```bash
+# 1. 권한 정책을 관리형 정책으로 등록 → 정책 ARN이 생김
+aws iam create-policy \
+  --policy-name s3-read-only \
+  --policy-document file://s3-read-only.json
+
+# 2. Role 생성 (신뢰 정책을 함께 지정) — "누가 이 Role이 될 수 있나"
+aws iam create-role \
+  --role-name s3-reader-role \
+  --assume-role-policy-document file://trust.json
+
+# 3. 권한 정책을 Role에 붙임(attach) — "이 Role이 무엇을 할 수 있나"
+aws iam attach-role-policy \
+  --role-name s3-reader-role \
+  --policy-arn arn:aws:iam::123456789012:policy/s3-read-only
+```
+
+`create-role`의 `--assume-role-policy-document`에 들어가는 게 앞서 본 신뢰 정책이다(IRSA면 OIDC provider, Pod Identity면 `pods.eks.amazonaws.com`). 그리고 `attach-role-policy`의 `--role-name`에서야 비로소 권한 정책과 Role이 이어진다. 즉 **정책·Role·주체가 각각 따로 정의되고, attach·신뢰 정책·SA 매핑이라는 연결고리로 묶이는** 구조다. 정책에 Role을 박아두지 않기 때문에 같은 `s3-read-only` 정책을 여러 Role에 재사용할 수 있다.
+
+앞서 본 eksctl 예시의 `--attach-policy-arn` 한 줄이 위 1~3단계를 대신 해 주는 것이다.
+
 ### IRSA로 붙이기
 
 ```yaml
@@ -306,6 +331,35 @@ s3 = boto3.client("s3")
 obj = s3.get_object(Bucket="data-lake-prod", Key="raw/2026/07/events.parquet")
 print(obj["Body"].read()[:100])
 ```
+
+### (선택) 버킷 정책으로 리소스 쪽에서도 조이기
+
+지금까지 본 건 Role에 붙는 **identity-based 정책**이다. 반대로 버킷 쪽에도 정책을 붙일 수 있는데, 이게 **버킷 정책(resource-based 정책)**이다. identity 정책과 달리 여기엔 `Principal`이 명시된다 — "누가"를 리소스 입장에서 적는 것이다.
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "OnlyS3ReaderRoleCanRead",
+      "Effect": "Allow",
+      "Principal": { "AWS": "arn:aws:iam::123456789012:role/s3-reader-role" },
+      "Action": ["s3:GetObject", "s3:ListBucket"],
+      "Resource": [
+        "arn:aws:s3:::data-lake-prod",
+        "arn:aws:s3:::data-lake-prod/raw/*"
+      ]
+    }
+  ]
+}
+```
+
+같은 계정 안에서라면 버킷 정책이 없어도 identity 정책만으로 접근이 된다(같은 계정에선 둘 중 하나만 Allow여도 통과). 버킷 정책을 굳이 더 두는 이유는 두 가지다.
+
+- **크로스 계정**: 버킷이 다른 계정에 있으면, 그 계정의 버킷 정책에서 이쪽 Role ARN을 `Principal`로 명시적으로 허용해야 한다. 이때는 양쪽(리소스 정책 + identity 정책)이 **모두 Allow**여야 접근이 된다.
+- **리소스 쪽 강제**: "이 버킷은 오직 `s3-reader-role`만 읽는다"를 버킷 소유자가 못박고 싶을 때. `Deny`와 조합하면 그 외 주체를 원천 차단할 수 있다.
+
+정리하면 identity 정책과 리소스 정책은 **교차 평가**된다. 같은 계정 단일 접근이면 identity 정책 하나로 충분하고, 크로스 계정이거나 리소스 쪽에서 화이트리스트를 강제해야 할 때 버킷 정책을 더한다.
 
 ## 예제 2: MSK(Kafka) 접근 제어
 
@@ -358,6 +412,42 @@ sasl.mechanism=AWS_MSK_IAM
 sasl.jaas.config=software.amazon.msk.auth.iam.IAMLoginModule required;
 sasl.client.callback.handler.class=software.amazon.msk.auth.iam.IAMClientCallbackHandler
 ```
+
+### (선택) MSK 클러스터 정책 (resource-based)
+
+MSK도 클러스터에 **리소스 기반 정책(cluster policy)**을 붙일 수 있다. 다만 S3 버킷 정책만큼 자주 쓰이진 않는다. MSK IAM 인증의 접근 제어는 기본적으로 위에서 본 것처럼 **주체(Role)에 붙는 identity 정책**으로 하기 때문이다. 같은 계정 안에서 Pod가 클러스터에 붙는 상황이면 클러스터 정책은 없어도 된다.
+
+클러스터 정책이 필요한 대표적 경우는 **크로스 계정**이다. 다른 계정의 Pod(Role)가 이 MSK에 붙어야 할 때, 클러스터 소유 계정에서 그 Role을 `Principal`로 허용해 줘야 한다.
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowCrossAccountConsumer",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::210987654321:role/orders-consumer-role"
+      },
+      "Action": [
+        "kafka-cluster:Connect",
+        "kafka-cluster:DescribeCluster",
+        "kafka-cluster:DescribeTopic",
+        "kafka-cluster:ReadData",
+        "kafka-cluster:DescribeGroup",
+        "kafka-cluster:AlterGroup"
+      ],
+      "Resource": [
+        "arn:aws:kafka:ap-northeast-2:123456789012:cluster/prod-msk/*",
+        "arn:aws:kafka:ap-northeast-2:123456789012:topic/prod-msk/*/orders",
+        "arn:aws:kafka:ap-northeast-2:123456789012:group/prod-msk/*/order-consumer-*"
+      ]
+    }
+  ]
+}
+```
+
+`aws kafka put-cluster-policy`로 붙인다. 크로스 계정에선 S3와 마찬가지로 **양쪽이 모두 Allow**여야 한다 — 소비자 계정 Role의 identity 정책(앞의 `kafka-cluster:*` 정책)과 클러스터 소유 계정의 이 클러스터 정책이 둘 다 통과해야 연결된다. 같은 계정이면 클러스터 정책은 생략하고 identity 정책만 쓰면 된다.
 
 정리하면 MSK도 "SA ↔ Role 연결"은 S3와 똑같은 두 방식이고, 달라지는 건 Role에 붙이는 권한 정책이 `kafka-cluster:*` 액션이라는 점, 그리고 클라이언트에 SASL/IAM 설정이 필요하다는 점이다.
 
