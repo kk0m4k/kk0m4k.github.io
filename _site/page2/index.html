@@ -21,14 +21,14 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="KK0M4K BLog">
 <meta property="og:title" content="KK0M4K BLog">
-<meta property="og:url" content="http://localhost:4000/page2/">
+<meta property="og:url" content="/page2/">
 
 
   <meta property="og:description" content="An amazing website.">
 
 
 
-  <meta property="og:image" content="http://localhost:4000/assets/images/background.jpg">
+  <meta property="og:image" content="/assets/images/background.jpg">
 
 
 
@@ -43,13 +43,13 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/page2/">
+<link rel="canonical" href="/page2/">
 
 
-  <link rel="prev" href="http://localhost:4000/">
+  <link rel="prev" href="/">
 
 
-  <link rel="next" href="http://localhost:4000/page3">
+  <link rel="next" href="/page3">
 
 
 <script type="application/ld+json">
@@ -58,7 +58,7 @@
     
       "@type": "Person",
       "name": "KK0M4K",
-      "url": "http://localhost:4000/"
+      "url": "/"
     
   }
 </script>
@@ -190,7 +190,7 @@
 
   
     <div class="author__avatar">
-      <a href="http://localhost:4000/">
+      <a href="/">
         <img src="/assets/images/photo.jpg" alt="KK0M4k - Francesco" itemprop="image" class="u-photo">
       </a>
     </div>
@@ -198,7 +198,7 @@
 
   <div class="author__content">
     <h3 class="author__name p-name" itemprop="name">
-      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">KK0M4k - Francesco</a>
+      <a class="u-url" rel="me" href="/" itemprop="url">KK0M4k - Francesco</a>
     </h3>
     
       <div class="author__bio p-note" itemprop="description">
@@ -380,11 +380,30 @@
             <li class="nav-tree-item">
               <div class="nav-item-wrapper">
                 
-                  <span class="dash-icon">-</span>
+                  <span class="toggle-icon" data-toggle="nav-data-engineering-4">+</span>
                 
-                <a href="/categories/#ml_dl">ML/DeepLearning</a>
+                <a href="/categories/#ai_mil_dl">AI/ML/DeepLearning</a>
               </div>
               
+              
+                <ul class="nav-subtree" id="nav-data-engineering-4" style="display: none;">
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/ai_mil_dl/litellm-gateway-aws-bedrock-firehose/">LiteLLM 기반 AWS Bedrock 보안 거버넌스</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/ai_mil_dl/genai-prompt-injection-technical-exploit-testing/">Gen AI Guardrail 기술적 우회 공격 테스트</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/ai_mil_dl/paloalto-anomaly-detection-pipeline/">Palo Alto NGFW Egress 이상탐지 ML 파이프라인</a>
+                    </li>
+                  
+                </ul>
               
             </li>
           
@@ -473,6 +492,21 @@
                             <a href="/aws/analyzing-vpc-flow-logs-with-nat-gateway/">VPC Flow Log와 NAT GW IP 추적 분석</a>
                     </li>
                   
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/aws/aws-cross-account-rds-audit-log-archiving/">RDS Audit Log 중앙 관리 아키텍처</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/aws/aws-sso-identity-center-multi-account-security-audit/">CLI에서 AWS SSO Identity Center를 활용한 Multi-Account 접근</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/aws/eks-irsa-vs-pod-identity/">EKS Pod 권한 부여: IRSA vs Pod Identity</a>
+                    </li>
+                  
                 </ul>
               
             </li>
@@ -519,11 +553,32 @@
                 
                   <span class="toggle-icon" data-toggle="nav-cybersecurity-1">+</span>
                 
-                <a href="/categories/#digital-forensics">Digital Forensics</a>
+                <a href="/categories/#authn-z">AuthN-Z</a>
               </div>
               
               
                 <ul class="nav-subtree" id="nav-cybersecurity-1" style="display: none;">
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/authn-z/keycloak-oidc-authentication/">Keycloak OIDC 인증 가이드: BFF vs PKCE</a>
+                    </li>
+                  
+                </ul>
+              
+            </li>
+          
+            
+            <li class="nav-tree-item">
+              <div class="nav-item-wrapper">
+                
+                  <span class="toggle-icon" data-toggle="nav-cybersecurity-2">+</span>
+                
+                <a href="/categories/#digital-forensics">Digital Forensics</a>
+              </div>
+              
+              
+                <ul class="nav-subtree" id="nav-cybersecurity-2" style="display: none;">
                   
                     <li class="nav-subtree-item">
                       <span class="dash-icon static">-</span>
@@ -568,13 +623,13 @@
             <li class="nav-tree-item">
               <div class="nav-item-wrapper">
                 
-                  <span class="toggle-icon" data-toggle="nav-cybersecurity-2">+</span>
+                  <span class="toggle-icon" data-toggle="nav-cybersecurity-3">+</span>
                 
                 <a href="/categories/#malware-analysis">Malware analysis</a>
               </div>
               
               
-                <ul class="nav-subtree" id="nav-cybersecurity-2" style="display: none;">
+                <ul class="nav-subtree" id="nav-cybersecurity-3" style="display: none;">
                   
                     <li class="nav-subtree-item">
                       <span class="dash-icon static">-</span>
@@ -619,17 +674,17 @@
             <li class="nav-tree-item">
               <div class="nav-item-wrapper">
                 
-                  <span class="toggle-icon" data-toggle="nav-cybersecurity-3">+</span>
+                  <span class="toggle-icon" data-toggle="nav-cybersecurity-4">+</span>
                 
                 <a href="/categories/#vulnerability">Vulnerability</a>
               </div>
               
               
-                <ul class="nav-subtree" id="nav-cybersecurity-3" style="display: none;">
+                <ul class="nav-subtree" id="nav-cybersecurity-4" style="display: none;">
                   
                     <li class="nav-subtree-item">
                       <span class="dash-icon static">-</span>
-                            <a href="/vulnerability/Switch_issue/">SWIFT Issue...</a>
+                            <a href="/vulnerability/Swift_issue/">SWIFT Issue...</a>
                     </li>
                   
                 </ul>
@@ -658,6 +713,380 @@
 
 
 <div class="entries-list">
+  
+    
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/fastmcp/fastmcp-pyenv-calculator-guide/" rel="permalink">pyenv 환경에서 MCP 서버 설정하기: Claude Desktop &amp; Cursor AI
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2025-08-27T10:00:00+09:00">August 27, 2025</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Claude Desktop과 Cursor AI에서 pyenv 가상환경을 사용하는 MCP(Model Context Protocol) 서버를 설정하는 방법입니다. 저는 주로 pyenv를 사용하여 가상환경을 만들고, 필요한 패키지를 설치하여 개발을 합니다. 일반적으로 uv를 사용한 설정...</p>
+  </article>
+</div>
+
+  
+    
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/aws/analyzing-vpc-flow-logs-with-nat-gateway/" rel="permalink">AWS NAT Gateway와 VPC Flow Log를 이용한 IP 추적 분석
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2025-08-26T00:00:00+09:00">August 26, 2025</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          9 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">AWS 환경에서 보안을 강화하기 위해 데이터베이스나 백엔드 애플리케이션 서버 등 외부에서 직접 접근할 필요가 없는 리소스들은 보통 Private Subnet에 배치합니다. 하지만 이 서버들도 소프트웨어 패치, 외부 API 호출 등 인터넷으로 아웃바운드 통신이 필요한 경우가 발생합니...</p>
+  </article>
+</div>
+
+  
+    
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/aws/aws-network-firewall-guide/" rel="permalink">AWS NFW을 활용한 네트워크 트래픽 통제
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2025-08-25T00:00:00+09:00">August 25, 2025</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">현대 기업의 클라우드 여정에서 가장 큰 도전 과제 중 하나는 바로 ‘보안’입니다. 특히 AWS 환경에서 수십, 수백 개의 워크로드를 운영하다 보면, 각각의 VPC와 서브넷에서 발생하는 트래픽을 일일이 추적하고 통제하는 것이 얼마나 복잡한 일인지 실감하게 됩니다. 예로, 새벽에 갑작...</p>
+  </article>
+</div>
+
+  
+    
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/aws/centralized-egress-vpc-guide/" rel="permalink">AWS Transit Gateway를 활용한 중앙 집중식 Egress 아키텍처 구축 가이드
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2025-08-23T09:00:00+09:00">August 23, 2025</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">클라우드 환경에서 여러 개의 VPC(Virtual Private Cloud)를 운영할 때, 각 VPC가 개별적으로 인터넷 게이트웨이나 NAT 게이트웨이를 보유하는 구성은 관리의 복잡성과 보안 비용을 증가시키는 원인이 되곤 합니다. 이러한 문제를 효과적으로 해결할 수 있는 방안이 바...</p>
+  </article>
+</div>
+
+  
+    
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/pyspark/analyze-aws-vpc-flow-logs-with-pyspark-emr-elasticsearch/" rel="permalink">대용량 AWS VPCFlow 로그 축약/필터링을 위한 Spark 활용
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2025-08-19T09:00:00+09:00">August 19, 2025</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">들어가며: 왜 AWS VPCFlow 로그 분석이 중요한가?
+
+</p>
+  </article>
+</div>
+
+  
+    
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/aws/secure-aws-deployment-with-github-actions-oidc/" rel="permalink">GitHub Actions와 OIDC를 이용한 안전한 AWS 배포 파이프라인 구축하기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2025-08-18T00:00:00+09:00">August 18, 2025</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Github Actions 기능을 이용하여 AWS ECR에 도커 이미지를 등록하고, EKS를 통해서 이미지를 배포할때, AWS Longterm Access Keys를 사용하지 않고, OIDC를 기반의 STS를 사용하는 방법에 대한 내용이니다.  많은 팀이 CI/CD 파이프라인에서 ...</p>
+  </article>
+</div>
+
+  
+    
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/aws/aws-cross-account-s3-access-with-assumerole/" rel="permalink">AWS 다중 계정 환경에서 AssumeRole을 사용하여 안전하게 S3에 접근하기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2025-08-17T10:00:00+09:00">August 17, 2025</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">많은 기업들이 AWS를 사용하면서 보안 강화, 비용 분리, 장애 영향 범위 최소화 등을 위해 여러 개의 AWS 계정을 운영하는 ‘다중 계정(Multi-Account)’ 전략을 채택합니다. 예를 들어, 다음과 같은 구조를 흔히 볼 수 있습니다.
+
+</p>
+  </article>
+</div>
+
+  
+    
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/aws/aws-s3-vpc-endpoint-comparison/" rel="permalink">AWS S3 VPC endpoint - Gateway vs. Interface
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2025-08-17T00:00:00+09:00">August 17, 2025</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">AWS 환경에서 VPC(Virtual Private Cloud) 내의 리소스(예: EC2 인스턴스)가 S3 버킷과 통신해야 하는 경우는 매우 흔합니다. 이때 인터넷을 통하지 않고 AWS 내부 네트워크를 통해 안전하고 빠르게 통신하기 위해 VPC 엔드포인트를 사용합니다.
+
+</p>
+  </article>
+</div>
+
   
     
 
@@ -753,390 +1182,6 @@
 </div>
 
   
-    
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/digital-forensics/Mysql_Log_artifact/" rel="permalink">Mysql 로그 유형 정리
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2018-12-04T00:00:00+09:00">December 4, 2018</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          less than 1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">MYSQL DBMS를 대상으로 사고조사 시에 검토해야 하는 로그 유형 정리…
-
-  MYSQL DBMS 로그인 이력
-  MYSQL DDL 사용이력
-  MYSQL DML 사용 이력
-
-
-</p>
-  </article>
-</div>
-
-  
-    
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/digital-forensics/Whiteout-docker-container/" rel="permalink">Docker Storage Driver에서 Whiteout 검색
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2018-09-02T00:00:00+09:00">September 2, 2018</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          less than 1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">Docker는 Union filesystem 구조를 지원하는 Storage Driver를 사용하며, 파일 및 디렉터리가 삭제되었을 경우, whiteout 처리를 한다. Whiteout처리 방식은 Storage Driver에 따라 다르다. 대표적인 Storage Driver인 AUF...</p>
-  </article>
-</div>
-
-  
-    
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/digital-forensics/MFT_STD_FN/" rel="permalink">splunk를 활용하여 $MFT 파일의 STD과 Fn속성에 있는 타임스탬프 비교
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2017-11-30T00:00:00+09:00">November 30, 2017</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          less than 1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">analyzeMFT.py로 파싱된 $MFT 파일의 output를 splunk에 인덱싱하여, STD과 FN 속성에 있는 시간 값을 비교하는 Splunk Query ….
-
-</p>
-  </article>
-</div>
-
-  
-    
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/digital-forensics/AWS_EC2_dump_analysis/" rel="permalink">AWS EC2 디스크 이미징 및 분석 관련..
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2017-09-13T00:00:00+09:00">September 13, 2017</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          less than 1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">클라우드기반 아마존 AWS EC2 서버에 대한 디스크 포렌직을 위한 이미징을 위한 방법은 생각보다 간단하며, 이미징한 파일을 다운로드 받은 후, 분석 시스템에서 포렌직 툴(예, Autopsy)로 불러오면 분석이 가능하다. 또한, 이미지를  VMDX 로 변환하여 vmware에서 라이...</p>
-  </article>
-</div>
-
-  
-    
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/digital-forensics/MFT_USNJRNL_LOG/" rel="permalink">사고분석 관점에서 $MFT,$USNJRNL,$LOGFILE 활용
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2017-06-20T00:00:00+09:00">June 20, 2017</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          less than 1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">NTFS 파일 시스템 기반의 윈도우 시스템 사고분석 과정에서 NTFS파일 시스템과 관련된 메타데이터를 수집하여 분석하는 경우가 일반적이다.
-
-</p>
-  </article>
-</div>
-
-  
-    
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/malware-analysis/ATM_malware/" rel="permalink">ATM Malware 분석
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2017-03-22T00:00:00+09:00">March 22, 2017</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">최근에 이슈가 된 ATM 악성코드(인터넷 샌드박스 사이트에서 다운로드 가능)가 white-listing security solution를 우회할 수 있는 기능이 있는 궁금하여 분석을 수행하고 있으며, 샘플로 받은 파일과 이 파일에서 드랍되는 3개 파일에 대해서 분석을 하고 있음.
-
-</p>
-  </article>
-</div>
-
-  
-    
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/digital-forensics/Windows_file_timestamp/" rel="permalink">Live OS로 부팅 후, 파일 수정 시의 타임스탬프
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2017-03-19T00:00:00+09:00">March 19, 2017</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          2 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">Live OS를 이용하여, 윈도우 10이 설치되어 있는 데스크탑을 부팅한 후, Live OS에서 윈도우 10이 설치되어 있는 파일시스템의 특정 파일의 컨텐츠를 변경(수정) 하였을 경우, 변경된 파일의 스탬프 값을 확인하는 테스트를 수행 하였음.
-
-</p>
-  </article>
-</div>
-
-  
-    
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/vulnerability/Swift_issue/" rel="permalink">SWIFT Issue…
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2017-03-07T00:00:00+09:00">March 7, 2017</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          less than 1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">은행 근무 시절에 가장 핫 했던 SWIFT 이슈 관련하여, 국내 OO 기관에서 SWIFT 위협과 보안 방안에 대해서 발표 요청이 있었고, 그 당시 발표했던 자료 컨텐츠 중에 방글라데시 중앙은행 사고 관련된 장표 일부를 첨부하였습니다.
-방글라데시를 포함하여, 해외 주요 은행의 SWI...</p>
-  </article>
-</div>
-
-  
 </div>
 
 
@@ -1167,12 +1212,19 @@
         <li><a href="/page2" class="disabled current">2</a></li>
       
     
+      
+        
+        
+        
+        <li><a href="/page3">3</a></li>
+      
+    
 
     
     
 
     
-      <li><a href="/page3">3</a></li>
+      <li><a href="/page4">4</a></li>
     
 
     
@@ -1234,7 +1286,7 @@
   </ul>
 </div>
 
-<div class="page__footer-copyright">&copy; 2025 KK0M4K. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+<div class="page__footer-copyright">&copy; 2026 KK0M4K. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
 
       </footer>
     </div>

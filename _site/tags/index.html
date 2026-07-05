@@ -21,14 +21,14 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="KK0M4K BLog">
 <meta property="og:title" content="KK0M4K BLog">
-<meta property="og:url" content="http://localhost:4000/tags/">
+<meta property="og:url" content="/tags/">
 
 
   <meta property="og:description" content="An amazing website.">
 
 
 
-  <meta property="og:image" content="http://localhost:4000/assets/images/background.jpg">
+  <meta property="og:image" content="/assets/images/background.jpg">
 
 
 
@@ -43,7 +43,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/tags/">
+<link rel="canonical" href="/tags/">
 
 
 
@@ -54,7 +54,7 @@
     
       "@type": "Person",
       "name": "KK0M4K",
-      "url": "http://localhost:4000/"
+      "url": "/"
     
   }
 </script>
@@ -173,7 +173,7 @@
 
   
     <div class="author__avatar">
-      <a href="http://localhost:4000/">
+      <a href="/">
         <img src="/assets/images/photo.jpg" alt="KK0M4k - Francesco" itemprop="image" class="u-photo">
       </a>
     </div>
@@ -181,7 +181,7 @@
 
   <div class="author__content">
     <h3 class="author__name p-name" itemprop="name">
-      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">KK0M4k - Francesco</a>
+      <a class="u-url" rel="me" href="/" itemprop="url">KK0M4k - Francesco</a>
     </h3>
     
       <div class="author__bio p-note" itemprop="description">
@@ -363,11 +363,30 @@
             <li class="nav-tree-item">
               <div class="nav-item-wrapper">
                 
-                  <span class="dash-icon">-</span>
+                  <span class="toggle-icon" data-toggle="nav-data-engineering-4">+</span>
                 
-                <a href="/categories/#ml_dl">ML/DeepLearning</a>
+                <a href="/categories/#ai_mil_dl">AI/ML/DeepLearning</a>
               </div>
               
+              
+                <ul class="nav-subtree" id="nav-data-engineering-4" style="display: none;">
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/ai_mil_dl/litellm-gateway-aws-bedrock-firehose/">LiteLLM 기반 AWS Bedrock 보안 거버넌스</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/ai_mil_dl/genai-prompt-injection-technical-exploit-testing/">Gen AI Guardrail 기술적 우회 공격 테스트</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/ai_mil_dl/paloalto-anomaly-detection-pipeline/">Palo Alto NGFW Egress 이상탐지 ML 파이프라인</a>
+                    </li>
+                  
+                </ul>
               
             </li>
           
@@ -456,6 +475,21 @@
                             <a href="/aws/analyzing-vpc-flow-logs-with-nat-gateway/">VPC Flow Log와 NAT GW IP 추적 분석</a>
                     </li>
                   
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/aws/aws-cross-account-rds-audit-log-archiving/">RDS Audit Log 중앙 관리 아키텍처</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/aws/aws-sso-identity-center-multi-account-security-audit/">CLI에서 AWS SSO Identity Center를 활용한 Multi-Account 접근</a>
+                    </li>
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/aws/eks-irsa-vs-pod-identity/">EKS Pod 권한 부여: IRSA vs Pod Identity</a>
+                    </li>
+                  
                 </ul>
               
             </li>
@@ -502,11 +536,32 @@
                 
                   <span class="toggle-icon" data-toggle="nav-cybersecurity-1">+</span>
                 
-                <a href="/categories/#digital-forensics">Digital Forensics</a>
+                <a href="/categories/#authn-z">AuthN-Z</a>
               </div>
               
               
                 <ul class="nav-subtree" id="nav-cybersecurity-1" style="display: none;">
+                  
+                    <li class="nav-subtree-item">
+                      <span class="dash-icon static">-</span>
+                            <a href="/authn-z/keycloak-oidc-authentication/">Keycloak OIDC 인증 가이드: BFF vs PKCE</a>
+                    </li>
+                  
+                </ul>
+              
+            </li>
+          
+            
+            <li class="nav-tree-item">
+              <div class="nav-item-wrapper">
+                
+                  <span class="toggle-icon" data-toggle="nav-cybersecurity-2">+</span>
+                
+                <a href="/categories/#digital-forensics">Digital Forensics</a>
+              </div>
+              
+              
+                <ul class="nav-subtree" id="nav-cybersecurity-2" style="display: none;">
                   
                     <li class="nav-subtree-item">
                       <span class="dash-icon static">-</span>
@@ -551,13 +606,13 @@
             <li class="nav-tree-item">
               <div class="nav-item-wrapper">
                 
-                  <span class="toggle-icon" data-toggle="nav-cybersecurity-2">+</span>
+                  <span class="toggle-icon" data-toggle="nav-cybersecurity-3">+</span>
                 
                 <a href="/categories/#malware-analysis">Malware analysis</a>
               </div>
               
               
-                <ul class="nav-subtree" id="nav-cybersecurity-2" style="display: none;">
+                <ul class="nav-subtree" id="nav-cybersecurity-3" style="display: none;">
                   
                     <li class="nav-subtree-item">
                       <span class="dash-icon static">-</span>
@@ -602,17 +657,17 @@
             <li class="nav-tree-item">
               <div class="nav-item-wrapper">
                 
-                  <span class="toggle-icon" data-toggle="nav-cybersecurity-3">+</span>
+                  <span class="toggle-icon" data-toggle="nav-cybersecurity-4">+</span>
                 
                 <a href="/categories/#vulnerability">Vulnerability</a>
               </div>
               
               
-                <ul class="nav-subtree" id="nav-cybersecurity-3" style="display: none;">
+                <ul class="nav-subtree" id="nav-cybersecurity-4" style="display: none;">
                   
                     <li class="nav-subtree-item">
                       <span class="dash-icon static">-</span>
-                            <a href="/vulnerability/Switch_issue/">SWIFT Issue...</a>
+                            <a href="/vulnerability/Swift_issue/">SWIFT Issue...</a>
                     </li>
                   
                 </ul>
@@ -716,8 +771,6 @@
     
       
     
-  
-    
       
     
       
@@ -725,60 +778,6 @@
       
     
       
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-  
     
       
     
@@ -841,6 +840,334 @@
       
     
   
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
     
       
     
@@ -918,6 +1245,80 @@
             <strong>AWS</strong> <span class="taxonomy__count">3</span>
           </a>
         </li>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <li>
+          <a href="#aws">
+            <strong>aws</strong> <span class="taxonomy__count">3</span>
+          </a>
+        </li>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
       
     
       
@@ -1038,6 +1439,98 @@
     
       
     
+      
+    
+      
+        <li>
+          <a href="#firehose">
+            <strong>firehose</strong> <span class="taxonomy__count">2</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#litellm">
+            <strong>litellm</strong> <span class="taxonomy__count">2</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#aws-bedrock">
+            <strong>aws-bedrock</strong> <span class="taxonomy__count">2</span>
+          </a>
+        </li>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <li>
+          <a href="#guardrail">
+            <strong>guardrail</strong> <span class="taxonomy__count">2</span>
+          </a>
+        </li>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
   
     
       
@@ -1086,12 +1579,6 @@
         </li>
       
     
-      
-        <li>
-          <a href="#aws">
-            <strong>aws</strong> <span class="taxonomy__count">1</span>
-          </a>
-        </li>
       
     
       
@@ -1252,6 +1739,254 @@
         <li>
           <a href="#github">
             <strong>github</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#cloudwatch">
+            <strong>cloudwatch</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <li>
+          <a href="#docker">
+            <strong>docker</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#llm-gateway">
+            <strong>llm-gateway</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#callback">
+            <strong>callback</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+    
+      
+        <li>
+          <a href="#aws-sso">
+            <strong>aws-sso</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#identity-center">
+            <strong>identity-center</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#genai">
+            <strong>genai</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#prompt-injection">
+            <strong>prompt-injection</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#jailbreak">
+            <strong>jailbreak</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#harmbench">
+            <strong>harmbench</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#security-testing">
+            <strong>security-testing</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#oidc">
+            <strong>oidc</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#keycloak">
+            <strong>keycloak</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#authn">
+            <strong>AuthN</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#authz">
+            <strong>AuthZ</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#oauth2">
+            <strong>Oauth2</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#anomaly-detection">
+            <strong>anomaly-detection</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#ml">
+            <strong>ML</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#isolation-forest">
+            <strong>isolation-forest</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#pyod">
+            <strong>pyod</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#airflow">
+            <strong>Airflow</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#python">
+            <strong>Python</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#dataengineering">
+            <strong>DataEngineering</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#migration">
+            <strong>Migration</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#eks">
+            <strong>eks</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#kubernetes">
+            <strong>kubernetes</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#irsa">
+            <strong>IRSA</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#podidentity">
+            <strong>PodIdentity</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#iam">
+            <strong>IAM</strong> <span class="taxonomy__count">1</span>
+          </a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="#security">
+            <strong>security</strong> <span class="taxonomy__count">1</span>
           </a>
         </li>
       
@@ -1999,8 +2734,6 @@
   
     
   
-
-  
     
   
     
@@ -2008,60 +2741,6 @@
     
   
     
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-
   
     
   
@@ -2124,6 +2803,334 @@
     
   
 
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
   
     
   
@@ -2354,6 +3361,222 @@
     
   
     
+      <section id="aws" class="taxonomy__section">
+        <h2 class="archive__subtitle">aws</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/aws/eks-irsa-vs-pod-identity/" rel="permalink">☸️ EKS에서 Pod에 AWS 권한 주기 — IRSA와 Pod Identity
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-07-04T21:00:00+09:00">July 4, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">EKS에서 돌아가는 Pod가 S3 버킷을 읽거나 MSK에 붙거나 DynamoDB를 조회하려면 결국 AWS API 요청에 서명할 자격증명이 필요하다. 예전에는 노드에 붙은 Instance Profile을 그대로 쓰거나 Access Key를 Secret에 박아 넣는 식으로 해결했는데,...</p>
+  </article>
+</div>
+
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/aws/aws-cross-account-rds-audit-log-archiving/" rel="permalink">📜 AWS 교차 계정을 활용한 RDS Audit Log 중앙 관리 아키텍처 구축하기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2025-12-02T10:00:00+09:00">December 2, 2025</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">👋 여러 AWS 계정에 분산된 RDS 데이터베이스의 감사 로그(Audit Log)를 중앙 로깅 계정으로 안전하고 효율적으로 수집하여 아카이빙하는 방법에 대해서 다루고자 합니다. 이 아키텍처는 컴플라이언스 요구사항 충족, 보안 모니터링 강화, 그리고 사후 분석 및 감사 대응에 매우 ...</p>
+  </article>
+</div>
+
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/aws/aws-cross-account-s3-access-with-assumerole/" rel="permalink">AWS 다중 계정 환경에서 AssumeRole을 사용하여 안전하게 S3에 접근하기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2025-08-17T10:00:00+09:00">August 17, 2025</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">많은 기업들이 AWS를 사용하면서 보안 강화, 비용 분리, 장애 영향 범위 최소화 등을 위해 여러 개의 AWS 계정을 운영하는 ‘다중 계정(Multi-Account)’ 전략을 채택합니다. 예를 들어, 다음과 같은 구조를 흔히 볼 수 있습니다.
+
+</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
   
     
   
@@ -2547,6 +3770,474 @@
         </div>
         <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
       </section>
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      <section id="firehose" class="taxonomy__section">
+        <h2 class="archive__subtitle">firehose</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/ai_mil_dl/litellm-gateway-aws-bedrock-firehose/" rel="permalink">LiteLLM 기반 AWS Bedrock 보안 거버넌스 - 감사로깅, PII 필터링, 우회 탐지
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2025-12-25T10:00:00+09:00">December 25, 2025</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          16 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">LLM을 사용할 때 가장 큰 고민 중 하나는 다양한 LLM 모델을 어떻게 통합 관리할 것인가입니다. OpenAI, Anthropic Claude, AWS Bedrock 등 여러 Provider를 사용하면서 비용 추적, 접근 제어, 로깅, 및 보안정책을 일관되게 관리하는 것은 쉽지 ...</p>
+  </article>
+</div>
+
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/aws/aws-cross-account-rds-audit-log-archiving/" rel="permalink">📜 AWS 교차 계정을 활용한 RDS Audit Log 중앙 관리 아키텍처 구축하기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2025-12-02T10:00:00+09:00">December 2, 2025</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">👋 여러 AWS 계정에 분산된 RDS 데이터베이스의 감사 로그(Audit Log)를 중앙 로깅 계정으로 안전하고 효율적으로 수집하여 아카이빙하는 방법에 대해서 다루고자 합니다. 이 아키텍처는 컴플라이언스 요구사항 충족, 보안 모니터링 강화, 그리고 사후 분석 및 감사 대응에 매우 ...</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="litellm" class="taxonomy__section">
+        <h2 class="archive__subtitle">litellm</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/ai_mil_dl/genai-prompt-injection-technical-exploit-testing/" rel="permalink">🛡️ Gen AI Guardrail 기술적 우회 공격 테스트 - HarmBench 기반 10가지 공격 기법 검증
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-02-01T10:00:00+09:00">February 1, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          16 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Gen AI 기반으로 시스템을 운영하거나 서비스를 제공할때 중요한 보안 과제 중 하나는 Prompt Injection 및 Jailbreak 공격으로부터 서비스를 보호하는 것입니다. 단순한 키워드 필터링만으로는 다양한 우회 기법을 막을 수 없으며, 다층 방어(Defense in De...</p>
+  </article>
+</div>
+
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/ai_mil_dl/litellm-gateway-aws-bedrock-firehose/" rel="permalink">LiteLLM 기반 AWS Bedrock 보안 거버넌스 - 감사로깅, PII 필터링, 우회 탐지
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2025-12-25T10:00:00+09:00">December 25, 2025</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          16 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">LLM을 사용할 때 가장 큰 고민 중 하나는 다양한 LLM 모델을 어떻게 통합 관리할 것인가입니다. OpenAI, Anthropic Claude, AWS Bedrock 등 여러 Provider를 사용하면서 비용 추적, 접근 제어, 로깅, 및 보안정책을 일관되게 관리하는 것은 쉽지 ...</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="aws-bedrock" class="taxonomy__section">
+        <h2 class="archive__subtitle">aws-bedrock</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/ai_mil_dl/genai-prompt-injection-technical-exploit-testing/" rel="permalink">🛡️ Gen AI Guardrail 기술적 우회 공격 테스트 - HarmBench 기반 10가지 공격 기법 검증
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-02-01T10:00:00+09:00">February 1, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          16 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Gen AI 기반으로 시스템을 운영하거나 서비스를 제공할때 중요한 보안 과제 중 하나는 Prompt Injection 및 Jailbreak 공격으로부터 서비스를 보호하는 것입니다. 단순한 키워드 필터링만으로는 다양한 우회 기법을 막을 수 없으며, 다층 방어(Defense in De...</p>
+  </article>
+</div>
+
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/ai_mil_dl/litellm-gateway-aws-bedrock-firehose/" rel="permalink">LiteLLM 기반 AWS Bedrock 보안 거버넌스 - 감사로깅, PII 필터링, 우회 탐지
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2025-12-25T10:00:00+09:00">December 25, 2025</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          16 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">LLM을 사용할 때 가장 큰 고민 중 하나는 다양한 LLM 모델을 어떻게 통합 관리할 것인가입니다. OpenAI, Anthropic Claude, AWS Bedrock 등 여러 Provider를 사용하면서 비용 추적, 접근 제어, 로깅, 및 보안정책을 일관되게 관리하는 것은 쉽지 ...</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      <section id="guardrail" class="taxonomy__section">
+        <h2 class="archive__subtitle">guardrail</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/ai_mil_dl/genai-prompt-injection-technical-exploit-testing/" rel="permalink">🛡️ Gen AI Guardrail 기술적 우회 공격 테스트 - HarmBench 기반 10가지 공격 기법 검증
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-02-01T10:00:00+09:00">February 1, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          16 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Gen AI 기반으로 시스템을 운영하거나 서비스를 제공할때 중요한 보안 과제 중 하나는 Prompt Injection 및 Jailbreak 공격으로부터 서비스를 보호하는 것입니다. 단순한 키워드 필터링만으로는 다양한 우회 기법을 막을 수 없으며, 다층 방어(Defense in De...</p>
+  </article>
+</div>
+
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/ai_mil_dl/litellm-gateway-aws-bedrock-firehose/" rel="permalink">LiteLLM 기반 AWS Bedrock 보안 거버넌스 - 감사로깅, PII 필터링, 우회 탐지
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2025-12-25T10:00:00+09:00">December 25, 2025</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          16 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">LLM을 사용할 때 가장 큰 고민 중 하나는 다양한 LLM 모델을 어떻게 통합 관리할 것인가입니다. OpenAI, Anthropic Claude, AWS Bedrock 등 여러 Provider를 사용하면서 비용 추적, 접근 제어, 로깅, 및 보안정책을 일관되게 관리하는 것은 쉽지 ...</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
     
   
     
@@ -2854,62 +4545,6 @@
       </section>
     
   
-    
-      <section id="aws" class="taxonomy__section">
-        <h2 class="archive__subtitle">aws</h2>
-        <div class="entries-list">
-          
-            
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/aws/aws-cross-account-s3-access-with-assumerole/" rel="permalink">AWS 다중 계정 환경에서 AssumeRole을 사용하여 안전하게 S3에 접근하기
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2025-08-17T10:00:00+09:00">August 17, 2025</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          3 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">많은 기업들이 AWS를 사용하면서 보안 강화, 비용 분리, 장애 영향 범위 최소화 등을 위해 여러 개의 AWS 계정을 운영하는 ‘다중 계정(Multi-Account)’ 전략을 채택합니다. 예를 들어, 다음과 같은 구조를 흔히 볼 수 있습니다.
-
-</p>
-  </article>
-</div>
-
-          
-        </div>
-        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
-      </section>
     
   
     
@@ -3946,7 +5581,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/data%20engineering/git/git-github-guide/" rel="permalink">Git 설명
+        <a href="/git-github/git-github-guide/" rel="permalink">Git 설명
 </a>
       
     </h2>
@@ -3978,8 +5613,7 @@
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">Git이란 무엇인가?
-
+    <p class="archive__item-excerpt" itemprop="description">
 </p>
   </article>
 </div>
@@ -4004,7 +5638,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/data%20engineering/git/git-github-guide/" rel="permalink">Git 설명
+        <a href="/git-github/git-github-guide/" rel="permalink">Git 설명
 </a>
       
     </h2>
@@ -4036,9 +5670,1709 @@
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">Git이란 무엇인가?
-
+    <p class="archive__item-excerpt" itemprop="description">
 </p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="cloudwatch" class="taxonomy__section">
+        <h2 class="archive__subtitle">cloudwatch</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/aws/aws-cross-account-rds-audit-log-archiving/" rel="permalink">📜 AWS 교차 계정을 활용한 RDS Audit Log 중앙 관리 아키텍처 구축하기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2025-12-02T10:00:00+09:00">December 2, 2025</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">👋 여러 AWS 계정에 분산된 RDS 데이터베이스의 감사 로그(Audit Log)를 중앙 로깅 계정으로 안전하고 효율적으로 수집하여 아카이빙하는 방법에 대해서 다루고자 합니다. 이 아키텍처는 컴플라이언스 요구사항 충족, 보안 모니터링 강화, 그리고 사후 분석 및 감사 대응에 매우 ...</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      <section id="docker" class="taxonomy__section">
+        <h2 class="archive__subtitle">docker</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/ai_mil_dl/litellm-gateway-aws-bedrock-firehose/" rel="permalink">LiteLLM 기반 AWS Bedrock 보안 거버넌스 - 감사로깅, PII 필터링, 우회 탐지
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2025-12-25T10:00:00+09:00">December 25, 2025</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          16 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">LLM을 사용할 때 가장 큰 고민 중 하나는 다양한 LLM 모델을 어떻게 통합 관리할 것인가입니다. OpenAI, Anthropic Claude, AWS Bedrock 등 여러 Provider를 사용하면서 비용 추적, 접근 제어, 로깅, 및 보안정책을 일관되게 관리하는 것은 쉽지 ...</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="llm-gateway" class="taxonomy__section">
+        <h2 class="archive__subtitle">llm-gateway</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/ai_mil_dl/litellm-gateway-aws-bedrock-firehose/" rel="permalink">LiteLLM 기반 AWS Bedrock 보안 거버넌스 - 감사로깅, PII 필터링, 우회 탐지
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2025-12-25T10:00:00+09:00">December 25, 2025</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          16 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">LLM을 사용할 때 가장 큰 고민 중 하나는 다양한 LLM 모델을 어떻게 통합 관리할 것인가입니다. OpenAI, Anthropic Claude, AWS Bedrock 등 여러 Provider를 사용하면서 비용 추적, 접근 제어, 로깅, 및 보안정책을 일관되게 관리하는 것은 쉽지 ...</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="callback" class="taxonomy__section">
+        <h2 class="archive__subtitle">callback</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/ai_mil_dl/litellm-gateway-aws-bedrock-firehose/" rel="permalink">LiteLLM 기반 AWS Bedrock 보안 거버넌스 - 감사로깅, PII 필터링, 우회 탐지
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2025-12-25T10:00:00+09:00">December 25, 2025</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          16 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">LLM을 사용할 때 가장 큰 고민 중 하나는 다양한 LLM 모델을 어떻게 통합 관리할 것인가입니다. OpenAI, Anthropic Claude, AWS Bedrock 등 여러 Provider를 사용하면서 비용 추적, 접근 제어, 로깅, 및 보안정책을 일관되게 관리하는 것은 쉽지 ...</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+  
+    
+      <section id="aws-sso" class="taxonomy__section">
+        <h2 class="archive__subtitle">aws-sso</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/aws/aws-sso-identity-center-multi-account-security-audit/" rel="permalink">CLI에서 AWS SSO Identity Center를 활용한 Multi-Account 접근 🔐
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-01-07T23:00:00+09:00">January 7, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          13 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">AWS Organizations를 사용하는 환경에서 여러 계정의 리소스에 접근하고, 운영 및 보안 감사를 수행하려면, 안전하고 효율적인 인증 방식이 필요합니다. 사용자 단말 또는 운영 서버 콘솔환경에서 AWS SSO (IAM Identity Center)를 활용하여 Long-ter...</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="identity-center" class="taxonomy__section">
+        <h2 class="archive__subtitle">identity-center</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/aws/aws-sso-identity-center-multi-account-security-audit/" rel="permalink">CLI에서 AWS SSO Identity Center를 활용한 Multi-Account 접근 🔐
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-01-07T23:00:00+09:00">January 7, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          13 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">AWS Organizations를 사용하는 환경에서 여러 계정의 리소스에 접근하고, 운영 및 보안 감사를 수행하려면, 안전하고 효율적인 인증 방식이 필요합니다. 사용자 단말 또는 운영 서버 콘솔환경에서 AWS SSO (IAM Identity Center)를 활용하여 Long-ter...</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="genai" class="taxonomy__section">
+        <h2 class="archive__subtitle">genai</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/ai_mil_dl/genai-prompt-injection-technical-exploit-testing/" rel="permalink">🛡️ Gen AI Guardrail 기술적 우회 공격 테스트 - HarmBench 기반 10가지 공격 기법 검증
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-02-01T10:00:00+09:00">February 1, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          16 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Gen AI 기반으로 시스템을 운영하거나 서비스를 제공할때 중요한 보안 과제 중 하나는 Prompt Injection 및 Jailbreak 공격으로부터 서비스를 보호하는 것입니다. 단순한 키워드 필터링만으로는 다양한 우회 기법을 막을 수 없으며, 다층 방어(Defense in De...</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="prompt-injection" class="taxonomy__section">
+        <h2 class="archive__subtitle">prompt-injection</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/ai_mil_dl/genai-prompt-injection-technical-exploit-testing/" rel="permalink">🛡️ Gen AI Guardrail 기술적 우회 공격 테스트 - HarmBench 기반 10가지 공격 기법 검증
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-02-01T10:00:00+09:00">February 1, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          16 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Gen AI 기반으로 시스템을 운영하거나 서비스를 제공할때 중요한 보안 과제 중 하나는 Prompt Injection 및 Jailbreak 공격으로부터 서비스를 보호하는 것입니다. 단순한 키워드 필터링만으로는 다양한 우회 기법을 막을 수 없으며, 다층 방어(Defense in De...</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="jailbreak" class="taxonomy__section">
+        <h2 class="archive__subtitle">jailbreak</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/ai_mil_dl/genai-prompt-injection-technical-exploit-testing/" rel="permalink">🛡️ Gen AI Guardrail 기술적 우회 공격 테스트 - HarmBench 기반 10가지 공격 기법 검증
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-02-01T10:00:00+09:00">February 1, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          16 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Gen AI 기반으로 시스템을 운영하거나 서비스를 제공할때 중요한 보안 과제 중 하나는 Prompt Injection 및 Jailbreak 공격으로부터 서비스를 보호하는 것입니다. 단순한 키워드 필터링만으로는 다양한 우회 기법을 막을 수 없으며, 다층 방어(Defense in De...</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="harmbench" class="taxonomy__section">
+        <h2 class="archive__subtitle">harmbench</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/ai_mil_dl/genai-prompt-injection-technical-exploit-testing/" rel="permalink">🛡️ Gen AI Guardrail 기술적 우회 공격 테스트 - HarmBench 기반 10가지 공격 기법 검증
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-02-01T10:00:00+09:00">February 1, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          16 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Gen AI 기반으로 시스템을 운영하거나 서비스를 제공할때 중요한 보안 과제 중 하나는 Prompt Injection 및 Jailbreak 공격으로부터 서비스를 보호하는 것입니다. 단순한 키워드 필터링만으로는 다양한 우회 기법을 막을 수 없으며, 다층 방어(Defense in De...</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="security-testing" class="taxonomy__section">
+        <h2 class="archive__subtitle">security-testing</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/ai_mil_dl/genai-prompt-injection-technical-exploit-testing/" rel="permalink">🛡️ Gen AI Guardrail 기술적 우회 공격 테스트 - HarmBench 기반 10가지 공격 기법 검증
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-02-01T10:00:00+09:00">February 1, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          16 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Gen AI 기반으로 시스템을 운영하거나 서비스를 제공할때 중요한 보안 과제 중 하나는 Prompt Injection 및 Jailbreak 공격으로부터 서비스를 보호하는 것입니다. 단순한 키워드 필터링만으로는 다양한 우회 기법을 막을 수 없으며, 다층 방어(Defense in De...</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="oidc" class="taxonomy__section">
+        <h2 class="archive__subtitle">oidc</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/authn-z/keycloak-oidc-authentication/" rel="permalink">🔐 Keycloak을 활용한 OIDC 인증 : BFF vs Standard vs PKCE 비교
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-02-09T21:00:00+09:00">February 9, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          14 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="keycloak" class="taxonomy__section">
+        <h2 class="archive__subtitle">keycloak</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/authn-z/keycloak-oidc-authentication/" rel="permalink">🔐 Keycloak을 활용한 OIDC 인증 : BFF vs Standard vs PKCE 비교
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-02-09T21:00:00+09:00">February 9, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          14 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="authn" class="taxonomy__section">
+        <h2 class="archive__subtitle">AuthN</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/authn-z/keycloak-oidc-authentication/" rel="permalink">🔐 Keycloak을 활용한 OIDC 인증 : BFF vs Standard vs PKCE 비교
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-02-09T21:00:00+09:00">February 9, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          14 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="authz" class="taxonomy__section">
+        <h2 class="archive__subtitle">AuthZ</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/authn-z/keycloak-oidc-authentication/" rel="permalink">🔐 Keycloak을 활용한 OIDC 인증 : BFF vs Standard vs PKCE 비교
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-02-09T21:00:00+09:00">February 9, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          14 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="oauth2" class="taxonomy__section">
+        <h2 class="archive__subtitle">Oauth2</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/authn-z/keycloak-oidc-authentication/" rel="permalink">🔐 Keycloak을 활용한 OIDC 인증 : BFF vs Standard vs PKCE 비교
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-02-09T21:00:00+09:00">February 9, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          14 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="anomaly-detection" class="taxonomy__section">
+        <h2 class="archive__subtitle">anomaly-detection</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/ai_mil_dl/paloalto-anomaly-detection-pipeline/" rel="permalink">Palo Alto NGFW Egress 트래픽 이상탐지 파이프라인: Airflow + ML 앙상블로 구축하기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-02-22T21:00:00+09:00">February 22, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          12 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+  AWS Egress 트래픽을 수집하고 분석하는데 있어서, VPCFlow를 서브넷 단위로 적용하여 Flow logs를 분석하거나, 또는 GWLB Endpoint로 AWS Egress 트래픽을 NGFW로 돌려서 방화벽 트래픽 로그를 분석하는 방식이 있습니다. 여기서는 Palo A...</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="ml" class="taxonomy__section">
+        <h2 class="archive__subtitle">ML</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/ai_mil_dl/paloalto-anomaly-detection-pipeline/" rel="permalink">Palo Alto NGFW Egress 트래픽 이상탐지 파이프라인: Airflow + ML 앙상블로 구축하기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-02-22T21:00:00+09:00">February 22, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          12 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+  AWS Egress 트래픽을 수집하고 분석하는데 있어서, VPCFlow를 서브넷 단위로 적용하여 Flow logs를 분석하거나, 또는 GWLB Endpoint로 AWS Egress 트래픽을 NGFW로 돌려서 방화벽 트래픽 로그를 분석하는 방식이 있습니다. 여기서는 Palo A...</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="isolation-forest" class="taxonomy__section">
+        <h2 class="archive__subtitle">isolation-forest</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/ai_mil_dl/paloalto-anomaly-detection-pipeline/" rel="permalink">Palo Alto NGFW Egress 트래픽 이상탐지 파이프라인: Airflow + ML 앙상블로 구축하기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-02-22T21:00:00+09:00">February 22, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          12 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+  AWS Egress 트래픽을 수집하고 분석하는데 있어서, VPCFlow를 서브넷 단위로 적용하여 Flow logs를 분석하거나, 또는 GWLB Endpoint로 AWS Egress 트래픽을 NGFW로 돌려서 방화벽 트래픽 로그를 분석하는 방식이 있습니다. 여기서는 Palo A...</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="pyod" class="taxonomy__section">
+        <h2 class="archive__subtitle">pyod</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/ai_mil_dl/paloalto-anomaly-detection-pipeline/" rel="permalink">Palo Alto NGFW Egress 트래픽 이상탐지 파이프라인: Airflow + ML 앙상블로 구축하기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-02-22T21:00:00+09:00">February 22, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          12 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+  AWS Egress 트래픽을 수집하고 분석하는데 있어서, VPCFlow를 서브넷 단위로 적용하여 Flow logs를 분석하거나, 또는 GWLB Endpoint로 AWS Egress 트래픽을 NGFW로 돌려서 방화벽 트래픽 로그를 분석하는 방식이 있습니다. 여기서는 Palo A...</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="airflow" class="taxonomy__section">
+        <h2 class="archive__subtitle">Airflow</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/airflow/airflow_2_to_3_migration/" rel="permalink">Apache Airflow 2.x → 3.x 마이그레이션 가이드
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-04-29T00:00:00+09:00">April 29, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          9 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="python" class="taxonomy__section">
+        <h2 class="archive__subtitle">Python</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/airflow/airflow_2_to_3_migration/" rel="permalink">Apache Airflow 2.x → 3.x 마이그레이션 가이드
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-04-29T00:00:00+09:00">April 29, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          9 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="dataengineering" class="taxonomy__section">
+        <h2 class="archive__subtitle">DataEngineering</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/airflow/airflow_2_to_3_migration/" rel="permalink">Apache Airflow 2.x → 3.x 마이그레이션 가이드
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-04-29T00:00:00+09:00">April 29, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          9 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="migration" class="taxonomy__section">
+        <h2 class="archive__subtitle">Migration</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/airflow/airflow_2_to_3_migration/" rel="permalink">Apache Airflow 2.x → 3.x 마이그레이션 가이드
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-04-29T00:00:00+09:00">April 29, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          9 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="eks" class="taxonomy__section">
+        <h2 class="archive__subtitle">eks</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/aws/eks-irsa-vs-pod-identity/" rel="permalink">☸️ EKS에서 Pod에 AWS 권한 주기 — IRSA와 Pod Identity
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-07-04T21:00:00+09:00">July 4, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">EKS에서 돌아가는 Pod가 S3 버킷을 읽거나 MSK에 붙거나 DynamoDB를 조회하려면 결국 AWS API 요청에 서명할 자격증명이 필요하다. 예전에는 노드에 붙은 Instance Profile을 그대로 쓰거나 Access Key를 Secret에 박아 넣는 식으로 해결했는데,...</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="kubernetes" class="taxonomy__section">
+        <h2 class="archive__subtitle">kubernetes</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/aws/eks-irsa-vs-pod-identity/" rel="permalink">☸️ EKS에서 Pod에 AWS 권한 주기 — IRSA와 Pod Identity
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-07-04T21:00:00+09:00">July 4, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">EKS에서 돌아가는 Pod가 S3 버킷을 읽거나 MSK에 붙거나 DynamoDB를 조회하려면 결국 AWS API 요청에 서명할 자격증명이 필요하다. 예전에는 노드에 붙은 Instance Profile을 그대로 쓰거나 Access Key를 Secret에 박아 넣는 식으로 해결했는데,...</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="irsa" class="taxonomy__section">
+        <h2 class="archive__subtitle">IRSA</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/aws/eks-irsa-vs-pod-identity/" rel="permalink">☸️ EKS에서 Pod에 AWS 권한 주기 — IRSA와 Pod Identity
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-07-04T21:00:00+09:00">July 4, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">EKS에서 돌아가는 Pod가 S3 버킷을 읽거나 MSK에 붙거나 DynamoDB를 조회하려면 결국 AWS API 요청에 서명할 자격증명이 필요하다. 예전에는 노드에 붙은 Instance Profile을 그대로 쓰거나 Access Key를 Secret에 박아 넣는 식으로 해결했는데,...</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="podidentity" class="taxonomy__section">
+        <h2 class="archive__subtitle">PodIdentity</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/aws/eks-irsa-vs-pod-identity/" rel="permalink">☸️ EKS에서 Pod에 AWS 권한 주기 — IRSA와 Pod Identity
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-07-04T21:00:00+09:00">July 4, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">EKS에서 돌아가는 Pod가 S3 버킷을 읽거나 MSK에 붙거나 DynamoDB를 조회하려면 결국 AWS API 요청에 서명할 자격증명이 필요하다. 예전에는 노드에 붙은 Instance Profile을 그대로 쓰거나 Access Key를 Secret에 박아 넣는 식으로 해결했는데,...</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="iam" class="taxonomy__section">
+        <h2 class="archive__subtitle">IAM</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/aws/eks-irsa-vs-pod-identity/" rel="permalink">☸️ EKS에서 Pod에 AWS 권한 주기 — IRSA와 Pod Identity
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-07-04T21:00:00+09:00">July 4, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">EKS에서 돌아가는 Pod가 S3 버킷을 읽거나 MSK에 붙거나 DynamoDB를 조회하려면 결국 AWS API 요청에 서명할 자격증명이 필요하다. 예전에는 노드에 붙은 Instance Profile을 그대로 쓰거나 Access Key를 Secret에 박아 넣는 식으로 해결했는데,...</p>
+  </article>
+</div>
+
+          
+        </div>
+        <a href="#page-title" class="back-to-top">Back to top &uarr;</a>
+      </section>
+    
+  
+    
+      <section id="security" class="taxonomy__section">
+        <h2 class="archive__subtitle">security</h2>
+        <div class="entries-list">
+          
+            
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/aws/eks-irsa-vs-pod-identity/" rel="permalink">☸️ EKS에서 Pod에 AWS 권한 주기 — IRSA와 Pod Identity
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-07-04T21:00:00+09:00">July 4, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">EKS에서 돌아가는 Pod가 S3 버킷을 읽거나 MSK에 붙거나 DynamoDB를 조회하려면 결국 AWS API 요청에 서명할 자격증명이 필요하다. 예전에는 노드에 붙은 Instance Profile을 그대로 쓰거나 Access Key를 Secret에 박아 넣는 식으로 해결했는데,...</p>
   </article>
 </div>
 
@@ -4100,7 +7434,7 @@
   </ul>
 </div>
 
-<div class="page__footer-copyright">&copy; 2025 KK0M4K. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+<div class="page__footer-copyright">&copy; 2026 KK0M4K. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
 
       </footer>
     </div>
