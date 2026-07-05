@@ -125,6 +125,65 @@ metadata:
 
 `sub` 조건이 IRSA 보안의 핵심이다. `system:serviceaccount:<네임스페이스>:<SA이름>` 형식으로, 정확히 그 네임스페이스의 그 SA만 이 Role을 쓸 수 있게 묶는다. 이걸 대충 와일드카드로 열어두면 클러스터 안 아무 SA나 Role을 가져다 쓸 수 있게 되니 주의해야 한다.
 
+### 설정 순서 — 왜 OIDC가 먼저인가
+
+위 예시들은 조각조각이라 순서가 안 보인다. IRSA는 **의존 관계 때문에 만드는 순서가 정해져 있다.** 핵심은 하나다 — **IAM Role의 신뢰 정책이 OIDC provider의 ARN을 참조하기 때문에, OIDC provider가 먼저 IAM에 등록돼 있어야 한다.** OIDC provider 없이 신뢰 정책을 먼저 쓰면 `Federated` 값에 넣을 ARN 자체가 존재하지 않는다.
+
+전체 순서를 의존 관계와 함께 정리하면 이렇다.
+
+```mermaid
+flowchart TD
+    A["① 클러스터 OIDC 발급자 URL 확인<br/>(클러스터 생성 시 이미 존재)"] --> B["② OIDC provider를 IAM에 등록<br/>→ oidc-provider ARN 생김"]
+    B --> C["③ 권한 정책 생성<br/>→ policy ARN 생김"]
+    B --> D["④ IAM Role 생성<br/>(신뢰 정책이 ②의 ARN을 참조)"]
+    C --> E["⑤ 권한 정책을 Role에 attach"]
+    D --> E
+    E --> F["⑥ ServiceAccount 생성<br/>(annotation에 Role ARN)"]
+    F --> G["⑦ Pod 배포<br/>(serviceAccountName 지정)"]
+```
+
+- **① → ②**: 클러스터를 만들면 OIDC 발급자 URL(`oidc.eks.<region>.amazonaws.com/id/...`)은 이미 생긴다. 하지만 그것만으로는 STS가 이 클러스터를 신뢰하지 않는다. `associate-iam-oidc-provider`로 IAM에 **OIDC identity provider로 등록**해야 비로소 `arn:aws:iam::<account>:oidc-provider/...` ARN이 만들어지고, 이 ARN이 신뢰 정책의 `Federated`에 들어간다. 이게 IRSA의 신뢰 뿌리다.
+- **② → ④**: 그래서 OIDC provider 등록이 IAM Role 생성보다 먼저다. 순서를 뒤집으면 신뢰 정책의 `Federated` ARN이 실재하지 않아 `create-role`이 `MalformedPolicyDocument` / `Invalid principal`로 떨어진다.
+- **③ 과 ④ 는 서로 독립**: 권한 정책 생성과 Role 생성은 순서가 상관없다(그림에서 갈라진 두 갈래). 다만 둘 다 있어야 **⑤ attach**가 가능하다. attach는 "policy ARN + role name" 둘을 다 요구하기 때문이다.
+- **⑥ SA의 annotation**은 Role ARN을 가리키므로 Role(④)이 있어야 의미가 있다. 다만 SA를 먼저 만들어 둬도 에러는 안 난다 — annotation이 가리키는 Role이 없으면 Pod가 assume 시도할 때 런타임에서 `AccessDenied`가 날 뿐이다.
+
+명령어로 옮기면 아래 순서 그대로다. 이 블록 하나가 앞의 흩어진 예시들을 실제 실행 순서로 이어 붙인 것이다.
+
+```bash
+# ① 클러스터의 OIDC 발급자 URL 확인 (등록 여부 점검용)
+aws eks describe-cluster --name my-cluster \
+  --query "cluster.identity.oidc.issuer" --output text
+# → https://oidc.eks.ap-northeast-2.amazonaws.com/id/EXAMPLED539...
+
+# ② OIDC provider를 IAM에 등록 (클러스터당 1회) — 이게 먼저다
+eksctl utils associate-iam-oidc-provider \
+  --cluster my-cluster --approve
+# (수동이면: aws iam create-open-id-connect-provider ...)
+
+# ③ 권한 정책 생성 → policy ARN
+aws iam create-policy \
+  --policy-name s3-read-only \
+  --policy-document file://s3-read-only.json
+
+# ④ Role 생성 — 신뢰 정책(trust.json)이 ②의 oidc-provider ARN을 참조한다
+aws iam create-role \
+  --role-name s3-reader-role \
+  --assume-role-policy-document file://trust.json
+
+# ⑤ 권한 정책을 Role에 attach
+aws iam attach-role-policy \
+  --role-name s3-reader-role \
+  --policy-arn arn:aws:iam::123456789012:policy/s3-read-only
+
+# ⑥ SA 생성 (annotation에 Role ARN) → ⑦ Pod 배포
+kubectl apply -f serviceaccount.yaml
+kubectl apply -f deployment.yaml
+```
+
+여기서 `trust.json`이 바로 앞에서 본 IRSA 신뢰 정책이고, `oidc-provider/oidc.eks...` ARN은 ②를 실행해야 존재한다. 그래서 **②를 건너뛰고 ④부터 하면 반드시 실패한다.** 이 하나만 기억하면 순서는 자연스럽게 따라온다.
+
+> `eksctl create iamserviceaccount` 한 줄은 ③~⑥(권한 정책 등록·Role 생성·신뢰 정책 작성·attach·SA 생성)을 한꺼번에 처리해 준다. 대신 ②(OIDC provider 등록)는 여전히 선행돼 있어야 하고, `eksctl`은 그게 안 돼 있으면 친절히 에러로 알려준다.
+
 ### IRSA의 불편한 점
 
 실무에서 걸리는 지점은 대체로 이렇다.
@@ -208,6 +267,55 @@ metadata:
 OIDC provider ARN도, 긴 `sub` 조건도 없다. 클러스터가 바뀌어도 이 신뢰 정책은 그대로다. 그래서 같은 Role을 여러 클러스터에서 재사용하기 쉽다 — 각 클러스터에서 association만 하나씩 만들면 된다.
 
 `sts:TagSession`이 붙는 건 Pod Identity가 세션 태그를 자동으로 실어 주기 때문이다. 클러스터 이름, 네임스페이스, SA 이름 같은 값이 태그로 붙어서, IAM 정책에서 `aws:PrincipalTag/...` 조건으로 ABAC(태그 기반 접근 제어)를 걸 수 있다. IRSA에는 없던 기능이다.
+
+### 설정 순서 — OIDC 의존이 없다
+
+Pod Identity는 신뢰 정책이 특정 클러스터의 OIDC ARN을 참조하지 않는다(`pods.eks.amazonaws.com` 서비스만 신뢰). 그래서 **IAM Role을 클러스터와 무관하게 먼저 만들어 둘 수 있고**, 순서 의존이 IRSA보다 훨씬 느슨하다.
+
+```mermaid
+flowchart TD
+    A["① Pod Identity Agent 애드온 설치<br/>(클러스터당 1회)"] --> E["⑤ Pod Identity Association 생성<br/>(클러스터·네임스페이스·SA → Role)"]
+    B["② 권한 정책 생성"] --> C["③ IAM Role 생성<br/>(신뢰 정책: pods.eks.amazonaws.com)"]
+    C --> D["④ 권한 정책을 Role에 attach"]
+    B --> D
+    D --> E
+    F["④' ServiceAccount 생성<br/>(annotation 불필요)"] --> E
+    E --> G["⑥ Pod 배포"]
+```
+
+- **② → ③ → ④** (정책·Role·attach)는 IRSA와 똑같은 IAM 3단계지만, ③의 신뢰 정책이 OIDC ARN을 참조하지 않으므로 **애드온 설치(①)나 클러스터 존재 여부와 무관하게** 미리 만들어 둘 수 있다.
+- **⑤ Association**이 실제로 "이 클러스터의 이 SA ↔ 이 Role"을 잇는 단계다. 이걸 만들려면 Role(③④)과 대상 SA가 있어야 하고, Agent 애드온(①)이 설치돼 있어야 자격증명이 실제로 주입된다.
+- IRSA의 ②(OIDC provider 등록)에 대응하는 "클러스터 1회 준비"가 여기선 ①(Agent 애드온 설치)이다. 다만 이건 신뢰 정책과 얽히지 않아서, 순서를 틀려도 조용한 `AccessDenied`가 아니라 "association을 못 만든다"거나 "자격증명이 안 들어온다" 같은 눈에 띄는 형태로 드러난다.
+
+명령어 순서는 이렇다.
+
+```bash
+# ① Agent 애드온 설치 (클러스터당 1회)
+aws eks create-addon \
+  --cluster-name my-cluster \
+  --addon-name eks-pod-identity-agent
+
+# ②~④ 정책 생성 → Role 생성(신뢰 정책은 pods.eks) → attach — IRSA와 동일
+aws iam create-policy   --policy-name s3-read-only --policy-document file://s3-read-only.json
+aws iam create-role     --role-name s3-reader-role --assume-role-policy-document file://trust-podidentity.json
+aws iam attach-role-policy --role-name s3-reader-role \
+  --policy-arn arn:aws:iam::123456789012:policy/s3-read-only
+
+# ④' SA 생성 (annotation 없음)
+kubectl apply -f serviceaccount.yaml
+
+# ⑤ Association으로 SA ↔ Role 연결
+aws eks create-pod-identity-association \
+  --cluster-name my-cluster \
+  --namespace data \
+  --service-account s3-reader-sa \
+  --role-arn arn:aws:iam::123456789012:role/s3-reader-role
+
+# ⑥ Pod 배포
+kubectl apply -f deployment.yaml
+```
+
+여기서 `trust-podidentity.json`은 앞의 `pods.eks.amazonaws.com`를 신뢰하는 짧은 신뢰 정책이다. IRSA의 `trust.json`과 달리 **어떤 클러스터에도 종속되지 않으므로**, 같은 파일을 여러 Role·여러 클러스터에서 그대로 재사용할 수 있다.
 
 ## 두 방식 비교
 
